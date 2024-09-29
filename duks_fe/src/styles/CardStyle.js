@@ -2,4 +2,4 @@ import styled from "styled-components";
 export const Background = styled.div`
   background-color: lightblue;
 `;
-export const Join = styled.div``;
+export const Card = styled.div``;

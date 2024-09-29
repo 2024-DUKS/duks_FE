@@ -1,13 +1,13 @@
 import React from "react";
-import * as J from "../styles/JoinStyle";
-function Join() {
+import * as C from "../styles/CardStyle";
+function Card() {
   return (
     <>
-    <J.Background>
-        <J.Join>Card 페이지 입니다.<br></br></J.Join>
-    </J.Background>
+    <C.Background>
+        <C.Join>Card 페이지 입니다.<br></br></C.Join>
+    </C.Background>
       
     </>
   );
 }
-export default Join;
+export default Card;
