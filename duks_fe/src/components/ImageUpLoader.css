@@ -1,0 +1,17 @@
+/* src/components/ImageUpLoader.css */
+.image-preview {
+  width: 62px; /* 이미지의 너비 */
+  height: 62px; /* 비율 유지 */
+  border-radius: 50%; /* 동그랗게 만들기 */
+  overflow: hidden;
+  cursor: pointer; /* 클릭 가능 표시 */
+  z-index: 1;
+  position: relative; /* 현재 위치를 기준으로 */
+  top: -45px; /* 위로 20px 이동 */
+  left: -75px; /* 왼쪽으로 10px 이동 */
+}
+
+.circle-image {
+  width: 100%; /* 이미지를 컨테이너에 맞게 조정 */
+  height: auto;
+}

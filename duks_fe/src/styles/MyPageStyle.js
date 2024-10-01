@@ -59,12 +59,8 @@ export const Overlap = styled.div`
 `;
 
 //내 프로필 조그맣게 뜨는 곳
-export const ProfileImage = styled.img`
-  width: 62px;  /* 이미지의 너비 */
-  height: auto;  /* 비율 유지 */
-  visibility: ${({ isLoaded }) => (isLoaded ? 'visible' : 'hidden')};
-  }
-`;
+//이건 ImageUpLoader.css에 있음!!
+
 // 텍스트 스타일
 export const TextWrapper = styled.div` //내 별명 크게 뜨는 곳
   font-family: "Pretendard-SemiBold", Helvetica;
@@ -94,6 +90,9 @@ export const TextWrapper3 = styled(TextWrapper)`
 export const TextWrapper4 = styled(TextWrapper3)` //포트폴리오 글자
   top: 630px;
   left: 28px;
+  width: 150px; // 원하는 너비
+  height: auto;
+  z
 `;
 
 export const TextWrapper5 = styled(TextWrapper4)` //개인정보 글자
@@ -235,3 +234,30 @@ export const AccountDeletionText = styled.div`
   text-align: center;
   top: 800px;
 `;
+
+export const TopBox = styled.div`
+  background-color: #92b455;
+  position: absolute;
+  height: 62px;
+  width: 430px;
+  left: 0;
+  top: 0;
+`;
+export const IcMenuImage = styled.div`
+  position: relative;  // position 속성 추가
+  z-index: 1;  
+  display: ${props => (props.isLoaded ? 'block' : 'none')};
+
+  `;
+export const ArrowleftImage = styled.div`
+
+`;
+
+export const BottomBox = styled.div`
+  background-color: #92b455;
+  position: absolute;
+  height: 62px;
+  width: 430px;
+  bottom: 0px;
+`;
+
