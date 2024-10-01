@@ -247,7 +247,6 @@ export const IcMenuImage = styled.div`
   position: relative;  // position 속성 추가
   z-index: 1;  
   display: ${props => (props.isLoaded ? 'block' : 'none')};
-
   `;
 export const ArrowleftImage = styled.div`
 
@@ -260,4 +259,5 @@ export const BottomBox = styled.div`
   width: 430px;
   bottom: 0px;
 `;
+
 

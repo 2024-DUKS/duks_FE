@@ -1,39 +1,37 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { 
+  //박스들
   BackgroundWrapper, MyPageContainer, InnerDiv,  
   TextWrapper, TextWrapper2, TextWrapper4, TextWrapper5,  
   Person, OverlapGroup, TopBox, BottomBox, 
-
+  //text들
   StdNum, Pwd, Nick, Depart, Phone,
   StdNumText, PwdText, NickText, DepartText, PhoneText, 
   LogoutText, AccountDeletionText, 
-
-  IcMenuImage, ArrowleftImage, ProfileImage
 } from '../styles/MyPageStyle'; 
 
+  //버튼들
 import ImageUploader from '../components/ImageUpLoader';
-
+import Footer from '../components/Footer'
+import goButton from '../img/goButton.png';
 
 const MyPage = () => {
   const [isLoadedMenu, setIsLoadedMenu] = useState(false);
   const [isLoadedArrow, setIsLoadedArrow] = useState(false);
   const [isLoadedProfile, setIsLoadedProfile] = useState(false);
 
+
   return (
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
           <TopBox>
-            <IcMenuImage 
-              src={require('../img/ic_menu.png')} 
-              onLoad={() => setIsLoadedMenu(true)} // 메뉴 아이콘 로드 후 상태 업데이트
-              style={{ display: isLoadedMenu ? 'block' : 'none' }} // 로드 상태에 따라 표시
-            />
-            <ArrowleftImage 
-              src={require('../img/arrowleft.png')} 
-              onLoad={() => setIsLoadedArrow(true)} // 화살표 아이콘 로드 후 상태 업데이트
-              style={{ display: isLoadedArrow ? 'block' : 'none' }} // 로드 상태에 따라 표시
-            />
+            <Link to="/prePage">
+              이전 화면 돌아가기 버튼 및 메뉴 버튼
+              푸터가 있는데 굳이 넣어야 할까?!?!
+            </Link>
           </TopBox>
           
           <Person>  
@@ -57,11 +55,19 @@ const MyPage = () => {
 
           <TextWrapper2>21학번</TextWrapper2>
           <TextWrapper5>개인정보</TextWrapper5>
-          <TextWrapper4>포트폴리오 관리</TextWrapper4>
+          <TextWrapper4>포트폴리오
+            <Link to="/Card">
+              <img src={goButton} alt="Card" className="GoImage"/>
+            </Link>
+          </TextWrapper4>
+
           <LogoutText>로그아웃</LogoutText>
           <AccountDeletionText>계정 탈퇴하기</AccountDeletionText>
 
-          <BottomBox></BottomBox>
+          <BottomBox>
+          <Footer />
+          </BottomBox>
+          
         </InnerDiv>
       </MyPageContainer>
     </BackgroundWrapper>
