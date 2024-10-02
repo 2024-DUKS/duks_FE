@@ -55,7 +55,10 @@ const MyPage = () => {
             </OverlapGroup>
           </Person>
           <TextWrapper>덕성오리 님
-            <ImageUploader />
+          <ImageUploader 
+                defaultImage={require('../img/duk_img.png')} // 기본 이미지 경로
+                className="myPageProfileImage" // 추가 클래스 이름 (스타일 지정 시 활용)
+            />
           </TextWrapper>
 
           <TextWrapper2>21학번</TextWrapper2>

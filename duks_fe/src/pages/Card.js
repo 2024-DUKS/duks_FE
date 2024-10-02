@@ -25,7 +25,7 @@ const Card = () => {
         <Overlap>
           <InputPhoto src="path_to_your_image.jpg" alt="Input" />
           <OverlapGroup />
-          <TextDiv>Text</TextDiv>
+          <TextDiv>사진을 입력해주세요</TextDiv>
           <Image src="path_to_your_image.jpg" alt="Business" />
           <UserName>홍길동</UserName>
           <UserEmail>honghonghon@gmail.com</UserEmail>

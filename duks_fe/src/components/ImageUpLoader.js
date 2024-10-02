@@ -1,7 +1,8 @@
-//프로필 이미지 업로드 해주는 컴포넌트 (명함 이미지랑 다른 거임!! 댓글 쓸 때 쓰는 프사)
+// ImageUploader.js
 import './ImageUpLoader.css';
 import React, { useState } from 'react';
-const ImageUploader = () => {
+
+const ImageUploader = ({ defaultImage, className }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
   
@@ -23,9 +24,9 @@ const ImageUploader = () => {
   
     return (
       <div>
-        <div className="image-preview" onClick={handleDefaultImageClick}>
+        <div className={`image-preview ${className}`} onClick={handleDefaultImageClick}>
           <img 
-            src={imagePreview || require('../img/duk_img.png')} // 기본 이미지
+            src={imagePreview || defaultImage} // 기본 이미지 props로 받기
             alt="Preview" 
             className="circle-image" 
           />
@@ -39,7 +40,6 @@ const ImageUploader = () => {
         />
       </div>
     );
-  };
-  
-  export default ImageUploader;
+};
 
+export default ImageUploader;

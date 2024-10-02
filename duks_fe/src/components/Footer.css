@@ -1,12 +1,14 @@
 .footerStyle {
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 40px;
   width: 100%;
 }
 
-.footer-image {
-  padding: 19px 40px; /* 상하, 좌우 */
+.footerImage {
+  margin: 50px auto 0; /* 위쪽 여백 추가 (20px) */
+  padding: 10px 40px; /* 상하, 좌우 */
+  object-fit: cover;
 }
 
 ul {
