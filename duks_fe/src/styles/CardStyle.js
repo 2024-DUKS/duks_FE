@@ -163,47 +163,5 @@ export const UserCharactor = styled.div`
   font-weight: 600;
   left: 39px;
   position: absolute;
-  top: 459px;
-`;
-
-export const MakeAbility = styled.div`
-  height: 61px;
-  left: 45px;
-  position: absolute;
-  top: 369px;
-  width: 49px;
-`;
-
-export const TextWrapper = styled.div`
-  color: #000000;
-  font-family: "Inter-Light", Helvetica;
-  font-size: 12px;
-  font-weight: 300;
-  left: 0;
-  position: absolute;
-  top: ${props => props.top}px;
-`;
-
-export const Character1 = styled.div`
-  left: 45px !important;
-  position: absolute !important;
-  top: 485px !important;
-`;
-
-export const CharacterInstance = styled.div`
-  left: 45px !important;
-  position: absolute !important;
-  top: 531px !important;
-`;
-
-export const Character1Instance = styled.div`
-  left: 45px !important;
-  position: absolute !important;
-  top: 508px !important;
-`;
-
-export const SingleOptionSelect = styled.div`
-  left: 118px !important;
-  position: absolute !important;
-  top: ${props => props.top}px !important;
+  top: 460px;
 `;
