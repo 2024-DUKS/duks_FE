@@ -8,6 +8,7 @@
 .footer-image {
   padding: 19px 40px; /* 상하, 좌우 */
 }
+
 ul {
   list-style: none; /* 리스트 마커 없애기 */
   padding: 0; /* 기본 패딩 제거 */

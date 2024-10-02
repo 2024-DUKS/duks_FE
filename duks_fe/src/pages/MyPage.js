@@ -2,36 +2,41 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { 
-  //박스들
   BackgroundWrapper, MyPageContainer, InnerDiv,  
   TextWrapper, TextWrapper2, TextWrapper4, TextWrapper5,  
   Person, OverlapGroup, TopBox, BottomBox, 
-  //text들
   StdNum, Pwd, Nick, Depart, Phone,
   StdNumText, PwdText, NickText, DepartText, PhoneText, 
   LogoutText, AccountDeletionText, 
 } from '../styles/MyPageStyle'; 
 
-  //버튼들
 import ImageUploader from '../components/ImageUpLoader';
 import Footer from '../components/Footer'
+import LogoutButton from '../components/LogoutButton';
 import goButton from '../img/goButton.png';
+import DeleteAcButton from '../components/DeleteAcButton';
 
 const MyPage = () => {
   const [isLoadedMenu, setIsLoadedMenu] = useState(false);
   const [isLoadedArrow, setIsLoadedArrow] = useState(false);
   const [isLoadedProfile, setIsLoadedProfile] = useState(false);
 
+  // 모달 상태
+  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false); // 로그아웃 모달 상태
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false); // 계정 탈퇴 모달 상태
+
+  // 모달 열기/닫기 함수
+  const openLogoutModal = () => setLogoutModalOpen(true);
+  const closeLogoutModal = () => setLogoutModalOpen(false);
+  const openDeleteModal = () => setDeleteModalOpen(true);
+  const closeDeleteModal = () => setDeleteModalOpen(false);
 
   return (
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
           <TopBox>
-            <Link to="/prePage">
-              이전 화면 돌아가기 버튼 및 메뉴 버튼
-              푸터가 있는데 굳이 넣어야 할까?!?!
-            </Link>
+            <Link to="/prePage">이전 화면 돌아가기 버튼 및 메뉴 버튼</Link>
           </TopBox>
           
           <Person>  
@@ -50,7 +55,7 @@ const MyPage = () => {
             </OverlapGroup>
           </Person>
           <TextWrapper>덕성오리 님
-            <ImageUploader /> {/* 이미지 업로드 컴포넌트 추가 */}
+            <ImageUploader />
           </TextWrapper>
 
           <TextWrapper2>21학번</TextWrapper2>
@@ -61,11 +66,16 @@ const MyPage = () => {
             </Link>
           </TextWrapper4>
 
-          <LogoutText>로그아웃</LogoutText>
-          <AccountDeletionText>계정 탈퇴하기</AccountDeletionText>
+          {/* 로그아웃 버튼 */}
+          <LogoutText onClick={openLogoutModal}>로그아웃</LogoutText>
+          <LogoutButton isOpen={isLogoutModalOpen} onClose={closeLogoutModal} />
+
+          {/* 계정 탈퇴 버튼 */}
+          <AccountDeletionText onClick={openDeleteModal}>계정 탈퇴하기</AccountDeletionText>
+          <DeleteAcButton isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
 
           <BottomBox>
-          <Footer />
+            <Footer />
           </BottomBox>
           
         </InnerDiv>
