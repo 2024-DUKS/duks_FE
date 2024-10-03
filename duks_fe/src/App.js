@@ -7,6 +7,7 @@ import Join from "./pages/Join";
 import SignUp from "./pages/SignUp";
 import Card from "./pages/Card"
 import MyPage from "./pages/MyPage"
+import HumanPage from "./pages/HumanPage"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/card" element={<Card />} />
           <Route exact path="/mypage" element={<MyPage />} />
+          <Route exact path="/humanpage" element={<HumanPage />} />
         </Routes>
       </Router>
     </div>

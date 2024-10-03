@@ -1,0 +1,11 @@
+{
+  "name": "duks_fe",
+  "version": "1.0.0",
+  "description": "[2024 미니 프로젝트] 프론트엔드 레포",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
