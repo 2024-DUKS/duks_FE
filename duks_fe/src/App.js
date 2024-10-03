@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import Card from "./pages/Card"
 import MyPage from "./pages/MyPage"
 import HumanPage from "./pages/HumanPage"
+import Edit from "./pages/Edit"
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route exact path="/card" element={<Card />} />
           <Route exact path="/mypage" element={<MyPage />} />
           <Route exact path="/humanpage" element={<HumanPage />} />
+          <Route exact path="/edit" element={<Edit />} />
+
         </Routes>
       </Router>
     </div>
