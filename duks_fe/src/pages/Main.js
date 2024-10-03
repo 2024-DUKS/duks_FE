@@ -21,7 +21,7 @@ function Main() {
           {/* 로고 아래에 검색창 추가 */}
           <M.SearchContainer>
             <M.SearchIcon>🔍</M.SearchIcon> {/* 돋보기를 문자로 고정 */}
-            <M.SearchInput type="text" placeholder="글제목, 내용" />
+            <M.SearchInput type="text" placeholder=" 글제목, 내용" />
           </M.SearchContainer>
 
           {/* 아이콘 그리드 */}
