@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate 함수 불러오기
 import { 
-    BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, CloseButton, Title, SectionTitleWrapper, SectionTitle, SectionTitle1, PriceHint, TradeOptionWrapper, TradeOptionButton, DropdownWrapper, Dropdown, FileInputWrapper, FileInputLabel, FileInput, FileCount, ImagePreviewWrapper, ImagePreview, DeleteButtonWrapper, DeleteButton, InputWrapper, TextInput, PriceInput, PriceMessage
+    BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, CloseButton, Title, SectionTitleWrapper, SectionTitle, SectionTitle1, PriceHint, TradeOptionWrapper, TradeOptionButton, DropdownWrapper, Dropdown, FileInputWrapper, FileInputLabel, FileInput, FileCount, ImagePreviewWrapper, ImagePreview, DeleteButtonWrapper, DeleteButton, InputWrapper, TextInput, PriceInput, PriceMessage, TextArea, SubmitButton
   } from '../styles/EditStyle';
 
 import Footer from '../components/Footer'
@@ -14,6 +14,7 @@ const Edit = () => {
   const [title, setTitle] = useState(''); // 제목 상태
   const [price, setPrice] = useState(''); // 가격 상태
   const [priceMessage, setPriceMessage] = useState(''); // 가격 메시지
+  const [description, setDescription] = useState(''); // 상세 설명 상태 추가
 
   const handleBack = () => {
     navigate(-1); // 뒤로 가기 기능
@@ -81,7 +82,25 @@ const isTalentDonation = price === '0'; // 재능 기부인지 확인하는 변�
     ));
   }
 
+  // 게시물 작성 버튼 클릭 시 데이터 처리 함수
+  const handleSubmit = () => {
+    const postData = {
+      option: selectedOption,
+      category: selectedCategory,
+      files: selectedFiles,
+      title: title,
+      price: price,
+      description: description,
+    };
+
+    console.log('게시물 작성:', postData);
+    // 데이터를 처리하는 로직 추가 (예: 서버로 전송 또는 페이지 이동)
+    navigate('/post', { state: postData }); // 게시물 페이지로 이동하며 데이터 전달
+  };
+  
+
   return (
+    <div className="edit-page-wrapper">
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
@@ -166,6 +185,17 @@ const isTalentDonation = price === '0'; // 재능 기부인지 확인하는 변�
             {priceMessage && <PriceMessage>{priceMessage}</PriceMessage>}
           </InputWrapper>
 
+          <SectionTitle>상세 설명</SectionTitle> {/* 상세 설명 제목 */}
+            <InputWrapper>
+              <TextArea
+                placeholder="상세 설명을 입력해주세요" 
+                value={description} 
+                onChange={(e) => setDescription(e.target.value)} 
+              />
+            </InputWrapper>
+
+            <SubmitButton onClick={handleSubmit}>글 작성하기</SubmitButton> {/* 게시물 작성 버튼 */}
+
           <BottomBox>
             <Footer />
           </BottomBox>
@@ -173,6 +203,7 @@ const isTalentDonation = price === '0'; // 재능 기부인지 확인하는 변�
         </InnerDiv>
       </MyPageContainer>
     </BackgroundWrapper>
+    </div>
   );
 }
 export default Edit;
