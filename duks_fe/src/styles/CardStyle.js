@@ -140,7 +140,7 @@ export const UserEmail = styled.div`
   font-size: 14px;
   font-weight: 600;
   height: 17px;
-  left: 90px;
+  left: 135px;
   text-align: center;
   position: absolute;
   top: 293px;

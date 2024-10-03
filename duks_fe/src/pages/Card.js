@@ -13,6 +13,7 @@ import {
 import Footer from '../components/Footer'
 import MakeAbilityButton from '../components/MakeAbilityButton';
 import MakeChaButton from '../components/MakeChaButton';
+import ProfileImageUploader from '../components/ProfileImageUpLoader';
 
 const Card = () => {
   return (
@@ -23,15 +24,11 @@ const Card = () => {
 
           <OverlapWrapper>
             <Overlap>
-              {/* 
-              <InputPhoto src="path_to_your_image.jpg" alt="Input" />
-              <OverlapGroup /> 
-              <TextDiv>사진을 입력해주세요</TextDiv>
-              <Image src="path_to_your_image.jpg" alt="Business" />
-              */}
-          
+
+              {/*명함 프로필 업로드 컴포넌트*/}
+              <ProfileImageUploader />
               <UserName>홍길동</UserName>
-              <UserEmail>honghonghon@gmail.com</UserEmail>
+              <UserEmail>010-1234-5678</UserEmail>
               <div>
                 <UserAbility>Ability
                   <div className="button-container">

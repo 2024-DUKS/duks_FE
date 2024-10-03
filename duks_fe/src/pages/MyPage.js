@@ -36,9 +36,7 @@ const MyPage = () => {
       <MyPageContainer>
         <InnerDiv>
           <TopBox>
-            <Link to="/prePage">이전 화면 돌아가기 버튼 및 메뉴 버튼</Link>
           </TopBox>
-          
           <Person>  
             <OverlapGroup>
               <StdNum>학번</StdNum>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './MakeAbilityButton.css';
 
-
 const MakeAbilityButton = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [inputText, setInputText] = useState('');
@@ -25,7 +24,9 @@ const MakeAbilityButton = () => {
     };
 
     const handleInputChange = (e) => {
-        setInputText(e.target.value);
+        if (e.target.value.length <= 5) {
+            setInputText(e.target.value);
+        }
     };
 
     const handleRadioChange = (e) => {
@@ -34,11 +35,9 @@ const MakeAbilityButton = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-      
         // 새로운 능력 등록
         setAbilities([...abilities, { text: inputText, level: selectedOption }]);
-        setInputText('');
-        setSelectedOption('하');
+        resetForm();
         closeModal();
     };
 
@@ -55,10 +54,14 @@ const MakeAbilityButton = () => {
         const updatedAbilities = [...abilities];
         updatedAbilities[editingIndex] = { text: inputText, level: selectedOption };
         setAbilities(updatedAbilities);
-        setInputText('');
-        setSelectedOption('하');
+        resetForm();
         setIsEditing(false);
         closeModal();
+    };
+
+    const resetForm = () => {
+        setInputText('');
+        setSelectedOption('하');
     };
 
     return (
@@ -67,40 +70,60 @@ const MakeAbilityButton = () => {
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="AbilityModal">
                 <h2>{isEditing ? '능력을 수정해주세요' : '능력을 등록해주세요'}</h2>
                 <form onSubmit={isEditing ? handleEditSubmit : handleSubmit}>
+                    <label>
+                        <input
+                            type="text"
+                            value={inputText}
+                            onChange={handleInputChange}
+                            maxLength={5}
+                            required
+                        />
+                    </label>
                     <div>
                         <label>
-                            <input type="text" value={inputText} onChange={handleInputChange} required />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            하<input type="radio" value="하" 
-                                checked={selectedOption === '하'} onChange={handleRadioChange}/>
+                            <input type="radio"
+                                value="하"
+                                checked={selectedOption === '하'} onChange={handleRadioChange} /> 하
                         </label>
                         <label>
-                            중<input
-                                type="radio" value="중"
-                                checked={selectedOption === '중'} onChange={handleRadioChange}/>
+                            <input
+                                type="radio"
+                                value="중"
+                                checked={selectedOption === '중'} onChange={handleRadioChange} /> 중
                         </label>
                         <label>
-                            상<input type="radio" value="상"
-                                checked={selectedOption === '상'} onChange={handleRadioChange}/>
+                            <input type="radio"
+                                value="상"
+                                checked={selectedOption === '상'} onChange={handleRadioChange} /> 상
                         </label>
                     </div>
                     <button type="submit">{isEditing ? '수정' : '등록'}</button>
-                    <button onClick={closeModal}>닫기</button>
+                    <button type="button" onClick={closeModal}>닫기</button>
                 </form>
-                
             </Modal>
-            <div>
-                <ul>
-                    {abilities.map((ability, index) => (
-                        <li key={index} onDoubleClick={() => handleDoubleClick(index)}>
-                            {`${ability.text} - ${ability.level}`}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <ul className="abilityList">
+                {abilities.map((ability, index) => (
+                    <li key={index} onDoubleClick={() => handleDoubleClick(index)} className="abilityItem">
+                        <span className="abilityText">{ability.text}</span>
+                        {/* ability.level에 따라 체크 표시된 라디오 버튼 렌더링 */}
+                        <label className="radioLabel">
+                            <input type="radio"
+                                value="하"
+                                checked={ability.level === '하'} readOnly /> 하
+                        </label>
+                        <label className="radioLabel">
+                            <input type="radio"
+                                value="중"
+                                checked={ability.level === '중'} readOnly /> 중
+                        </label>
+                        <label className="radioLabel">
+                            <input type="radio"
+                                value="상"
+                                checked={ability.level === '상'} readOnly /> 상
+                        </label>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
