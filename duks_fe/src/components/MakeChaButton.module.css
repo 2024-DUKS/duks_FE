@@ -1,0 +1,96 @@
+.MakeChaButton_AbilityModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #92b455;
+  outline: none;
+  z-index: 1000;
+}
+
+.MakeChaButton_h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.MakeChaButton_label {
+  display: inline-flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.MakeChaButton_inputText {
+  width: 90%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 20px;
+}
+
+.MakeChaButton_button {
+  padding: 5px 5px;
+  margin-top: 5px;
+  background-color: #6b9126;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 50%;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.1s ease;
+}
+
+.MakeChaButton_button:hover {
+  background-color: #000000;
+}
+
+.MakeChaButton_ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+
+.MakeChaButton_li {
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+}
+
+.MakeChaButton_plusButton {
+  margin-right: 10px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background-color: #6b9126;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.MakeChaButton_plusButton:hover {
+  background-color: #000000;
+}
+
+.MakeChaButton_buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 5px;
+}
+
+.MakeChaButton_div {
+  text-align: left;
+}
