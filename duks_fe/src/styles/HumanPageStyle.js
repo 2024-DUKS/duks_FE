@@ -219,8 +219,8 @@ export const PostItem = styled.div`
 
 // 게시물 이미지 스타일
 export const PostImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   border-radius: 8px;
   margin-right: 15px;
 `;
