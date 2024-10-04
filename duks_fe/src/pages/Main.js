@@ -9,7 +9,7 @@ import { BottomBox} from '../styles/MainStyle';
 
 function Main() {
   return (
-    <M.PageWrapper>
+    <M.PageWrapper className="main-page-wrapper">
       <M.Background>
         <M.MainContainer>
           {/* 상단 로고 부분 */}

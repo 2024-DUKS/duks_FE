@@ -138,7 +138,7 @@ export const SectionTitle = styled.h2`
     font-size: 18px;
     font-weight: bold;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     color: black;
     align-self: flex-start;
   }
@@ -149,7 +149,7 @@ export const PriceHint = styled.span`
     color: red;
     font-size: 12px;
     margin-left: 10px;
-    margin-top: 7px;
+    margin-top: 13px;
   }
 `;
 
@@ -172,26 +172,27 @@ export const Dropdown = styled.select`
 `;
 
 export const FileInputWrapper = styled.div`
-  .edit-page-wrapper & {
-    width: 100%;
-    margin-left: 20px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-  }
+.edit-page-wrapper & {
+  display: flex;
+  align-items: flex-start; /* 수직으로 상단에 고정 */
+  justify-content: flex-start; /* 파일 첨부와 1/10을 왼쪽 정렬 */
+  margin-left:20px;
+  margin-right: 10px; /* 미리보기 이미지와의 간격 설정 */
+}
 `;
 
 export const FileInputLabel = styled.label`
   .edit-page-wrapper & {
     background-color: #E0E0E0;
-    margin-left: 10px;
     padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
     color: black;
+    white-space: nowrap; /* 텍스트가 한 줄에 나오도록 설정 */
   }
 `;
+
 
 export const FileInput = styled.input`
   .edit-page-wrapper & {
@@ -202,7 +203,8 @@ export const FileInput = styled.input`
 export const FileCount = styled.span`
   .edit-page-wrapper & {
     margin-left: 10px;
-    font-size: 14px;
+    margin-top: 17px;
+    font-size: 12px;
     color: black;
   }
 `;
@@ -233,17 +235,18 @@ export const DeleteButton = styled.button`
 export const ImagePreviewWrapper = styled.div`
   .edit-page-wrapper & {
     display: flex;
+    flex-wrap: nowrap; /* 이미지가 한 줄에 나열되도록 설정 */
     overflow-x: auto; /* 가로 스크롤 */
-    width: 90%;
-    margin-left: 20px;
-    margin-top: 10px;
+    max-width: 45%; /* 최대 너비를 설정하여 화면 벗어나지 않도록 */
+    margin-left: 15px; /* 파일 첨부와 미리보기 사이 간격 */
+    margin-top: 0; /* 같은 줄에 배치 */
   }
 `;
 
 export const ImagePreview = styled.img`
   .edit-page-wrapper & {
-    width: 80px; /* 작은 크기로 미리보기 */
-    height: 80px;
+    width: 65px; /* 작은 크기로 미리보기 */
+    height: 65px;
     object-fit: cover; /* 이미지 비율을 유지하며 채우기 */
     margin-right: 10px; /* 이미지 간의 간격 */
     border-radius: 10px; /* 둥근 모서리 */
@@ -302,7 +305,7 @@ export const PriceMessage = styled.span`
 export const TextArea = styled.textarea`
   .edit-page-wrapper & {
     width: 90%;
-    height: 100px;
+    height: 130px;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
@@ -322,7 +325,7 @@ export const SubmitButton = styled.button`
     padding: 8px 20px;
     border-radius: 20px;
     cursor: pointer;
-    width: 90%;
+    width: 40%;
     margin-top: 10px;
     position: relative;
   }
