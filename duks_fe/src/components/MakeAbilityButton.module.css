@@ -8,8 +8,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 250px;
-  padding: 15px; /* 내부 여백 줄이기 */
-  border-radius: 20px; /* 둥근 모서리 조정 */
+  padding: 15px;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: #92b455;
   outline: none;
@@ -17,28 +17,28 @@
 }
 
 h2 {
-  font-size: 18px; /* 제목 크기 줄이기 */
-  margin-bottom: 8px; /* 하단 여백 줄이기 */
+  font-size: 18px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 label {
   display: inline-flex;
   align-items: center;
-  margin: 5px; /* 여백 줄이기 */
+  margin: 5px;
 }
 
 input[type="text"] {
   width: 90%;
-  padding: 8px; /* 내부 여백 줄이기 */
-  margin: 4px 0; /* 위아래 여백 줄이기 */
+  padding: 8px;
+  margin: 4px 0;
   border: none;
   border-radius: 15px;
 }
 
 button {
   padding: 5px 5px;
-  margin: 0; /* 상하좌우 여백을 모두 0으로 설정 */
+  margin: 0;
   background-color: #6b9126;
   color: white;
   border: none;
@@ -59,20 +59,21 @@ button:hover {
 ul {
   list-style-type: none;
   padding: 0;
-  margin: 0; /* 여백 줄이기 */
+  margin: 0;
   text-align: left;
 }
 
 li {
+  height: 20px;
   display: flex;
   justify-content: flex-start;
-  padding: 2px; /* 여백 줄이기 */
-  font-size: 14px; /* 글자 크기 */
+  padding: 2px;
+  font-size: 14px;
 }
 
 .plusButton {
-  margin-right: 5px; /* 간격 줄이기 */
-  width: 20px; /* 버튼 크기 줄이기 */
+  margin-right: 5px;
+  width: 20px;
   height: 20px;
   border: none;
   background-color: #6b9126;
@@ -100,6 +101,6 @@ div {
 span.abilityText {
   text-align: left;
   margin-top: 4px;
-  width: 80px; /* 고정 너비 */
-  display: inline-block; /* 너비와 높이를 적용하기 위해 inline-block 사용 */
+  width: 80px;
+  display: inline-block;
 }
