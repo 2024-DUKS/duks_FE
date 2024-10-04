@@ -96,8 +96,12 @@ const MakeAbilityButton = () => {
                                 checked={selectedOption === '상'} onChange={handleRadioChange} /> 상
                         </label>
                     </div>
-                    <button type="submit">{isEditing ? '수정' : '등록'}</button>
-                    <button type="button" onClick={closeModal}>닫기</button>
+                    <button type="submit" className={styles.makeAbilityButton}>
+                        {isEditing ? '수정' : '등록'}
+                    </button>
+                    <button type="button" className={styles.makeAbilityButton} onClick={closeModal}>
+                        닫기
+                    </button>
                 </form>
             </Modal>
             <ul className={styles.abilityList}>
