@@ -36,7 +36,7 @@ input[type="text"] {
   border-radius: 15px;
 }
 
-button {
+.makeAbilityButton {
   padding: 5px 5px;
   margin: 0;
   background-color: #6b9126;
@@ -52,7 +52,7 @@ button {
   transition: transform 0.1s ease;
 }
 
-button:hover {
+.makeAbilityButton:hover {
   background-color: #4e6a1a;
 }
 
