@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black; /* 최상위 요소의 배경색을 검정으로 설정 */
 }
 
 code {
