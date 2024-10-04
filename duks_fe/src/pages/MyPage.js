@@ -30,6 +30,7 @@ const MyPage = () => {
   const closeLogoutModal = () => setLogoutModalOpen(false);
   const openDeleteModal = () => setDeleteModalOpen(true);
   const closeDeleteModal = () => setDeleteModalOpen(false);
+  
 
   return (
     <BackgroundWrapper>

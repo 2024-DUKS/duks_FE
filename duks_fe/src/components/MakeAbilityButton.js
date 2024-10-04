@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import './MakeAbilityButton.css';
+import styles from './MakeAbilityButton.module.css'; // CSS 모듈 import
 
 const MakeAbilityButton = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -12,7 +12,7 @@ const MakeAbilityButton = () => {
 
     // react-modal 초기 설정
     useEffect(() => {
-        Modal.setAppElement('#root'); // App 컴포넌트가 렌더링되는 최상위 요소
+        Modal.setAppElement('body'); // App 컴포넌트가 렌더링되는 최상위 요소 설정
     }, []);
 
     const openModal = () => {
@@ -35,7 +35,6 @@ const MakeAbilityButton = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // 새로운 능력 등록
         setAbilities([...abilities, { text: inputText, level: selectedOption }]);
         resetForm();
         closeModal();
@@ -66,8 +65,8 @@ const MakeAbilityButton = () => {
 
     return (
         <div>
-            {!abilities.length && <button className="plusButton" onClick={openModal}>+</button>}
-            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="AbilityModal">
+            {!abilities.length && <button className={styles.plusButton} onClick={openModal}>+</button>}
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className={styles.AbilityModal}>
                 <h2>{isEditing ? '능력을 수정해주세요' : '능력을 등록해주세요'}</h2>
                 <form onSubmit={isEditing ? handleEditSubmit : handleSubmit}>
                     <label>
@@ -97,26 +96,29 @@ const MakeAbilityButton = () => {
                                 checked={selectedOption === '상'} onChange={handleRadioChange} /> 상
                         </label>
                     </div>
-                    <button type="submit">{isEditing ? '수정' : '등록'}</button>
-                    <button type="button" onClick={closeModal}>닫기</button>
+                    <button type="submit" className={styles.makeAbilityButton}>
+                        {isEditing ? '수정' : '등록'}
+                    </button>
+                    <button type="button" className={styles.makeAbilityButton} onClick={closeModal}>
+                        닫기
+                    </button>
                 </form>
             </Modal>
-            <ul className="abilityList">
+            <ul className={styles.abilityList}>
                 {abilities.map((ability, index) => (
-                    <li key={index} onDoubleClick={() => handleDoubleClick(index)} className="abilityItem">
-                        <span className="abilityText">{ability.text}</span>
-                        {/* ability.level에 따라 체크 표시된 라디오 버튼 렌더링 */}
-                        <label className="radioLabel">
+                    <li key={index} onDoubleClick={() => handleDoubleClick(index)} className={styles.abilityItem}>
+                        <span className={styles.abilityText}>{ability.text}</span>
+                        <label className={styles.radioLabel}>
                             <input type="radio"
                                 value="하"
                                 checked={ability.level === '하'} readOnly /> 하
                         </label>
-                        <label className="radioLabel">
+                        <label className={styles.radioLabel}>
                             <input type="radio"
                                 value="중"
                                 checked={ability.level === '중'} readOnly /> 중
                         </label>
-                        <label className="radioLabel">
+                        <label className={styles.radioLabel}>
                             <input type="radio"
                                 value="상"
                                 checked={ability.level === '상'} readOnly /> 상

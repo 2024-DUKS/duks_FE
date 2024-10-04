@@ -2,77 +2,95 @@ import styled from "styled-components";
 
 // 전체 페이지 배경 (화면이 아닌 부분)
 export const PageWrapper = styled.div`
-background-color:black; /* 화면 바깥 배경색 설정 */
-justify-content: center; /* 수평 중앙 정렬 */
-align-items: center; /* 수직 중앙 정렬 */
+.main-page-wrapper & {
+  background-color:#000000; /* 화면 바깥 배경색 설정 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  height: 100vh; /* 화면 전체 높이를 채우도록 설정 */
+  width: 100vw; /* 화면 전체 너비를 채우도록 설정 */
+}
 `;
 
 // 앱 화면 (화면 크기에 맞게 조절)
 export const Background = styled.div`
+.main-page-wrapper & {
   max-width: 430px; /* 최대 너비를 430px로 제한 */
   max-height: 932px; /* 최대 높이를 932px로 제한 */
-  background-color: #ffffff;
+  background-color: #000000;
   margin: 0 auto;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+}
 `;
 
 // 메인 컨텐츠를 담는 컨테이너
 export const MainContainer = styled.div`
+.main-page-wrapper & {
   width: 430px;
   height: 932px;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 `;
 
 // 로고 컨테이너
 export const LogoContainer = styled.div`
+.main-page-wrapper & {
   justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 15px;
   position: relative; /* 로고를 절대 위치로 배치하기 위해 */
   top: 0px; /* 상단에 고정 */
+}
 `;
 
 // 왼쪽 로고
 export const LogoLeft = styled.img`
+.main-page-wrapper & {
   width: 275px;
   height: auto;
+}
 `;
 
 // 오른쪽 이미지
 export const LogoRight = styled.img`
+.main-page-wrapper & {
   width: 125px;
   height: auto;
+}
 `;
 
 // 검색창 컨테이너
 export const SearchContainer = styled.div`
+.main-page-wrapper & {
   position: relative; /* 검색창 내부 아이콘 배치에 필요 */
   width: 90%;  /* 검색창을 가득 채우기 */
   display: flex;
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 30px; /* 검색창 아래 간격 */
+}
 `;
 
 // 돋보기 아이콘 문자 스타일 (검색창 내부에 고정)
 export const SearchIcon = styled.span`
+.main-page-wrapper & {
   position: absolute;
   left: 20px;  /* 검색창 왼쪽에 20px 위치 */
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
   color: #aaa;
+}
 `;
 
 // 검색창 스타일
 export const SearchInput = styled.input`
+.main-page-wrapper & {
   width: 90%;  /* 검색창 너비를 90%로 설정 */
   padding: 12px 20px 12px 50px;  /* 왼쪽 padding을 넓게 설정하여 아이콘 공간 확보 */
   border-radius: 25px;
@@ -85,20 +103,24 @@ export const SearchInput = styled.input`
   &::placeholder {
     color: #aaa;
   }
+}
 `;
 
 // 아이콘 그리드
 export const IconGrid = styled.div`
+.main-page-wrapper & {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   width: 90%;
   margin-bottom: 3px;
   row-gap: 3px; /* 줄 사이 간격 설정 */
+}
 `;
 
 // 아이콘 항목
 export const IconItem = styled.div`
+.main-page-wrapper & {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,10 +152,12 @@ export const IconItem = styled.div`
     transform: scale(1.1);
     transition: 0.3s;
   }
+}
 `;
 
 // 포스트 항목 (메모지 스타일 적용)
 export const PostItem = styled.div`
+.main-page-wrapper & {
   background-color: #fff7e6; /* 메모지의 기본 배경색 */
   width: 120px;  /* 포스트의 고정된 가로 크기 */
   height: 110px;  /* 포스트의 고정된 세로 크기 */
@@ -180,6 +204,7 @@ export const PostItem = styled.div`
     text-decoration: none;
     color: inherit;
   }
+}
 `;
 
 
@@ -188,6 +213,7 @@ export const PostItem = styled.div`
 
 // 포스트 제목
 export const PostTitle = styled.h3`
+.main-page-wrapper & {
   font-size: 14px;
   font-weight: bold;
   margin-top: 3px;
@@ -195,41 +221,50 @@ export const PostTitle = styled.h3`
   color: #333;
   position: relative;
   z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
+}
 `;
 
 // 포스트 내용
 export const PostContent = styled.p`
+.main-page-wrapper & {
   font-size: 12px;
   color: #666;
   line-height: 1.4;
   position: relative;
   z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
+}
 `;
 
 // 섹션 제목 스타일 (예: 최신글 <해드립니다>)
 export const SectionTitle = styled.h2`
+.main-page-wrapper & {
   width: 90%;
   font-size: 16px;
   color: #333;
   margin-top: 5px;
   margin-bottom: 15px;
   text-align: left;
+}
 `;
 
 // 포스트 그리드
 export const PostGrid = styled.div`
+.main-page-wrapper & {
   display: flex;
   justify-content: space-between;
   width: 80%;
   margin-bottom: 20px;
   gap: 10px; /* 포스트 사이 간격 */
+}
 `;
 
 export const BottomBox = styled.div`
+.main-page-wrapper & {
   background-color: #FFB204;
   position: relative; 
   height: 62px;
   width: 430px;
   bottom: 0px;
   margin-top: auto;  /* 컨텐츠 끝에 위치하게 함 *
+}
 `;

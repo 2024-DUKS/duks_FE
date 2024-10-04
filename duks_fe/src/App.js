@@ -8,7 +8,8 @@ import SignUp from "./pages/SignUp";
 import Card from "./pages/Card";
 import MyPage from "./pages/MyPage";
 import HumanPage from "./pages/HumanPage"
-import Edit from "./pages/Edit";
+import Edit from "./pages/Edit"
+import PostDetail from "./pages/PostDetail";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route exact path="/mypage" element={<MyPage />} />
           <Route exact path="/humanpage" element={<HumanPage />} />
           <Route exact path="/edit" element={<Edit />} />
+          <Route exact path="/postdetail" element={<PostDetail />} />
+
         </Routes>
       </Router>
     </div>
