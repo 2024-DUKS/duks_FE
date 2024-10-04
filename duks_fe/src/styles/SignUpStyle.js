@@ -69,8 +69,8 @@ export const BackButton = styled.button`
 export const Title = styled.h2`
   display: flex;
   font-size: 18px;
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center;     /* 수직 중앙 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+  align-items: center;     /* 수평 중앙 정렬 */
   height: 100%;            /* 높이를 100%로 설정하여 전체 영역 차지 */
   margin: 0;              /* 기본 마진 제거 */
   margin-right: 50px;

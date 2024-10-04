@@ -11,7 +11,9 @@ export const BackgroundWrapper = styled.div`
 // 로그인 페이지 컨테이너
 export const LoginContainer = styled.div`
   width: 430px;
+  height: 932px;
   background-color: black;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* 상단부터 정렬 */
@@ -20,13 +22,16 @@ export const LoginContainer = styled.div`
 
 // 내부 div
 export const InnerDiv = styled.div`
-  width: 100%;
+  width: 430px;
+  height: 932px;
   background-color: #ffffff;
 
+  /* Flexbox 설정 */
   display: flex;
   flex-direction: column; /* 세로 방향으로 배치 */
   align-items: center; /* 수평 중앙 정렬 */
   position: relative;
+  justify-content: center;
 `;
 
 // 로고 및 추가 이미지를 위한 컨테이너
