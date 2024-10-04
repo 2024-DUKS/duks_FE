@@ -10,8 +10,8 @@ import { footerStyle, footerImage, ul } from './Footer.css';
 const Footer = () => {
     return (
         <footer className="footerStyle">
-            <ul>
-                <li>
+            
+                
                     <Link to="/Main">
                         <img src={homeButton} alt="My Image" className="footerImage"/>
                     </Link>
@@ -24,8 +24,8 @@ const Footer = () => {
                     <Link to="/MyPage">
                         <img src={myPageButton} alt="My Image" className="footerImage"/>
                     </Link>
-                </li>
-            </ul>
+        
+            
         </footer>
     );
 };
