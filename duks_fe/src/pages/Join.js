@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import * as J from "../styles/JoinStyle";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../img/logo.jpg'; // 로고 이미지 파일 경로
 import addLogo from '../img/logo_img.jpg'; // 추가 로고 이미지 파일 경로
 
 function Join() {
   const [formData, setFormData] = useState({
-    username: "",
+    studentId: "",
     password: ""
   });
+
+  const navigate=useNavigate(); // 페이지 이동을 위한 useNavigate 사용
+  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태 추가
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +22,33 @@ function Join() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // 여기에서 formData를 서버로 전송하거나 처리하는 로직을 추가합니다.
-    console.log(formData);
+    try {
+      // 로그인 요청을 서버로 보냄
+      const response = await axios.post("http://localhost:5000/api/auth/register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // 서버로부터 토큰을 받아옴
+      const { token } = response.data;
+
+      // 토큰을 localStorage에 저장하여 세션 관리
+      localStorage.setItem("authToken", token);
+
+      // 로그인 성공 메시지 출력 (필요 시 상태나 페이지 이동)
+      console.log("로그인 성공:", response.data);
+      setErrorMessage(""); // 에러 메시지 초기화
+
+      // 페이지 이동 
+      navigate("/Main");
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      setErrorMessage("로그인 실패. 아이디 또는 비밀번호를 확인해 주세요.");
+    }
   };
 
   return (
@@ -34,11 +61,11 @@ function Join() {
           </J.LogoContainer>
           <J.Form onSubmit={handleSubmit}>
             <J.InputField>
-              <label htmlFor="username">아이디</label>
+              <label htmlFor="studentId">아이디</label>
               <input
                 type="text"
-                name="username"
-                value={formData.username}
+                name="studentId"
+                value={formData.studentId}
                 onChange={handleChange}
                 placeholder="아이디를 입력하세요"
                 required
@@ -56,6 +83,9 @@ function Join() {
               />
             </J.InputField>
             <J.ButtonContainer>
+              {errorMessage && (
+                <J.ErrorMessage>{errorMessage}</J.ErrorMessage>
+              )}
               <J.LoginButton type="submit">로그인</J.LoginButton>
             </J.ButtonContainer>
           </J.Form>

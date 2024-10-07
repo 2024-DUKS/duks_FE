@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import * as S from "../styles/SignUpStyle";
 import { Link } from 'react-router-dom';
 import backButton from '../img/backButton.png';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
     name: "",
-    username: "",
+    studentId: "",
     password: "",
     nickname: "",
     department: "",
@@ -34,9 +36,28 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const navigate=useNavigate(); // 페이지 이동을 위한 useNavigate 사용
+  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태 추가
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // 여기에서 formData를 서버로 전송하거나 처리하는 로직을 추가합니다.
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("회원가입 성공:", response.data);
+      setFormData({ name: "", studentId: "", password: "", nickname: "", department: "", phone: "" }); // 입력 필드 초기화
+      navigate("/join");
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      setErrorMessage("회원가입 실패. 다시 시도해 주세요."); // 에러 메시지 설정
+    }
+    finally {
+      console.log("요청이 완료되었습니다."); // finally 블록 추가
+    }
+  
     console.log(formData);
   };
 
@@ -65,11 +86,11 @@ function SignUp() {
               />
             </S.InputField>
             <S.InputField>
-              <label htmlFor="username">아이디<S.Required>*</S.Required></label>
+              <label htmlFor="studentId">아이디<S.Required>*</S.Required></label>
               <input
                 type="text"
-                name="username"
-                value={formData.username}
+                name="studentId"
+                value={formData.studentId}
                 onChange={handleChange}
                 placeholder="학번을 입력하세요" 
                 required
@@ -123,6 +144,9 @@ function SignUp() {
               />
             </S.InputField>
             <S.ButtonContainer>
+              {errorMessage && (
+                <S.ErrorMessage>{errorMessage}</S.ErrorMessage>
+              )}
               <S.SubmitButton type="submit">회원가입하기</S.SubmitButton>
             </S.ButtonContainer>
           </S.Form>

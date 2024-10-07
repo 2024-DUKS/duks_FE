@@ -71,12 +71,17 @@ export const InputField = styled.div`
   }
 `;
 
+
+// ButtonContainer 스타일 수정
 export const ButtonContainer = styled.div`
   display: grid;
   justify-items: center; /* 수평 중앙 정렬 */
   width: 100%; /* 부모 div 너비 */
-  margin-top: 40px; /* 상단 여백 */
+  margin-top: 40px;
+  position: relative; /* 추가 */
 `;
+
+
 
 // 로그인 버튼 스타일
 export const LoginButton = styled.button`
@@ -113,3 +118,12 @@ export const Form = styled.form`
   padding: 40px; /* 폼에 패딩 추가 */
 `;
 
+// ErrorMessage 스타일 수정
+export const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: -20px; /* SubmitButton과 겹치도록 위치 조정 */
+  text-align: center;
+  position: relative; /* 상대 위치 */
+  z-index: 1; /* SubmitButton 위에 나타나도록 */
+`;
