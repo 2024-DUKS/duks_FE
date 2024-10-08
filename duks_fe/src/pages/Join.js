@@ -27,14 +27,14 @@ function Join() {
     // 여기에서 formData를 서버로 전송하거나 처리하는 로직을 추가합니다.
     try {
       // 로그인 요청을 서버로 보냄
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData, {
+      const response = await axios.post("http://localhost:5000/api/auth/login", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       // 서버로부터 토큰을 받아옴
-      const { token } = response.data;
+      const { message, token } = response.data;
 
       // 토큰을 localStorage에 저장하여 세션 관리
       localStorage.setItem("authToken", token);
