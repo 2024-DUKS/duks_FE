@@ -52,7 +52,7 @@ const HumanPage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/posts'); // API URL 수정
+        const response = await axios.get('http://localhost:5000/api/posts/category/human'); // API URL 수정
         console.log('응답을 성공적으로 받았습니다:', response.data); // 응답 데이터 출력
         setPostList(response.data); // 서버에서 받은 데이터로 상태 업데이트
       } catch (error) {
