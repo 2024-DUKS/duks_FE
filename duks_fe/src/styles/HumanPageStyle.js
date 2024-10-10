@@ -176,7 +176,7 @@ export const ButtonContainer = styled.div`
 `;
 
 // 카테고리 버튼 스타일
-export const CategoryButton = styled.button`
+export const TypeButton = styled.button`
   background-color: ${props => props.selected ? '#FFB204' : '#ffffff'};
   color: ${props => props.selected ? '#ffffff' : '#FFB204'};
   border: 2px solid #ddd;

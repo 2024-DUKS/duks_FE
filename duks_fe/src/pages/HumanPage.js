@@ -1,40 +1,50 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; // axios 추가
-
+import axios from 'axios';
+import searchIconImage from '../img/searchIcon.png';
 import ducky from '../img/ducky.png';
 import broccoli from '../img/broccoli.png';
-import searchIconImage from '../img/searchIcon.png';
-
-// 임시 이미지 경로
-import sampleImage1 from '../img/sample1.png';  
-import sampleImage2 from '../img/sample2.png';
-import sampleImage3 from '../img/sample3.png';
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
   NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
-  PostListBox, PostItem, ButtonContainer, CategoryButton, PostContent, 
+  PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer
 } from '../styles/HumanPageStyle'; 
 
 import Footer from '../components/Footer'
-const HumanPage = () => {
-  // 게시물 상태 초기화
-  const [postList, setPostList] = useState([]);
-  // 현재 선택된 카테고리 상태
-  const [selectedCategory, setSelectedCategory] = useState('해드립니다');
-   // 검색 상태 관리
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
-  // 선택된 카테고리에 해당하는 게시물만 필터링
-  const filteredPosts = postList.filter(post => 
-    post.category === selectedCategory && 
-    post.title.includes(searchQuery) // 제목에 검색어 포함
-  );
+const HumanPage = () => {
+  const [postList, setPostList] = useState([]); // 게시물 데이터 상태 관리
+  const [topLikedPosts, setTopLikedPosts] = useState([]); // 인기 게시물 상태 관리
+  const [selectedType, setSelectedType] = useState('해드립니다'); // 현재 선택된 타입 상태
+  const [isSearching, setIsSearching] = useState(false); // 검색창 상태
+  const [searchQuery, setSearchQuery] = useState(''); // 검색 입력 값 관리
+
+  useEffect(() => {
+    // 데이터베이스에서 인문학 계열의 게시물 데이터 가져오기
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/posts/category/인문학 계열', {
+          headers: {
+            'Content-Type': `application/json`
+          },
+          params: { type: selectedType, searchQuery }, // type 및 searchQuery 파라미터 추가
+        });
+        
+        if (response.status !== 200) {
+          throw new Error('응답이 올바르지 않습니다.');
+        }
+    
+        setPostList(response.data.posts);
+        setTopLikedPosts(response.data.topLikedPosts.slice(0, 3)); // 인기 게시물 상위 3개만 가져오기
+      } catch (error) {
+        console.error('게시물 데이터 불러오기 실패:', error.message);
+      }
+    };
+    fetchData();
+  }, [selectedType, searchQuery]); // selectedType과 searchQuery가 변경될 때마다 데이터 fetch
 
   // 검색창 열기/닫기 핸들러
   const handleSearchIconClick = () => {
@@ -42,28 +52,10 @@ const HumanPage = () => {
     setSearchQuery(''); // 검색창 초기화
   };
 
-
   // 검색 입력 변화 핸들러
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
-  // 게시물 데이터 가져오기
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/posts/category/human'); // API URL 수정
-        console.log('응답을 성공적으로 받았습니다:', response.data); // 응답 데이터 출력
-        setPostList(response.data); // 서버에서 받은 데이터로 상태 업데이트
-      } catch (error) {
-        console.error('Error fetching posts:', error.message); // 에러 메시지 출력
-        console.log('에러 발생 시 HTTP 응답 상태 코드:', error.response?.status); // HTTP 상태 코드 출력
-        console.log('에러 발생 시 응답 데이터:', error.response?.data); // 응답 데이터 출력
-      }
-    };
-
-    fetchPosts();
-  }, []);
 
   return (
     <BackgroundWrapper>
@@ -90,67 +82,59 @@ const HumanPage = () => {
           </TopBox>
           <NoticeBox>
               <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
+              <Notice>공지 사항</Notice>
           </NoticeBox>
+
+          {/* 인기글 박스 */}
           <HotBox> 
-            <Link to="/post1" style={{ textDecoration: 'none' }}> {/* 게시물 ID를 경로에 포함 */}
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 1 제목
-                <HeartCount>♥ 30</HeartCount>
-              </HotTitle>
-            </Link>
-            <Link to="/post2" style={{ textDecoration: 'none' }}> 
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 2 제목
-                <HeartCount>♥ 28</HeartCount>
-              </HotTitle>
-            </Link>
-            <Link to="/post3" style={{ textDecoration: 'none' }}> 
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 3 제목
-                <HeartCount>♥ 25</HeartCount>
-              </HotTitle>
-            </Link>
+            {topLikedPosts.map(post => (
+              <Link to={`/posts/${post.id}`} key={post.id} style={{ textDecoration: 'none' }}> 
+                <HotTitle>
+                  <HotImage src={broccoli} alt="broccoli" />{post.title}
+                  <HeartCount>♥ {post.likeCount}</HeartCount>
+                </HotTitle>
+              </Link>
+            ))}
           </HotBox>
 
-          {/* 카테고리 버튼 */}
+          {/* 타입 버튼 */}
           <ButtonContainer>
-            <CategoryButton 
-              selected={selectedCategory === '해드립니다'}
-              onClick={() => setSelectedCategory('해드립니다')}
+            <TypeButton 
+              selected={selectedType === '해드립니다'}
+              onClick={() => setSelectedType('해드립니다')}
             >
               해드립니다
-            </CategoryButton>
-            <CategoryButton 
-              selected={selectedCategory === '해주세요'}
-              onClick={() => setSelectedCategory('해주세요')}
+            </TypeButton>
+            <TypeButton 
+              selected={selectedType === '해주세요'}
+              onClick={() => setSelectedType('해주세요')}
             >
               해주세요
-            </CategoryButton>
+            </TypeButton>
           </ButtonContainer>
 
           {/* 게시물 리스트 */}
           <PostListBox>
-            {filteredPosts.map(post => (
-              <Link to={`/post/${post.id}`} key={post.id} style={{ textDecoration: 'none' }}>
-                <PostItem>
-                  <PostImage src={post.image_url} alt={post.title} />
+            {postList.length > 0 ? (
+              postList.map(post => (
+                <PostItem key={post.id}>
+                  <PostImage src={post.image_url} alt={post.title} /> {/* image_url 사용 */}
                   <PostContent>
-                    <PostInfo>
-                      <PostPrice>{post.price}</PostPrice>
-                      <PostTitle>{post.title}</PostTitle>
-                      <PostDetails>{post.nickname} | {post.time}</PostDetails>
-                    </PostInfo>
+                    <PostPrice>{post.price}</PostPrice>
+                    <PostTitle>{post.title}</PostTitle>
+                    <PostDetails>{post.user_id} | {post.time}</PostDetails>
                     <HeartContainer>
-                      <HeartIcon>♥</HeartIcon>
-                      <HeartCount2>{post.hearts}</HeartCount2>
+                      <HeartIcon>♥</HeartIcon> {/* 하트 아이콘 */}
+                      <HeartCount2>{post.likeCount || 0}</HeartCount2> {/* 하트 수 표시 */}
                     </HeartContainer>
                   </PostContent>
                 </PostItem>
-              </Link>
-            ))}
-          </PostListBox>       
-        
+              ))
+            ) : (
+              <p>게시물이 없습니다.</p>
+            )}
+          </PostListBox>
+
           <BottomBox>
             <Footer />
           </BottomBox>
@@ -160,6 +144,5 @@ const HumanPage = () => {
     </BackgroundWrapper>
   );
 }
+
 export default HumanPage;
-
-
