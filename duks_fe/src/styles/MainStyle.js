@@ -158,7 +158,7 @@ export const IconItem = styled.div`
 // 포스트 항목 (메모지 스타일 적용)
 export const PostItem = styled.div`
 .main-page-wrapper & {
-  background-color: #fff7e6; /* 메모지의 기본 배경색 */
+  background-color: #ffedc8; /* 메모지의 기본 배경색 */
   width: 120px;  /* 포스트의 고정된 가로 크기 */
   height: 110px;  /* 포스트의 고정된 세로 크기 */
   padding: 15px;
@@ -179,7 +179,6 @@ export const PostItem = styled.div`
     left: 0;
     width: 100%;
     height: 50px;
-    background: linear-gradient(to right, transparent 50%, #fff7e6 50%);
     z-index: -1;
   }
 
