@@ -52,18 +52,25 @@ function Main() {
             'Authorization': `Bearer ${token}`,
           },
         });
-        setPosts(response.data.offerPosts.concat(response.data.requestPosts)); // 두 종류의 게시물 결합
-      } catch (error) {
-        console.error("게시글 데이터를 가져오는 중 오류 발생:", error);
-      }
+         // API로 가져온 데이터 확인
+      console.log("가져온 게시물 데이터:", response.data);
+
+      // 데이터가 제대로 왔다면 상태 업데이트
+      const allPosts = response.data.offerPosts.concat(response.data.requestPosts);
+      console.log("최신 게시물:", allPosts); // 이 로그로 전체 게시물 확인
+      setPosts(allPosts);
+    } catch (error) {
+      console.error("게시글 데이터를 가져오는 중 오류 발생:", error);
+    }
     };
     fetchPosts();
-  }, []);
+  }, [newPost]);
   
 
   // newPost가 있을 경우 posts 배열 업데이트
   useEffect(() => {
     if (newPost) {
+      console.log("새로운 게시물:", newPost);  // 새 게시물이 제대로 전달되는지 확인
       setPosts((prevPosts) => {
         const updatedPosts = [...prevPosts];
         updatedPosts.push(newPost);
@@ -78,9 +85,11 @@ function Main() {
   }
 
   // '해드립니다'와 '해주세요' 게시물을 각각 저장할 배열
-  const helpPosts = posts.filter(post => post.option === '해드립니다'); // '해드립니다' 게시물 필터링
-  const requestPosts = posts.filter(post => post.option === '해주세요'); // '해주세요' 게시물 필터링
+  const helpPosts = posts.filter(post => post.type === '해드립니다'); // '해드립니다' 게시물 필터링
+  const requestPosts = posts.filter(post => post.type === '해주세요'); // '해주세요' 게시물 필터링
 
+  console.log("해드립니다 게시물:", helpPosts); // 이 로그로 확인
+  console.log("해주세요 게시물:", requestPosts); // 이 로그로 확인
 
   return (
     <M.PageWrapper className="main-page-wrapper">
@@ -158,30 +167,39 @@ function Main() {
           </M.IconGrid>
 
           {/* 최신 글 <해드립니다> */}
-          <M.SectionTitle>최신글 &lt;해드립니다&gt;</M.SectionTitle>
-          <M.PostGrid>
-            {helpPosts.slice(0, 2).map((post, index) => (
-              <M.PostItem key={index}>
-                <Link to="/postdetail" state={post}>
-                  <M.PostTitle>{post.title}</M.PostTitle>
-                  <M.PostContent>{post.description.slice(0, 100)}...</M.PostContent>
-                </Link>
-              </M.PostItem>
-            ))}
-          </M.PostGrid>
+<M.SectionTitle>최신글 &lt;해드립니다&gt;</M.SectionTitle>
+<M.PostGrid>
+  {helpPosts && helpPosts.length > 0 ? (
+    helpPosts.slice(0, 2).map((post, index) => (
+      <M.PostItem key={index}>
+        <Link to="/postdetail" state={post}>
+          <M.PostTitle>{post.title}</M.PostTitle>
+          <M.PostContent>{post.content.slice(0, 100)}...</M.PostContent>
+        </Link>
+      </M.PostItem>
+    ))
+  ) : (
+    <p>해드립니다 게시물이 없습니다.</p>
+  )}
+</M.PostGrid>
 
-          {/* 최신 글 <해주세요> */}
-          <M.SectionTitle>최신글 &lt;해주세요&gt;</M.SectionTitle>
-          <M.PostGrid>
-            {requestPosts.slice(0, 2).map((post, index) => (
-              <M.PostItem key={index}>
-                <Link to="/postdetail" state={post}>
-                  <M.PostTitle>{post.title.slice(0,15)}</M.PostTitle>
-                  <M.PostContent>{post.description.slice(0, 100)}...</M.PostContent>
-                </Link>
-              </M.PostItem>
-            ))}
-          </M.PostGrid>
+{/* 최신 글 <해주세요> */}
+<M.SectionTitle>최신글 &lt;해주세요&gt;</M.SectionTitle>
+<M.PostGrid>
+  {requestPosts && requestPosts.length > 0 ? (
+    requestPosts.slice(0, 2).map((post, index) => (
+      <M.PostItem key={index}>
+        <Link to="/postdetail" state={post}>
+          <M.PostTitle>{post.title.slice(0, 15)}</M.PostTitle>
+          <M.PostContent>{post.content.slice(0, 100)}...</M.PostContent>
+        </Link>
+      </M.PostItem>
+    ))
+  ) : (
+    <p>해주세요 게시물이 없습니다.</p>
+  )}
+</M.PostGrid>
+
 
           <BottomBox>
             <Footer />

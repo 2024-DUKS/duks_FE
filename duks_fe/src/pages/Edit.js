@@ -111,7 +111,7 @@ const renderImagePreviews = () => {
         },
       });
       console.log("게시글이 성공적으로 작성되었습니다:", response.data);
-      navigate('/main');
+      navigate('/main', { state: response.data });
     } catch (error) {
       console.error('게시글 작성 실패:', error);
     }
