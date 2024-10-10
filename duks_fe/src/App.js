@@ -10,6 +10,7 @@ import MyPage from "./pages/MyPage";
 import HumanPage from "./pages/HumanPage"
 import Edit from "./pages/Edit"
 import PostDetail from "./pages/PostDetail";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route exact path="/humanpage" element={<HumanPage />} />
           <Route exact path="/edit" element={<Edit />} />
           <Route exact path="/postdetail" element={<PostDetail />} />
-
+          <Route exact path="/search" element={<Search />} />
         </Routes>
       </Router>
     </div>
