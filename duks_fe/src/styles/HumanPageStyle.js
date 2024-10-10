@@ -77,6 +77,7 @@ export const Title = styled.h1`
   color: #333;
   text-align: center;
   margin: 0;
+  margin-left: 18px;
 `;
 
 // 검색 컨테이너 스타일

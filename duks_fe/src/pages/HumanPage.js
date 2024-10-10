@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // axios 추가
+
 import ducky from '../img/ducky.png';
 import broccoli from '../img/broccoli.png';
+import searchIconImage from '../img/searchIcon.png';
 
 // 임시 이미지 경로
 import sampleImage1 from '../img/sample1.png';  
 import sampleImage2 from '../img/sample2.png';
 import sampleImage3 from '../img/sample3.png';
-import searchIconImage from '../img/searchIcon.png';
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
@@ -19,30 +22,19 @@ import {
 
 import Footer from '../components/Footer'
 const HumanPage = () => {
-  //예시 게시물 데이터
-  const postList = [
-    { id: 1, category: '해드립니다', image: sampleImage1, price: '10000원', title: '그림 그려 드립니다!', author: '닉네임', time: '5분 전', hearts: 7 },
-    { id: 2, category: '해드립니다', image: sampleImage2, price: '26000원', title: '그림 잘 그리는 방법 알려드립니다', author: '스타듀밸리', time: '30분 전', hearts: 7 },
-    { id: 3, category: '해드립니다', image: sampleImage3, price: '50000원', title: '디자인 해드립니다', author: '디자인해줌', time: '2시간 전', hearts: 4 },
-    { id: 4, category: '해주세요', image: sampleImage1, price: '15000원', title: '귀여운 캐릭커쳐 그려 드립니다!', author: '고라파덕', time: '17시간 전', hearts: 11 },
-    { id: 5, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 6, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 7, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 8, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 9, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 10, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 11, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 12, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 }
-  ];
+  // 게시물 상태 초기화
+  const [postList, setPostList] = useState([]);
   // 현재 선택된 카테고리 상태
   const [selectedCategory, setSelectedCategory] = useState('해드립니다');
-
-  // 선택된 카테고리에 해당하는 게시물만 필터링
-  const filteredPosts = postList.filter(post => post.category === selectedCategory);
-
    // 검색 상태 관리
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // 선택된 카테고리에 해당하는 게시물만 필터링
+  const filteredPosts = postList.filter(post => 
+    post.category === selectedCategory && 
+    post.title.includes(searchQuery) // 제목에 검색어 포함
+  );
 
   // 검색창 열기/닫기 핸들러
   const handleSearchIconClick = () => {
@@ -55,6 +47,23 @@ const HumanPage = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  // 게시물 데이터 가져오기
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/posts'); // API URL 수정
+        console.log('응답을 성공적으로 받았습니다:', response.data); // 응답 데이터 출력
+        setPostList(response.data); // 서버에서 받은 데이터로 상태 업데이트
+      } catch (error) {
+        console.error('Error fetching posts:', error.message); // 에러 메시지 출력
+        console.log('에러 발생 시 HTTP 응답 상태 코드:', error.response?.status); // HTTP 상태 코드 출력
+        console.log('에러 발생 시 응답 데이터:', error.response?.data); // 응답 데이터 출력
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <BackgroundWrapper>
@@ -125,12 +134,12 @@ const HumanPage = () => {
             {filteredPosts.map(post => (
               <Link to={`/post/${post.id}`} key={post.id} style={{ textDecoration: 'none' }}>
                 <PostItem>
-                  <PostImage src={post.image} alt={post.title} />
+                  <PostImage src={post.image_url} alt={post.title} />
                   <PostContent>
                     <PostInfo>
                       <PostPrice>{post.price}</PostPrice>
                       <PostTitle>{post.title}</PostTitle>
-                      <PostDetails>{post.author} | {post.time}</PostDetails>
+                      <PostDetails>{post.nickname} | {post.time}</PostDetails>
                     </PostInfo>
                     <HeartContainer>
                       <HeartIcon>♥</HeartIcon>
