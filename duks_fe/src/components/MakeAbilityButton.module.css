@@ -72,7 +72,7 @@ li {
 }
 
 .plusButton {
-  margin-right: 5px;
+  margin-left: 10px;
   width: 20px;
   height: 20px;
   border: none;
@@ -103,4 +103,15 @@ span.abilityText {
   margin-top: 4px;
   width: 80px;
   display: inline-block;
+}
+
+.deleteButton {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: #f64848;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 10px;
 }

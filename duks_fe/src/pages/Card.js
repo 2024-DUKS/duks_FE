@@ -15,6 +15,7 @@ import MakeAbilityButton from '../components/MakeAbilityButton';
 import MakeChaButton from '../components/MakeChaButton';
 import ProfileImageUploader from '../components/ProfileImageUpLoader';
 
+
 const Card = () => {
   return (
     <BackgroundWrapper>
@@ -30,10 +31,8 @@ const Card = () => {
               <UserName>홍길동</UserName>
               <UserEmail>010-1234-5678</UserEmail>
               <div>
-                <UserAbility>Ability
+                <UserAbility>
                   <div className="button-container">
-                    <MakeAbilityButton />
-                    <MakeAbilityButton />
                     <MakeAbilityButton />
                   </div>
                 </UserAbility>
@@ -42,8 +41,6 @@ const Card = () => {
               <div>
                 <UserCharactor>User Character
                   <div className="button-container">
-                    <MakeChaButton />
-                    <MakeChaButton />
                     <MakeChaButton />
                   </div>
                 </UserCharactor>
