@@ -36,6 +36,7 @@ export const InnerDiv = styled.div`
     flex-direction: column;
     align-items: center;
     position: relative;
+    overflow-x: hidden; /* 가로 스크롤 방지 */
   }
 `;
 
@@ -105,6 +106,19 @@ export const ProfileInfo = styled.div`
   }
 `;
 
+// 게시물 내용을 담는 스크롤 가능한 컨테이너 스타일
+export const ScrollableContainer = styled.div`
+  .postdetail-page-wrapper & {
+    max-height: 800px;  /* 최대 높이를 설정하여 그 이상일 때 스크롤이 발생하도록 */
+    overflow-y: auto;  /* 세로 스크롤을 활성화 */
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box; /* 패딩을 포함한 박스 크기 계산 */
+    overflow-x: hidden;  /* 가로 스크롤 방지 */
+  }
+`;
+
+
 // 제목 스타일
 export const PostTitle = styled.h1`
   .postdetail-page-wrapper & {
@@ -114,8 +128,7 @@ export const PostTitle = styled.h1`
     margin-top: 25px;
     display: flex;         /* Flexbox를 사용하여 정렬 */
     justify-content: flex-start; /* 왼쪽 정렬을 Flexbox로 처리 */
-    width: 100%;           /* 제목이 부모 요소의 너비를 모두 차지하도록 설정 */
-    padding-left: 50px;    /* 왼쪽 여백 추가 */
+    width: 90%;           /* 제목이 부모 요소의 너비를 모두 차지하도록 설정 */
     margin-bottom: 0px;
   }
 `;
@@ -127,7 +140,6 @@ export const InfoContainer = styled.div`
     justify-content: flex-start;  /* 왼쪽 정렬 */
     align-items: center;  /* 수직 가운데 정렬 */
     width: 100%;
-    padding-left: 50px;  /* 왼쪽 여백 */
     margin-top: 0px;
   }
 `;
@@ -217,7 +229,6 @@ export const PriceWrapper = styled.div`
     color: #333;
     font-weight: 1000; /* 글씨 두께를 조금 두껍게 설정 */
     margin-top: 10px; /* 이미지와 약간의 간격 */
-    margin-left:40px;
     text-align: left;  /* 왼쪽 정렬 */
   }
 `;

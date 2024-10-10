@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; // useNavigate 함수 불러오기
 import { 
-  BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, CloseButton, BottomBox, BoardName, ProfileInfo, PostTitle, PostDate, PostContent, PostImageWrapper, PostImage, CommentSection, CommentInputWrapper, CommentInput, SubmitButton, InfoContainer, ArrowButton, PriceWrapper, LikeButtonWrapper
+  BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, CloseButton, BottomBox, BoardName, ProfileInfo, ScrollableContainer, PostTitle, PostDate, PostContent, PostImageWrapper, PostImage, CommentSection, CommentInputWrapper, CommentInput, SubmitButton, InfoContainer, ArrowButton, PriceWrapper, LikeButtonWrapper
 } from '../styles/PostDetailStyle';    
 import Footer from '../components/Footer';
 
@@ -98,6 +98,8 @@ const PostDetail = () => {
               </div>
             </ProfileInfo>
 
+            {/* 스크롤 가능한 컨테이너 */}
+            <ScrollableContainer>
             <PostTitle>{post.title || "제목이 없습니다"}</PostTitle> {/* 게시물 제목 */}
 
              {/* 카테고리와 날짜를 한 줄로 배치 */}
@@ -143,6 +145,7 @@ const PostDetail = () => {
               <CommentInput placeholder="댓글을 입력하세요" />
               <SubmitButton>댓글 작성</SubmitButton>
             </CommentInputWrapper>
+            </ScrollableContainer>
 
             <BottomBox>
               <Footer />

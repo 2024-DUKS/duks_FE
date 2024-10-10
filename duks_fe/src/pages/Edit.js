@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; // useNavigate 함수 불러오기
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, CloseButton, Title, SectionTitleWrapper, SectionTitle, SectionTitle1, PriceHint, TradeOptionWrapper, TradeOptionButton, DropdownWrapper, Dropdown, FileInputWrapper, FileInputLabel, FileInput, FileCount, ImagePreviewWrapper, ImagePreview, DeleteButtonWrapper, DeleteButton, InputWrapper, TextInput, PriceInput, PriceMessage, TextArea, SubmitButton
 } from '../styles/EditStyle';
 
 import Footer from '../components/Footer'
+import axios from 'axios';
 
 const Edit = () => {
   const navigate = useNavigate(); // useNavigate 함수 사용
@@ -35,18 +36,15 @@ const Edit = () => {
       return;
     }
   
-    const newFiles = [];
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newFiles.push(reader.result); // 파일의 Data URL을 배열에 저장
-        if (newFiles.length === files.length) {
-          setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]); // 모든 파일이 처리된 후 상태 업데이트
-        }
-      };
-      reader.readAsDataURL(file); // 파일을 Data URL로 읽음
-    });
-  }
+    const newFiles = files.map(file => ({
+      file,  // 실제 파일 객체
+      preview: URL.createObjectURL(file)  // 미리보기 URL 생성
+    }));
+  
+    setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);  // 미리보기 URL과 함께 파일 저장
+  };
+  
+  
 
   const handleDelete = (index) => {
     const updatedFiles = selectedFiles.filter((_, i) => i !== index);
@@ -73,14 +71,15 @@ const displayedPrice = price === '0' ? '' : price; // 입력된 값이 0이면 �
 const displayedPlaceholder = price === '0' ? '재능 기부' : '희망 가격을 입력해주세요'; // 0일 경우 재능 기부로 표시
 const isTalentDonation = price === '0'; // 재능 기부인지 확인하는 변수
 
-  const renderImagePreviews = () => {
-    return selectedFiles.map((fileUrl, index) => (
-      <DeleteButtonWrapper key={index}>
-        <ImagePreview src={fileUrl} alt={`preview-${index}`} />
-        <DeleteButton onClick={() => handleDelete(index)}>X</DeleteButton>
-      </DeleteButtonWrapper>
-    ));
-  }
+const renderImagePreviews = () => {
+  return selectedFiles.map((fileObj, index) => (
+    <DeleteButtonWrapper key={index}>
+      <ImagePreview src={fileObj.preview} alt={`preview-${index}`} />
+      <DeleteButton onClick={() => handleDelete(index)}>X</DeleteButton>
+    </DeleteButtonWrapper>
+  ));
+};
+
 
   // 현재 시간을 가져오는 함수
   const getCurrentDateTime = () => {
@@ -89,22 +88,43 @@ const isTalentDonation = price === '0'; // 재능 기부인지 확인하는 변�
   };
 
   // 게시물 작성 버튼 클릭 시 데이터 처리 함수
-  const handleSubmit = () => {
-    const postData = {
-      option: selectedOption,
-      category: selectedCategory,
-      files: selectedFiles,
-      title: title,
-      price: price,
-      description: description,
-      date: getCurrentDateTime(),  // 작성 시간 추가
-    };
-
-    console.log('게시물 작성:', postData);
-    // 데이터를 처리하는 로직 추가 (예: 서버로 전송 또는 페이지 이동)
-    navigate('/postdetail', { state: postData }); // PostDetail로 데이터 전달하며 페이지 이동
+  const handleSubmit = async () => {
+    const postData = new FormData();
+    postData.append('title', title);              // 게시물 제목
+    postData.append('content', description);      // 게시물 내용
+    postData.append('price', price);              // 가격
+    postData.append('category', selectedCategory);// 선택된 카테고리
+    postData.append('type', selectedOption);      // 해드립니다 / 해주세요 선택
+  
+    // 이미지 파일들을 FormData에 추가 (파일 객체만 전송)
+    selectedFiles.forEach((fileObj) => {
+      postData.append('images', fileObj.file);  // 파일 객체를 추가
+    });
+  
+    const token = localStorage.getItem('authToken');
+  
+    try {
+      const response = await axios.post('http://localhost:5000/api/posts/create', postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      console.log("게시글이 성공적으로 작성되었습니다:", response.data);
+      navigate('/main');
+    } catch (error) {
+      console.error('게시글 작성 실패:', error);
+    }
   };
   
+  useEffect(() => {
+    return () => {
+      selectedFiles.forEach(fileObj => URL.revokeObjectURL(fileObj.preview));  // 메모리 해제
+    };
+  }, [selectedFiles]);
+  
+  
+
 
   return (
     <div className="edit-page-wrapper">
