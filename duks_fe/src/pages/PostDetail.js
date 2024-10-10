@@ -6,6 +6,9 @@ import {
 } from '../styles/PostDetailStyle';    
 import Footer from '../components/Footer';
 
+const baseURL = 'http://localhost:5000';  // 백엔드 URL
+
+
 const PostDetail = () => {
   const location = useLocation();
   const post = location.state;
@@ -15,6 +18,10 @@ const PostDetail = () => {
   const [isLiked, setIsLiked] = useState(false); // 좋아요 여부를 상태로 관리
   const [likeCount, setLikeCount] = useState(0); // 좋아요 수 상태 관리
 
+  useEffect(() => {
+    console.log("전달된 게시물 데이터:", post);
+  }, [post]);
+  
   useEffect(() => {
     // 로컬스토리지에서 사용자 정보 가져오기
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -28,6 +35,8 @@ const PostDetail = () => {
     return <div>게시물 데이터를 불러올 수 없습니다.</div>;
   }
 
+  const imageUrls = post.image_url ? post.image_url.split(',') : [];
+
   const handleBack = () => {
     navigate(-1); // 뒤로 가기 기능
   }
@@ -37,28 +46,34 @@ const PostDetail = () => {
   };
 
   // 이미지 이전 버튼 클릭 시
-  const previousImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? post.files.length - 1 : prevIndex - 1
-    );
-  };
+const previousImage = () => {
+  setCurrentImageIndex((prevIndex) => 
+    prevIndex === 0 ? imageUrls.length - 1 : prevIndex - 1
+  );
+};
 
-  // 이미지 다음 버튼 클릭 시
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === post.files.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+// 이미지 다음 버튼 클릭 시
+const nextImage = () => {
+  setCurrentImageIndex((prevIndex) => 
+    prevIndex === imageUrls.length - 1 ? 0 : prevIndex + 1
+  );
+};
 
   // description에서 줄 바꿈 처리
   const renderDescription = () => {
-    return post.description.split('\n').map((line, index) => (
+    if (!post.content) {
+      return <div>상세 설명이 없습니다.</div>; // <p> 대신 <div>로 수정
+    }
+
+    return post.content.split('\n').map((line, index) => (
       <span key={index}>
         {line}
         <br /> {/* 각 줄 사이에 줄 바꿈 */}
       </span>
     ));
   };
+
+  
 
   // 가격 표시 함수
   const renderPrice = () => {
@@ -93,32 +108,36 @@ const PostDetail = () => {
             <ProfileInfo onClick={handleProfileClick}> {/* 클릭 시 Card로 이동 */}
               <img src={userInfo.profileImage || '/default-profile.png'} alt="Profile" />
               <div>
-                <p>{userInfo.nickname || '익명'}</p>
-                <p>{userInfo.department || '학과 정보 없음'}</p>
+              <p>{post.nickname || '익명'}</p>
+                <p>{post.department || '학과 정보 없음'}</p>
               </div>
             </ProfileInfo>
 
             {/* 스크롤 가능한 컨테이너 */}
             <ScrollableContainer>
-            <PostTitle>{post.title || "제목이 없습니다"}</PostTitle> {/* 게시물 제목 */}
+              <PostTitle>{post.title || "제목이 없습니다"}</PostTitle> {/* 게시물 제목 */}
 
              {/* 카테고리와 날짜를 한 줄로 배치 */}
              <InfoContainer>
-              <BoardName>{post.category || "카테고리 없음"}</BoardName>
-              <PostDate>{post.date || "작성 날짜 없음"}</PostDate>
+                <BoardName>{post.category || "카테고리 없음"}</BoardName>
+                <PostDate>{new Date(post.created_at).toLocaleString() || "작성 날짜 없음"}</PostDate>
             </InfoContainer>
 
             {/* 게시물 내용에 줄 바꿈 반영 */} 
             <PostContent>{renderDescription()}</PostContent>
 
-            {/* 이미지 슬라이더 부분 */}
-            {post.files && post.files.length > 0 && (
-            <PostImageWrapper>
-              <ArrowButton onClick={previousImage}>&lt;</ArrowButton>
-              <PostImage src={post.files[currentImageIndex]} alt={`post-${currentImageIndex}`} />
-              <ArrowButton onClick={nextImage}>&gt;</ArrowButton>
-             </PostImageWrapper>
-            )}
+            {/* 이미지가 1장 이상일 때만 화살표 버튼 표시 */}
+            {imageUrls.length > 0 && (
+                <PostImageWrapper>
+                  {imageUrls.length > 1 && (
+                    <ArrowButton onClick={previousImage}>&lt;</ArrowButton>
+                  )}
+                  <PostImage src={`${baseURL}${imageUrls[currentImageIndex]}`} alt={`post-${currentImageIndex}`} />
+                  {imageUrls.length > 1 && (
+                    <ArrowButton onClick={nextImage}>&gt;</ArrowButton>
+                  )}
+                </PostImageWrapper>
+              )}
 
             {/* 가격 출력 */}
             <PriceWrapper>

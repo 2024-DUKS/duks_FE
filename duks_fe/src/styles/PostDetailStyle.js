@@ -80,7 +80,7 @@ export const ProfileInfo = styled.div`
   .postdetail-page-wrapper & {
     top: 40px; /* 상단 바와 겹치는 위치로 설정 */
     margin-top: 5px;
-    margin-right: 140px;
+    margin-right: 200px;
     display: flex;
     align-items: center;
     z-index: 2; /* 상단 바 위로 보이도록 z-index 설정 */
@@ -99,7 +99,8 @@ export const ProfileInfo = styled.div`
 
       p {
         margin: 0;
-        font-size: 14px;
+        font-weight: 700;  /* 굵게 설정 */
+        font-size: 16px;
         color: #333;
       }
     }

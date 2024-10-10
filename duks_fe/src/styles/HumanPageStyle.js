@@ -281,3 +281,5 @@ export const HeartContainer = styled.div`
   justify-content: center; /* 중앙 정렬 */
 `;
 
+
+
