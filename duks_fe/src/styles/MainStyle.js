@@ -214,12 +214,18 @@ export const PostItem = styled.div`
 export const PostTitle = styled.h3`
 .main-page-wrapper & {
   font-size: 14px;
-  font-weight: bold;
-  margin-top: 3px;
-  margin-bottom: 8px;
-  color: #333;
-  position: relative;
-  z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
+font-weight: bold;
+margin-top: 3px;
+margin-bottom: 8px;
+color: #333;
+position: relative;
+z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
+display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;
+overflow: hidden;
+text-overflow: clip; /* 말줄임표 없이 텍스트를 자름 */
+
 }
 `;
 
@@ -230,7 +236,18 @@ export const PostContent = styled.p`
   color: #666;
   line-height: 1.4;
   position: relative;
-  z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
+  z-index: 1;
+  max-height: calc(1.4em * 4); /* 4줄까지만 표시 */
+  overflow: hidden; /* 초과된 텍스트 숨김 */
+  white-space: normal; /* 줄바꿈을 허용 */
+  word-break: break-word; /* 긴 단어는 줄바꿈 */
+
+  /* 말줄임표가 붙지 않도록 강제로 설정 */
+  text-overflow: clip; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: unset; /* 이 부분을 명시적으로 해제 */
+  display: block;
+  
 }
 `;
 

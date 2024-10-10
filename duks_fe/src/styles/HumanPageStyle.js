@@ -77,6 +77,7 @@ export const Title = styled.h1`
   color: #333;
   text-align: center;
   margin: 0;
+  margin-left: 18px;
 `;
 
 // 검색 컨테이너 스타일
@@ -175,7 +176,7 @@ export const ButtonContainer = styled.div`
 `;
 
 // 카테고리 버튼 스타일
-export const CategoryButton = styled.button`
+export const TypeButton = styled.button`
   background-color: ${props => props.selected ? '#FFB204' : '#ffffff'};
   color: ${props => props.selected ? '#ffffff' : '#FFB204'};
   border: 2px solid #ddd;
@@ -279,4 +280,6 @@ export const HeartContainer = styled.div`
   align-items: flex-end; /* 오른쪽 정렬 */
   justify-content: center; /* 중앙 정렬 */
 `;
+
+
 

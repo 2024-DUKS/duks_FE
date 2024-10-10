@@ -38,6 +38,8 @@ function Main() {
     }
   };
 
+  
+
 
   // 게시글 데이터를 서버에서 가져오는 함수
   useEffect(() => {
@@ -174,7 +176,7 @@ function Main() {
       <M.PostItem key={index}>
         <Link to="/postdetail" state={post}>
           <M.PostTitle>{post.title}</M.PostTitle>
-          <M.PostContent>{post.content.slice(0, 100)}...</M.PostContent>
+          <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
         </Link>
       </M.PostItem>
     ))
@@ -191,7 +193,7 @@ function Main() {
       <M.PostItem key={index}>
         <Link to="/postdetail" state={post}>
           <M.PostTitle>{post.title.slice(0, 15)}</M.PostTitle>
-          <M.PostContent>{post.content.slice(0, 100)}...</M.PostContent>
+          <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
         </Link>
       </M.PostItem>
     ))
