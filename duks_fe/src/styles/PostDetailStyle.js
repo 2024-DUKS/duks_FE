@@ -97,7 +97,7 @@ export const ProfileInfo = styled.div`
       display: flex;
       flex-direction: column;
 
-      p {
+      span {
         margin: 0;
         font-weight: 700;  /* 굵게 설정 */
         font-size: 16px;
@@ -319,4 +319,25 @@ export const BottomBox = styled.div`
     width: 430px;
     bottom: 0px;
   }
+`;
+
+export const CommentButton = styled.button`
+.postdetail-page-wrapper & {
+  background-color: #007bff; /* 기본 배경색 */
+  color: white; /* 글자 색상 */
+  border: none; /* 테두리 없애기 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  padding: 8px 12px; /* 여백 */
+  margin-left: 8px; /* 버튼 간격 */
+  cursor: pointer; /* 마우스 커서 모양 */
+  transition: background-color 0.3s; /* 배경색 변화 애니메이션 */
+
+  &:hover {
+    background-color: #0056b3; /* 호버 시 배경색 */
+  }
+
+  &:focus {
+    outline: none; /* 포커스 시 아웃라인 없애기 */
+  }
+}
 `;
