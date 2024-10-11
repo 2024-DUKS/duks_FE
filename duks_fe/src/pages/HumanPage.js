@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom"; 
-import axios from 'axios';
-import searchIconImage from '../img/searchIcon.png';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ducky from '../img/ducky.png';
 import broccoli from '../img/broccoli.png';
+import searchIconImage from '../img/searchIcon.png';
+import { useLocation } from 'react-router-dom'; /*추가1*/
+import axios from 'axios'; // axios 추가
+
+
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
@@ -13,38 +16,38 @@ import {
   HeartContainer, SearchInput, SearchIcon, SearchContainer
 } from '../styles/HumanPageStyle'; 
 
-import Footer from '../components/Footer';
+import Footer from '../components/Footer'
 
 const HumanPage = () => {
-  const [postList, setPostList] = useState([]);
-  const [topLikedPosts, setTopLikedPosts] = useState([]);
+  const [posts, setPosts] = useState([]); // 서버에서 가져온 게시물 데이터
+  const [topLikedPosts, setTopLikedPosts] = useState([]); // 인기 게시물 데이터
   const [selectedType, setSelectedType] = useState('해드립니다');
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+    // 데이터 fetch 함수
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      console.log("토큰:", token);
+
+      const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열?type=${selectedType}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      setPosts(response.data.posts);
+      setTopLikedPosts(response.data.topLikedPosts);
+    } catch (error) {
+      console.error('데이터를 가져오는 데 실패했습니다.', error);
+    }
+  };
+
+  // 컴포넌트가 마운트될 때 데이터 fetch
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/posts/category/인문학 계열', {
-          headers: { 'Content-Type': `application/json` },
-          params: { type: selectedType, searchQuery },
-        });
-        
-        console.log('API 응답 데이터:', response.data); // 추가된 코드
-        
-        if (response.status !== 200) {
-          throw new Error('응답이 올바르지 않습니다.');
-        }
-    
-        setPostList(response.data.posts);
-        setTopLikedPosts(response.data.topLikedPosts.slice(0, 3));
-      } catch (error) {
-        console.error('게시물 데이터 불러오기 실패:', error.message);
-      }
-    };
-    
     fetchData();
-  }, [selectedType, searchQuery]);
+  }, [selectedType]); // selectedType이 변경될 때마다 데이터를 새로 fetch
 
   const handleSearchIconClick = () => {
     setIsSearching(!isSearching);
@@ -54,6 +57,8 @@ const HumanPage = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+  const location = useLocation();
+  const post = location.state;  // Main에서 전달된 post 객체
 
   return (
     <BackgroundWrapper>
@@ -77,15 +82,13 @@ const HumanPage = () => {
               </SearchContainer>
             )}
           </TopBox>
-
           <NoticeBox>
               <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>공지 사항</Notice>
+              <Notice>notice</Notice>
           </NoticeBox>
-
           <HotBox> 
-            {topLikedPosts.map(post => (
-              <Link key={post.id} to={`/postdetail`} state={post} style={{ textDecoration: 'none', width: '100%' }}>
+            {topLikedPosts.map((post) => (
+              <Link to="/postdetail" state={post} style={{ textDecoration: 'none' }} key={post.id}>
                 <HotTitle>
                   <HotImage src={broccoli} alt="broccoli" />{post.title}
                   <HeartCount>♥ {post.likeCount}</HeartCount>
@@ -110,30 +113,27 @@ const HumanPage = () => {
           </ButtonContainer>
 
           <PostListBox>
-            {postList.length > 0 ? (
-              postList.map(post => (
-                <PostItem key={post.id}>
-                  <Link to={`/postdetail`} state={post} style={{ textDecoration: 'none', display: 'flex' }}>
-                    <PostImage src={post.image_url} alt={post.title} />
-                    <PostContent>
-                      <PostInfo>
-                        <PostPrice>{post.price}원</PostPrice>
-                        <PostTitle>{post.title}</PostTitle>
-                        <PostDetails>{post.nickname} | {post.created_at}</PostDetails>
-                      </PostInfo>
-                      <HeartContainer>
-                        <HeartIcon>♥</HeartIcon>
-                        <HeartCount2>{post.likeCount || 0}</HeartCount2>
-                      </HeartContainer>
-                    </PostContent>
-                  </Link>
-                </PostItem>
-              ))
-            ) : (
-              <div>게시물이 없습니다.</div>
-            )}
-          </PostListBox>
-
+  {posts.map(post => (
+    <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}> {/* ID를 URL에 포함 */}
+      <PostItem>
+        <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} />
+        <PostContent>
+          <PostInfo>
+            <PostPrice>{post.price}원</PostPrice>
+            <PostTitle>{post.title}</PostTitle>
+            <PostDetails>{post.nickname} | {new Date(post.created_at).toLocaleString()}</PostDetails>
+          </PostInfo>
+          <HeartContainer>
+            <HeartIcon>♥</HeartIcon>
+            <HeartCount2>{post.likeCount}</HeartCount2>
+          </HeartContainer>
+        </PostContent>
+      </PostItem>
+    </Link>
+  ))}
+</PostListBox>
+     
+          
           <BottomBox>
             <Footer />
           </BottomBox>
@@ -142,7 +142,5 @@ const HumanPage = () => {
       </MyPageContainer>
     </BackgroundWrapper>
   );
-};
-
+}
 export default HumanPage;
-

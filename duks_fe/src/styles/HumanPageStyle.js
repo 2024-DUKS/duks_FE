@@ -220,8 +220,10 @@ export const PostItem = styled.div`
 
 // 게시물 이미지 스타일
 export const PostImage = styled.img`
-  width: 100px;
+  width: 200px;
   height: 100px;
+  object-fit: cover;
+  //object-fit: contain;
   border-radius: 8px;
   margin-right: 15px;
   object-fit: cover; // 비율에 맞게 이미지 조정
@@ -246,20 +248,20 @@ export const PostInfo = styled.div`
 export const PostPrice = styled.div`
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #000000;
 `;
 
 // PostTitle 스타일: 제목 스타일 조정
 export const PostTitle = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #000000;
   margin-top: 4px;  // 가격과 제목 사이 간격 조정
 `;
 
 // 게시물 세부정보 스타일
 export const PostDetails = styled.p`
   font-size: 13px;
-  color: #777;
+  color: #000000;
   margin: 20px 0 0;
   //margin-top: 6px;
 `;

@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/mypage" element={<MyPage />} />
           <Route exact path="/humanpage" element={<HumanPage />} />
           <Route exact path="/edit" element={<Edit />} />
-          <Route exact path="/postdetail" element={<PostDetail />} />
+          <Route exact path="/postdetail/:id" element={<PostDetail />} />
           <Route exact path="/search" element={<Search />} />
         </Routes>
       </Router>
