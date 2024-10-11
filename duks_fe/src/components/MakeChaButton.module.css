@@ -94,3 +94,14 @@
 .MakeChaButton_div {
   text-align: left;
 }
+
+.deleteButton {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: #f64848;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 10px;
+}

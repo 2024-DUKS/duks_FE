@@ -168,41 +168,39 @@ function Main() {
             </M.IconItem>
           </M.IconGrid>
 
-          {/* 최신 글 <해드립니다> */}
-<M.SectionTitle>최신글 &lt;해드립니다&gt;</M.SectionTitle>
-<M.PostGrid>
-  {helpPosts && helpPosts.length > 0 ? (
-    helpPosts.slice(0, 2).map((post, index) => (
-      <M.PostItem key={index}>
-        <Link to="/postdetail" state={post}>
-          <M.PostTitle>{post.title}</M.PostTitle>
-          <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
-        </Link>
-      </M.PostItem>
-    ))
-  ) : (
-    <p>해드립니다 게시물이 없습니다.</p>
-  )}
-</M.PostGrid>
+           {/* 최신 글 <해드립니다> */}
+          <M.SectionTitle>최신글 &lt;해드립니다&gt;</M.SectionTitle>
+          <M.PostGrid>
+            {helpPosts && helpPosts.length > 0 ? (
+              helpPosts.slice(0, 2).map((post) => (
+                <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}> {/* ID를 URL에 포함 */}
+                  <M.PostItem>
+                    <M.PostTitle>{post.title}</M.PostTitle>
+                    <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
+                  </M.PostItem>
+                </Link>
+              ))
+        ) : (
+        <p>해드립니다 게시물이 없습니다.</p>
+        )}
+        </M.PostGrid>
 
-{/* 최신 글 <해주세요> */}
-<M.SectionTitle>최신글 &lt;해주세요&gt;</M.SectionTitle>
-<M.PostGrid>
-  {requestPosts && requestPosts.length > 0 ? (
-    requestPosts.slice(0, 2).map((post, index) => (
-      <M.PostItem key={index}>
-        <Link to="/postdetail" state={post}>
-          <M.PostTitle>{post.title.slice(0, 15)}</M.PostTitle>
-          <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
-        </Link>
-      </M.PostItem>
-    ))
-  ) : (
-    <p>해주세요 게시물이 없습니다.</p>
-  )}
-</M.PostGrid>
-
-
+            {/* 최신 글 <해주세요> */}
+              <M.SectionTitle>최신글 &lt;해주세요&gt;</M.SectionTitle>
+                <M.PostGrid>
+                  {requestPosts && requestPosts.length > 0 ? (
+                    requestPosts.slice(0, 2).map((post) => (
+                      <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}> {/* ID를 URL에 포함 */}
+                        <M.PostItem>
+                          <M.PostTitle>{post.title.slice(0, 15)}</M.PostTitle>
+                          <M.PostContent>{post.content.slice(0, 100)}</M.PostContent>
+                        </M.PostItem>
+                      </Link>
+                    ))
+                ) : (
+                <p>해주세요 게시물이 없습니다.</p>
+                  )}
+          </M.PostGrid>
           <BottomBox>
             <Footer />
           </BottomBox>

@@ -226,13 +226,15 @@ export const PostImage = styled.img`
   //object-fit: contain;
   border-radius: 8px;
   margin-right: 15px;
+  object-fit: cover; // 비율에 맞게 이미지 조정
 `;
 
 // 게시물 내용 스타일
 export const PostContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+display: flex;
+flex-direction: column;  // 세로 방향으로 정렬
+justify-content: space-between; // 공간 균일 분배
+padding: 10px; // 여백 추가
 `;
 
 // 게시물 정보 스타일 (제목 및 세부정보)

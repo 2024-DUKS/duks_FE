@@ -168,8 +168,8 @@ export const PostItem = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  cursor: pointer;
   overflow: hidden;
+  cursor: pointer;
 
   /* 메모지 하단에 말린 효과 */
   &::before {

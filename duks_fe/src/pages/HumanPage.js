@@ -113,25 +113,26 @@ const HumanPage = () => {
           </ButtonContainer>
 
           <PostListBox>
-            {posts.map(post => (
-              <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}>
-                <PostItem>
-                  <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} /> {/* 첫 번째 이미지 사용 */}
-                  <PostContent>
-                    <PostInfo>
-                      <PostPrice>{post.price}원</PostPrice>
-                      <PostTitle>{post.title}</PostTitle>
-                      <PostDetails>{post.nickname} | {new Date(post.created_at).toLocaleString()}</PostDetails>
-                    </PostInfo>
-                    <HeartContainer>
-                      <HeartIcon>♥</HeartIcon>
-                      <HeartCount2>{post.likeCount}</HeartCount2>
-                    </HeartContainer>
-                  </PostContent>
-                </PostItem>
-              </Link>
-            ))}
-          </PostListBox>       
+  {posts.map(post => (
+    <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}> {/* ID를 URL에 포함 */}
+      <PostItem>
+        <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} />
+        <PostContent>
+          <PostInfo>
+            <PostPrice>{post.price}원</PostPrice>
+            <PostTitle>{post.title}</PostTitle>
+            <PostDetails>{post.nickname} | {new Date(post.created_at).toLocaleString()}</PostDetails>
+          </PostInfo>
+          <HeartContainer>
+            <HeartIcon>♥</HeartIcon>
+            <HeartCount2>{post.likeCount}</HeartCount2>
+          </HeartContainer>
+        </PostContent>
+      </PostItem>
+    </Link>
+  ))}
+</PostListBox>
+     
           
           <BottomBox>
             <Footer />
