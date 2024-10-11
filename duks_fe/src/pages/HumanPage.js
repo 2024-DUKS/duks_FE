@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ducky from '../img/ducky.png';
 import broccoli from '../img/broccoli.png';
 import searchIconImage from '../img/searchIcon.png';
@@ -44,15 +44,50 @@ const HumanPage = () => {
     }
   };
 
+  // 페이지가 로드될 때 세션 스토리지를 초기화(검색기록세션스토리지때문)
+  useEffect(() => {
+    sessionStorage.removeItem('posts'); // 'posts' 항목 초기화
+    sessionStorage.removeItem('searchInput'); // 'searchInput' 항목 초기화
+  }, []);  // 빈 배열을 넣으면 컴포넌트가 처음 로드될 때 한 번만 실행
+
+
   // 컴포넌트가 마운트될 때 데이터 fetch
   useEffect(() => {
     fetchData();
   }, [selectedType]); // selectedType이 변경될 때마다 데이터를 새로 fetch
 
-  const handleSearchIconClick = () => {
-    setIsSearching(!isSearching);
-    setSearchQuery('');
+  const navigate = useNavigate();
+  // 검색 버튼 클릭 시
+  const handleSearchIconClick = (e) => {
+    if (!isSearching) {
+      // 처음 클릭 시, 검색 입력창만 표시
+      setIsSearching(true);
+    } 
+    else 
+    {
+      if (searchQuery.length === 0) {
+        // 검색어가 비어있으면 !isSearching으로 토글
+        setIsSearching(false);
+      } 
+      else 
+      {
+        // 검색어가 두 글자 이상일 경우에만 navigate
+        if (searchQuery.length >= 2) {
+          navigate("/categsearch", { state: { searchQuery } });
+        } else {
+          alert("검색어는 두 글자 이상 입력해 주세요.");
+        }
+      }
+    } 
   };
+
+  // 엔터 키를 눌렀을 때 검색 실행
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchIconClick(); // 엔터가 눌리면 검색 실행
+    }
+  };
+
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -113,6 +148,7 @@ const HumanPage = () => {
                   placeholder="검색어를 입력하세요..."
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown} // 엔터 키 입력 감지
                 />
                 <SearchIcon src={searchIconImage} alt="Search Icon" onClick={handleSearchIconClick} />
               </SearchContainer>
