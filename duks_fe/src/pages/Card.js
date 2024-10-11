@@ -39,7 +39,7 @@ const Card = () => {
               </div>
 
               <div>
-                <UserCharactor>User Character
+                <UserCharactor>
                   <div className="button-container">
                     <MakeChaButton />
                   </div>
