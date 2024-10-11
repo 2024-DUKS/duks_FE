@@ -1,67 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ducky from '../img/ducky.png';
 import broccoli from '../img/broccoli.png';
-
-// 임시 이미지 경로
-import sampleImage1 from '../img/sample1.png';  
-import sampleImage2 from '../img/sample2.png';
-import sampleImage3 from '../img/sample3.png';
 import searchIconImage from '../img/searchIcon.png';
+import { useLocation } from 'react-router-dom'; /*추가1*/
+import axios from 'axios'; // axios 추가
+
+
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
   NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
-  PostListBox, PostItem, ButtonContainer, CategoryButton, PostContent, 
+  PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer
 } from '../styles/HumanPageStyle'; 
 
 import Footer from '../components/Footer'
+
 const HumanPage = () => {
-  //예시 게시물 데이터
-  const postList = [
-    { id: 1, category: '해드립니다', image: sampleImage1, price: '10000원', title: '그림 그려 드립니다!', author: '닉네임', time: '5분 전', hearts: 7 },
-    { id: 2, category: '해드립니다', image: sampleImage2, price: '26000원', title: '그림 잘 그리는 방법 알려드립니다', author: '스타듀밸리', time: '30분 전', hearts: 7 },
-    { id: 3, category: '해드립니다', image: sampleImage3, price: '50000원', title: '디자인 해드립니다', author: '디자인해줌', time: '2시간 전', hearts: 4 },
-    { id: 4, category: '해주세요', image: sampleImage1, price: '15000원', title: '귀여운 캐릭커쳐 그려 드립니다!', author: '고라파덕', time: '17시간 전', hearts: 11 },
-    { id: 5, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 6, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 7, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 8, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 9, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 10, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 11, category: '해드립니다', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 },
-    { id: 12, category: '해주세요', image: sampleImage2, price: '500원', title: '갬성 낚서 해드립니다', author: '오리팩팩', time: '3일 전', hearts: 5 }
-  ];
-  // 현재 선택된 카테고리 상태
-  const [selectedCategory, setSelectedCategory] = useState('해드립니다');
-
-  // 선택된 카테고리에 해당하는 게시물만 필터링
-  const filteredPosts = postList.filter(post => post.category === selectedCategory);
-
-   // 검색 상태 관리
+  const [posts, setPosts] = useState([]); // 서버에서 가져온 게시물 데이터
+  const [topLikedPosts, setTopLikedPosts] = useState([]); // 인기 게시물 데이터
+  const [selectedType, setSelectedType] = useState('해드립니다');
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 검색창 열기/닫기 핸들러
-  const handleSearchIconClick = () => {
-    setIsSearching(!isSearching); // 검색 상태를 토글
-    setSearchQuery(''); // 검색창 초기화
+    // 데이터 fetch 함수
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      console.log("토큰:", token);
+
+      const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열?type=${selectedType}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      setPosts(response.data.posts);
+      setTopLikedPosts(response.data.topLikedPosts);
+    } catch (error) {
+      console.error('데이터를 가져오는 데 실패했습니다.', error);
+    }
   };
 
+  // 컴포넌트가 마운트될 때 데이터 fetch
+  useEffect(() => {
+    fetchData();
+  }, [selectedType]); // selectedType이 변경될 때마다 데이터를 새로 fetch
 
-  // 검색 입력 변화 핸들러
+  const handleSearchIconClick = () => {
+    setIsSearching(!isSearching);
+    setSearchQuery('');
+  };
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+  const location = useLocation();
+  const post = location.state;  // Main에서 전달된 post 객체
 
   return (
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
           <TopBox>
-            {/* 검색 상태에 따라 Title 또는 검색창 + 아이콘을 표시 */}
             {isSearching ? (
               <SearchContainer>
                 <SearchInput 
@@ -84,64 +87,52 @@ const HumanPage = () => {
               <Notice>notice</Notice>
           </NoticeBox>
           <HotBox> 
-            <Link to="/post1" style={{ textDecoration: 'none' }}> {/* 게시물 ID를 경로에 포함 */}
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 1 제목
-                <HeartCount>♥ 30</HeartCount>
-              </HotTitle>
-            </Link>
-            <Link to="/post2" style={{ textDecoration: 'none' }}> 
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 2 제목
-                <HeartCount>♥ 28</HeartCount>
-              </HotTitle>
-            </Link>
-            <Link to="/post3" style={{ textDecoration: 'none' }}> 
-              <HotTitle>
-                <HotImage src={broccoli} alt="broccoli" />인기글 3 제목
-                <HeartCount>♥ 25</HeartCount>
-              </HotTitle>
-            </Link>
+            {topLikedPosts.map((post) => (
+              <Link to="/postdetail" state={post} style={{ textDecoration: 'none' }} key={post.id}>
+                <HotTitle>
+                  <HotImage src={broccoli} alt="broccoli" />{post.title}
+                  <HeartCount>♥ {post.likeCount}</HeartCount>
+                </HotTitle>
+              </Link>
+            ))}
           </HotBox>
 
-          {/* 카테고리 버튼 */}
           <ButtonContainer>
-            <CategoryButton 
-              selected={selectedCategory === '해드립니다'}
-              onClick={() => setSelectedCategory('해드립니다')}
+            <TypeButton 
+              selected={selectedType === '해드립니다'}
+              onClick={() => setSelectedType('해드립니다')}
             >
               해드립니다
-            </CategoryButton>
-            <CategoryButton 
-              selected={selectedCategory === '해주세요'}
-              onClick={() => setSelectedCategory('해주세요')}
+            </TypeButton>
+            <TypeButton 
+              selected={selectedType === '해주세요'}
+              onClick={() => setSelectedType('해주세요')}
             >
               해주세요
-            </CategoryButton>
+            </TypeButton>
           </ButtonContainer>
 
-          {/* 게시물 리스트 */}
           <PostListBox>
-            {filteredPosts.map(post => (
-              <Link to={`/post/${post.id}`} key={post.id} style={{ textDecoration: 'none' }}>
+            {posts.map(post => (
+              <Link to="/postdetail" state={post} style={{ textDecoration: 'none' }} key={post.id}>
                 <PostItem>
-                  <PostImage src={post.image} alt={post.title} />
+                  <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} /> {/* 첫 번째 이미지 사용 */}
                   <PostContent>
                     <PostInfo>
-                      <PostPrice>{post.price}</PostPrice>
+                      <PostPrice>{post.price}원</PostPrice>
                       <PostTitle>{post.title}</PostTitle>
-                      <PostDetails>{post.author} | {post.time}</PostDetails>
+                      <PostDetails>{post.nickname} | {new Date(post.created_at).toLocaleString()}</PostDetails>
                     </PostInfo>
                     <HeartContainer>
                       <HeartIcon>♥</HeartIcon>
-                      <HeartCount2>{post.hearts}</HeartCount2>
+                      <HeartCount2>{post.likeCount}</HeartCount2>
                     </HeartContainer>
                   </PostContent>
                 </PostItem>
               </Link>
             ))}
           </PostListBox>       
-        
+          
           <BottomBox>
             <Footer />
           </BottomBox>
@@ -152,5 +143,3 @@ const HumanPage = () => {
   );
 }
 export default HumanPage;
-
-

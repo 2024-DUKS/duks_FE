@@ -77,6 +77,7 @@ export const Title = styled.h1`
   color: #333;
   text-align: center;
   margin: 0;
+  margin-left: 18px;
 `;
 
 // 검색 컨테이너 스타일
@@ -175,7 +176,7 @@ export const ButtonContainer = styled.div`
 `;
 
 // 카테고리 버튼 스타일
-export const CategoryButton = styled.button`
+export const TypeButton = styled.button`
   background-color: ${props => props.selected ? '#FFB204' : '#ffffff'};
   color: ${props => props.selected ? '#ffffff' : '#FFB204'};
   border: 2px solid #ddd;
@@ -219,8 +220,10 @@ export const PostItem = styled.div`
 
 // 게시물 이미지 스타일
 export const PostImage = styled.img`
-  width: 100px;
+  width: 200px;
   height: 100px;
+  object-fit: cover;
+  //object-fit: contain;
   border-radius: 8px;
   margin-right: 15px;
 `;
@@ -243,20 +246,20 @@ export const PostInfo = styled.div`
 export const PostPrice = styled.div`
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #000000;
 `;
 
 // PostTitle 스타일: 제목 스타일 조정
 export const PostTitle = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #000000;
   margin-top: 4px;  // 가격과 제목 사이 간격 조정
 `;
 
 // 게시물 세부정보 스타일
 export const PostDetails = styled.p`
   font-size: 13px;
-  color: #777;
+  color: #000000;
   margin: 20px 0 0;
   //margin-top: 6px;
 `;
@@ -279,4 +282,6 @@ export const HeartContainer = styled.div`
   align-items: flex-end; /* 오른쪽 정렬 */
   justify-content: center; /* 중앙 정렬 */
 `;
+
+
 

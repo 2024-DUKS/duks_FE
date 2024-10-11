@@ -42,6 +42,7 @@ const Card = () => {
                 <UserCharactor>
                   <div className="button-container">
                     <MakeChaButton />
+
                   </div>
                 </UserCharactor>
               </div>
