@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom'; // useParams 추가
 import { useNavigate } from 'react-router-dom'; // useNavigate 함수 불러오기
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, CloseButton, BottomBox, BoardName, ProfileInfo, ScrollableContainer, PostTitle, PostDate, PostContent, PostImageWrapper, PostImage, CommentSection, CommentInputWrapper, CommentInput, SubmitButton, InfoContainer, ArrowButton, PriceWrapper, LikeButtonWrapper
@@ -10,7 +10,7 @@ const baseURL = 'http://localhost:5000';  // 백엔드 URL
 
 const PostDetail = () => {
   const location = useLocation();
-  const post = location.state;
+  const [post, setPost] = useState(null); // 게시물 정보 상태
   const navigate = useNavigate(); // useNavigate 함수 사용
   const [userInfo, setUserInfo] = useState({ nickname: '', department: '', profileImage: '' });
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스 상태 추가
@@ -18,6 +18,8 @@ const PostDetail = () => {
   const [likeCount, setLikeCount] = useState(0); // 좋아요 수 상태 관리
   const [comments, setComments] = useState([]); // 댓글 상태
   const [newComment, setNewComment] = useState(''); // 새 댓글 상태
+  const { id } = useParams(); // URL에서 ID를 가져옴
+
 
   useEffect(() => {
     console.log("전달된 게시물 데이터:", post);
@@ -33,6 +35,21 @@ const PostDetail = () => {
       setUserInfo(parsedUserInfo);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/posts/${id}`); // ID에 따라 게시물 정보 가져옴
+        const data = await response.json();
+        setPost(data); // 가져온 게시물 정보를 상태에 저장
+      } catch (error) {
+        console.error('게시글 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchPostDetails();
+  }, [id]); // ID가 변경될 때마다 호출
+
 
   // 댓글 추가 함수
   const handleCommentSubmit = () => {
