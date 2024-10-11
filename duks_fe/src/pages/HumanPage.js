@@ -114,7 +114,7 @@ const HumanPage = () => {
 
           <PostListBox>
             {posts.map(post => (
-              <Link to="/postdetail" state={post} style={{ textDecoration: 'none' }} key={post.id}>
+              <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}>
                 <PostItem>
                   <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} /> {/* 첫 번째 이미지 사용 */}
                   <PostContent>

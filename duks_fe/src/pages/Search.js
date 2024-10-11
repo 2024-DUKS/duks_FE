@@ -1,62 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import sampleImage1 from "../img/sample1.png";  
-import sampleImage2 from "../img/sample2.png";
-import { 
-  PostListBox, PostItem, PostImage, PostContent, 
-  PostInfo, PostDetails, PostPrice, PostTitle, HeartContainer, HeartIcon, HeartCount2 
-} from "../styles/HumanPageStyle";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import * as S from '../styles/SearchStyle'; // 스타일 파일
 
 const Search = () => {
   const location = useLocation();
-  const searchQuery = location.state?.searchQuery || ""; // location.state가 null일 경우 빈 문자열로 처리
-  const [filteredPosts, setFilteredPosts] = useState([]);
+  const { searchQuery } = location.state; // Main에서 전달된 검색어
 
-  // 예시 게시물 목록
-  const postList = [
-    { id: 1, category: "해드립니다", image: sampleImage1, price: "10000원", title: "그림 그려 드립니다!", author: "닉네임", time: "5분 전", hearts: 7 },
-    { id: 2, category: "해드립니다", image: sampleImage2, price: "26000원", title: "그림 잘 그리는 방법 알려드립니다", author: "스타듀밸리", time: "30분 전", hearts: 7 },
-    { id: 3, category: "해주세요", image: sampleImage1, price: "15000원", title: "귀여운 캐릭커쳐 그려 드립니다!", author: "고라파덕", time: "17시간 전", hearts: 11 }
-  ];
+  const [searchResults, setSearchResults] = useState([]);
 
-  // 검색어에 맞는 게시물 필터링
-  useEffect(() => {
-    if (searchQuery.length >= 2) {
-      const results = postList.filter(post =>
-        post.title.includes(searchQuery)
-      );
-      setFilteredPosts(results);
-    } else {
-      setFilteredPosts([]);
+  // 검색 결과 fetch 함수
+  const fetchSearchResults = async () => {
+    try {
+      // 서버에 검색어를 포함한 GET 요청
+      const response = await axios.get(`http://localhost:5000/api/posts/search?keyword=${searchQuery}`);
+      setSearchResults(response.data); // 검색 결과를 상태로 설정
+    } catch (error) {
+      console.error('검색 결과를 가져오는 데 실패했습니다.', error);
     }
+  };
+
+  useEffect(() => {
+    fetchSearchResults();
   }, [searchQuery]);
 
   return (
-    <div>
-      {/* 필터링된 게시물 리스트 */}
-      <PostListBox>
-        {filteredPosts.length > 0 ? (
-          filteredPosts.map((post) => (
-            <PostItem key={post.id}>
-              <PostImage src={post.image} alt={post.title} />
-              <PostContent>
-                <PostInfo>
-                  <PostPrice>{post.price}</PostPrice>
-                  <PostTitle>{post.title}</PostTitle>
-                  <PostDetails>{post.author} | {post.time}</PostDetails>
-                </PostInfo>
-                <HeartContainer>
-                  <HeartIcon>♥</HeartIcon>
-                  <HeartCount2>{post.hearts}</HeartCount2>
-                </HeartContainer>
-              </PostContent>
-            </PostItem>
+    <S.SearchWrapper>
+      <S.SearchTitle>검색 결과: {searchQuery}</S.SearchTitle>
+      <S.ResultList>
+        {searchResults.length > 0 ? (
+          searchResults.map((post) => (
+            <S.ResultItem key={post.id}>
+              <S.PostTitle>{post.title}</S.PostTitle>
+              <S.PostContent>{post.content.slice(0, 100)}...</S.PostContent>
+              {/* 상세 페이지로 이동하는 링크 추가 가능 */}
+            </S.ResultItem>
           ))
         ) : (
           <p>검색 결과가 없습니다.</p>
         )}
-      </PostListBox>
-    </div>
+      </S.ResultList>
+    </S.SearchWrapper>
   );
 };
 
