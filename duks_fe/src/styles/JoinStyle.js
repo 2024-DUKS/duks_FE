@@ -38,13 +38,14 @@ export const InnerDiv = styled.div`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  margin: 20px 0; /* 위아래 마진 */
+  margin: 10px 0; /* 위아래 마진 */
+  //margin-bottom: 5px
 `;
 
 // 로고 스타일
 export const Logo = styled.img`
-  width: 150px; /* 로고 크기 조절 */
-  margin: 20px 0; /* 위아래 마진 */
+  width: 200px; /* 로고 크기 조절 */
+  margin: 10px 0; /* 위아래 마진 */
 `;
 
 // 추가 이미지 스타일
@@ -115,7 +116,7 @@ export const SignUpButton = styled.span`
 
 export const Form = styled.form`
   width: 80%; /* 폼의 너비를 전체로 설정 */
-  padding: 40px; /* 폼에 패딩 추가 */
+  padding: 30px; /* 폼에 패딩 추가 */
 `;
 
 // ErrorMessage 스타일 수정

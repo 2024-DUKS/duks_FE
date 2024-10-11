@@ -13,7 +13,7 @@ import {
   NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
-  HeartContainer, SearchInput, SearchIcon, SearchContainer
+  HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
 } from '../styles/HumanPageStyle'; 
 
 import Footer from '../components/Footer'
@@ -60,6 +60,47 @@ const HumanPage = () => {
   const location = useLocation();
   const post = location.state;  // Main에서 전달된 post 객체
 
+  // 가격 표시 함수
+  const renderPrice = (price) => {
+    if (price === '0') {
+      return '재능 기부';
+    } else {
+      return `${price}원`;
+    }
+  };
+
+  // 시간을 사람이 이해할 수 있는 방식으로 변환하는 함수
+  const timeSince = (date) => {
+    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+      return `${interval}년 전`;
+    }
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+      return `${interval}달 전`;
+    }
+
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+      return `${interval}일 전`;
+    }
+
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+      return `${interval}시간 전`;
+    }
+
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+      return `${interval}분 전`;
+    }
+
+    return "방금 전";
+  };
+
   return (
     <BackgroundWrapper>
       <MyPageContainer>
@@ -88,9 +129,10 @@ const HumanPage = () => {
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (
-              <Link to="/postdetail" state={post} style={{ textDecoration: 'none' }} key={post.id}>
+              <Link to={`/postdetail/${post.id}`} style={{ textDecoration: 'none' }} key={post.id}>
                 <HotTitle>
-                  <HotImage src={broccoli} alt="broccoli" />{post.title}
+                  <HotImage src={broccoli} alt="broccoli" />
+                  <TitleText>{post.title}</TitleText>
                   <HeartCount>♥ {post.likeCount}</HeartCount>
                 </HotTitle>
               </Link>
@@ -119,14 +161,16 @@ const HumanPage = () => {
         <PostImage src={`http://localhost:5000${post.image_url.split(',')[0]}`} alt={post.title} />
         <PostContent>
           <PostInfo>
-            <PostPrice>{post.price}원</PostPrice>
-            <PostTitle>{post.title}</PostTitle>
-            <PostDetails>{post.nickname} | {new Date(post.created_at).toLocaleString()}</PostDetails>
+            <PostPrice>{renderPrice(post.price)}</PostPrice>
+            <PostTitle>{post.title}</PostTitle>         
           </PostInfo>
-          <HeartContainer>
-            <HeartIcon>♥</HeartIcon>
-            <HeartCount2>{post.likeCount}</HeartCount2>
-          </HeartContainer>
+          <PostInfo2>
+            <PostDetails>{post.nickname} | {timeSince(post.created_at)}</PostDetails>
+            <HeartContainer>
+              <HeartIcon>♥</HeartIcon>
+              <HeartCount2>{post.likeCount}</HeartCount2>
+            </HeartContainer>
+          </PostInfo2>
         </PostContent>
       </PostItem>
     </Link>

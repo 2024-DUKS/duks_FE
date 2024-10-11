@@ -59,6 +59,10 @@ function Join() {
             <J.Logo src={logo} alt="로고" />
             <J.AddLogo src={addLogo} alt="추가 이미지" />
           </J.LogoContainer>
+          {/* 설명 문구 추가 */}
+          <p style={{ textAlign: 'center', marginTop: '0px', fontSize: '16px', color: '#777' }}>
+              덕성 거래 플랫폼
+            </p>
           <J.Form onSubmit={handleSubmit}>
             <J.InputField>
               <label htmlFor="studentId">아이디</label>

@@ -141,29 +141,39 @@ export const HotBox = styled.div`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 `;
 
-// 인기글 제목 스타일
-export const HotTitle = styled.p` /*h2*/
+export const HotTitle = styled.div`
   font-size: 16px;
   color: #333;
-  margin: 5px 0; /* 위아래 여백 */
-  display: flex; /* Flexbox로 정렬 */
-  justify-content: space-between; /* 제목과 하트 개수를 양쪽으로 정렬 */
-  align-items: center;  /*수직중앙정렬*/
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-// 하트 개수 스타일
-export const HeartCount = styled.span`
+export const TitleText = styled.p`
+  font-size: 16px;
+  margin: 3px 0; /* 위아래 여백 */
+  display: flex; /* Flexbox로 정렬 */
+  align-items: center;  /*수직중앙정렬*/
+  flex-grow: 1;
+  //text-align: left;
+  //margin-right: 10px; /* 제목과 하트 사이의 여백 */
+`;
+
+export const HeartCount = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 16px;
   color: #92B455; /* 하트 개수 색상 */
   //align-self: center; /* 수직 중앙 정렬 */
 `;
 
-//인기글 브로콜리 이미지 
 export const HotImage = styled.img`
   width: 24px;  /* 이미지 너비 조정 */
   height: 24px; /* 이미지 높이 조정 */
   margin-right: 10px; /* 이미지와 텍스트 사이의 간격 */
 `;
+
 
 
 // 카테고리 버튼 컨테이너
@@ -207,7 +217,7 @@ export const PostListBox = styled.div`
 export const PostItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -220,21 +230,24 @@ export const PostItem = styled.div`
 
 // 게시물 이미지 스타일
 export const PostImage = styled.img`
-  width: 200px;
+  width: 150px;
   height: 100px;
   object-fit: cover;
   //object-fit: contain;
   border-radius: 8px;
   margin-right: 15px;
   object-fit: cover; // 비율에 맞게 이미지 조정
+  flex-shrink: 0; // 이미지가 줄어들지 않도록 설정
 `;
 
 // 게시물 내용 스타일
 export const PostContent = styled.div`
 display: flex;
+//flex-direction: row;  // 수평으로 정렬
 flex-direction: column;  // 세로 방향으로 정렬
 justify-content: space-between; // 공간 균일 분배
 padding: 10px; // 여백 추가
+width: 100%;
 `;
 
 // 게시물 정보 스타일 (제목 및 세부정보)
@@ -264,6 +277,7 @@ export const PostDetails = styled.p`
   color: #000000;
   margin: 20px 0 0;
   //margin-top: 6px;
+  align-self: flex-start; // 세부 정보를 왼쪽으로 정렬
 `;
 
 // 하트 아이콘 스타일
@@ -281,8 +295,16 @@ export const HeartCount2 = styled.span`
 
 export const HeartContainer = styled.div`
   display: flex;
-  align-items: flex-end; /* 오른쪽 정렬 */
+  align-items: center;/*flex-end;*/ /* 오른쪽 정렬 */
   justify-content: center; /* 중앙 정렬 */
+  margin: 20px 0 0;
+`;
+
+export const PostInfo2 = styled.div`
+  display: flex;
+  justify-content: space-between; // PostDetails와 HeartContainer를 양 끝에 배치
+  align-items: center; // 수직 중앙 정렬
+  margin-top: 10px; // 위쪽 여백
 `;
 
 

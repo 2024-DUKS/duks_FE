@@ -20,6 +20,12 @@ function Main() {
   const location = useLocation();
   const newPost = location.state;
 
+  // 페이지가 로드될 때 세션 스토리지를 초기화(검색기록세션스토리지때문)
+  useEffect(() => {
+    sessionStorage.removeItem('posts'); // 'posts' 항목 초기화
+    sessionStorage.removeItem('searchInput'); // 'searchInput' 항목 초기화
+  }, []);  // 빈 배열을 넣으면 컴포넌트가 처음 로드될 때 한 번만 실행
+
   const [posts, setPosts] = useState([]); // 빈 배열로 초기화
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,7 +44,12 @@ function Main() {
     }
   };
 
-  
+  // 엔터 키를 눌렀을 때 검색 실행
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+    handleSearchSubmit(); // 엔터가 눌리면 검색 실행
+    }
+  };
 
 
   // 게시글 데이터를 서버에서 가져오는 함수
@@ -110,6 +121,7 @@ function Main() {
               placeholder="글제목, 내용"
               value={searchQuery}
               onChange={handleSearchInputChange}
+              onKeyDown={handleKeyDown} // 엔터 키 입력 감지
             />
             <M.SearchIcon onClick={handleSearchSubmit}>🔍</M.SearchIcon>
           </M.SearchContainer>
