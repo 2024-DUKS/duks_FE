@@ -13,16 +13,17 @@ import {
   PButton,
   NButton,
   CustomFileInput,
-  CustomFileButton, StyledH2
-} from '../styles/CardStyle'; // 수정된 스타일 임포트
+  CustomFileButton,
+  StyledH2
+} from '../styles/CardStyle';
 
 import Footer from '../components/Footer';
 
 const NextPage = () => {
-  const [photos, setPhotos] = useState([]); // 사진을 저장할 상태
-  const [content, setContent] = useState(''); // 내용을 저장할 상태
+  const [cards, setCards] = useState([]); // 카드 배열 상태
+  const [content, setContent] = useState(''); // 현재 입력 중인 내용 상태
+  const [photos, setPhotos] = useState([]); // 현재 선택한 사진 상태
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0); // 현재 사진 인덱스
-  const [submittedContent, setSubmittedContent] = useState(null); // 제출된 내용을 저장할 상태
 
   const handlePhotoChange = (event) => {
     const files = Array.from(event.target.files).filter(file => file.type.startsWith('image/'));
@@ -43,10 +44,9 @@ const NextPage = () => {
       alert("내용을 입력해 주세요.");
       return;
     }
-    
-    // 여기에 내용을 등록하는 로직을 추가할 수 있습니다.
-    setSubmittedContent(content); // 제출된 내용을 상태에 저장
-    alert("등록되었습니다."); // 등록 완료 알림
+
+    const newCard = { content, photos }; // 새로운 카드 객체 생성
+    setCards([...cards, newCard]); // 카드 배열에 추가
     setContent(''); // 내용 초기화
     setPhotos([]); // 사진도 초기화
     setCurrentPhotoIndex(0); // 현재 사진 인덱스 초기화
@@ -68,56 +68,108 @@ const NextPage = () => {
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
-          <TopBox></TopBox>
-          <TopLink><Link to="../Card">명함 페이지로 돌아가기</Link></TopLink>
-          <OverlapWrapper>
-            <Overlap>
-            <br></br>
-            <StyledH2>PHOTO</StyledH2>
+          {/* TopBox를 항상 화면 상단에 고정시키기 위해 position: sticky 적용 */}
+          <TopBox style={{ position: 'sticky', top: 0, zIndex: 1 }}></TopBox>
+
+          <OverlapWrapper style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto'}}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              padding: '20px' 
+            }}>
+              <div style={{
+                textAlign: 'center', // 텍스트 가운데 정렬
+                padding: '20px', // 내부 여백
+                borderRadius: '8px', // 모서리 둥글게
+                boxShadow: '0px 4px 4px #00000040', // 그림자 효과
+                backgroundColor: '#f2f2f2',
+                maxWidth: '300px', // 배경색
+                fontSize: '15px' // 글자 크기 설정
+              }}>
+                간단한 사진과 텍스트로<br />
+                나의 재능을 뽐내보세요!<br /><br />
+                사진을 최대 10장까지 업로드됩니다.<br /><br />
+                Skill 칸에 자신의 재능에 대한 설명을 적으면<br />
+                다른 사람들이 나와 거래할 때 도움이 됩니다.<br />
+              </div>
+            </div>
+
+            <Overlap style={{ marginTop: '-150px' }}> {/* 스크롤 가능하도록 스타일 추가 */}
+              <br />
+              <StyledH2>PHOTO</StyledH2>
               <CustomFileButton>
                 <CustomFileInput type="file" accept="image/*" multiple onChange={handlePhotoChange} />
               </CustomFileButton>
 
-              <div>
+              <div style={{ overflowX: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* 사진이 없을 경우 고정된 높이를 가진 빈 공간 */}
+                {photos.length === 0 && (
+                  <div style={{ width: '300px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed #ccc' }}>
+                    <span>사진이 없습니다</span>
+                  </div>
+                )}
+
                 {photos.length > 0 && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img 
                       src={URL.createObjectURL(photos[currentPhotoIndex])} 
                       alt={`사진 ${currentPhotoIndex + 1}`} 
-                      style={{ width: '300px', margin: '5px', alignItems: 'center' }} 
+                      style={{ height: '180px', margin: '5px', display: 'block' }} // display: block 추가
                     />
-                    <div>
-                    <PButton onClick={handlePreviousPhoto}>이전</PButton>
-                    <NButton onClick={handleNextPhoto}>다음</NButton>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}> {/* 버튼 중앙 정렬 */}
+                      <PButton onClick={handlePreviousPhoto}>이전</PButton>
+                      <NButton onClick={handleNextPhoto}>다음</NButton>
                     </div>
                   </div>
                 )}
               </div>
 
               <StyledH2>SKILL</StyledH2>
+              <div style={{
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+              }}>
+                <StyledTextArea 
+                  style={{ marginTop: '20px', border: '1px dashed #ccc', width: '300px', height: '100px', textAlign: 'center' }} // 폭과 높이 설정
+                  value={content} 
+                  onChange={handleContentChange} 
+                  placeholder="내용을 입력하세요." 
+                  rows="1" 
+                />
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+                <button onClick={handleSubmit}>등록</button>
+              </div>
 
-              {/* 내용 입력 영역이 제출된 내용이 없을 때만 보이도록 조건부 렌더링 */}
-              {submittedContent === null ? (
-                <>
-                  <StyledTextArea 
-                    style={{ marginTop: '20px', border: '3px solid lightgray', padding: '25px' }}
-                    value={content} 
-                    onChange={handleContentChange} 
-                    placeholder="내용을 입력하세요." 
-                    rows="4" 
-                  />
-                  <button onClick={handleSubmit}>등록</button>
-                </>
-              ) : (
-                <div style={{ marginTop: '0px', border: '3px', padding: '25px' }}>
-                  <p>{submittedContent}</p> {/* 등록된 내용 표시 */}
-                </div>
-              )}
             </Overlap>
+
+            {/* 등록된 카드 각각을 개별 Overlap으로 감쌈 */}
+            {cards.map((card, index) => (
+              <Overlap key={index}> 
+                <div style={{ border: '1px ', padding: '10px', marginTop: '10px' }}>
+                  <StyledH2>PHOTO</StyledH2>
+                  <div style={{ overflowX: 'auto', display: 'flex' }}>
+                    {card.photos.map((photo, photoIndex) => (
+                      <img 
+                        key={photoIndex} 
+                        src={URL.createObjectURL(photo)} 
+                        alt={`등록된 사진 ${photoIndex + 1}`} 
+                        style={{ height: '180px', margin: '5px' }} 
+                      />
+                    ))}
+                  </div>
+                  <StyledH2>SKILL</StyledH2>
+                  <p>{card.content}</p>
+                </div>
+              </Overlap>
+            ))}
           </OverlapWrapper>
 
           <BottomBox>
-            <Footer>푸터 내용</Footer>
+            <Footer></Footer>
           </BottomBox>
         </InnerDiv>
       </MyPageContainer>
