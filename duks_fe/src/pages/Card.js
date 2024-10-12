@@ -5,7 +5,7 @@ import axios from 'axios'; // axios import 추가
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox,
   BusinessCard, OverlapWrapper, Overlap, InputPhoto, OverlapGroup,
-  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,
+  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,TopLink
 } from '../styles/CardStyle'; 
 
 import Footer from '../components/Footer';
@@ -51,8 +51,9 @@ const Card = () => {
       <MyPageContainer>
         <InnerDiv>
           <TopBox></TopBox>
-
+          <TopLink><a href="../NextPage">포트폴리오 자세히 보기</a></TopLink>
           <OverlapWrapper>
+
             <Overlap>
               {/*명함 프로필 업로드 컴포넌트*/}
               <ProfileImageUploader />
