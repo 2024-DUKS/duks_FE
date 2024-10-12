@@ -23,6 +23,20 @@ export const MyPageContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 15px; /* 스크롤바의 너비 */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #92b455; /* 스크롤바의 색상 */
+    border-radius: 20px; /* 스크롤바의 둥근 모서리 */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: lightgray; /* 스크롤바 배경색 */
+    border-radius: 20px; /* 스크롤바 배경의 둥근 모서리 */
+  }
 `;
 
 // 내부 div
@@ -221,12 +235,12 @@ export const CustomFileButton = styled.label`
 `;
 
 export const StyledH2 = styled.h2`
-  font-size: 20px;
+  font-size: 15px;
   background-color: #92b455; // 배경색 설정 (원하는 색으로 조정 가능)
   color: white; // 글자색
   border: none; // 테두리 없애기
   border-radius: 20px;
-  padding: 3px 8px 3px 8px; // 패딩 추가
+  padding: 8px; // 패딩 추가
   margin-right: 80px;
   margin-left: 80px;
 `;

@@ -17,6 +17,7 @@ import {
   StyledH2
 } from '../styles/CardStyle';
 
+
 import Footer from '../components/Footer';
 
 const NextPage = () => {
@@ -88,14 +89,14 @@ const NextPage = () => {
                 fontSize: '15px' // 글자 크기 설정
               }}>
                 간단한 사진과 텍스트로<br />
-                나의 재능을 뽐내보세요!<br /><br />
-                사진을 최대 10장까지 업로드됩니다.<br /><br />
+                나의 재능을 뽐내보세요!<br />
+                사진은 최대 10장까지 업로드됩니다.<br />
                 Skill 칸에 자신의 재능에 대한 설명을 적으면<br />
                 다른 사람들이 나와 거래할 때 도움이 됩니다.<br />
               </div>
             </div>
 
-            <Overlap style={{ marginTop: '-150px' }}> {/* 스크롤 가능하도록 스타일 추가 */}
+            <Overlap style={{ marginTop: '-180px' }}> {/* 스크롤 가능하도록 스타일 추가 */}
               <br />
               <StyledH2>PHOTO</StyledH2>
               <CustomFileButton>
