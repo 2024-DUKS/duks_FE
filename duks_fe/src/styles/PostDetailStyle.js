@@ -321,19 +321,29 @@ export const BottomBox = styled.div`
   }
 `;
 
+// 새로운 CommentButtonWrapper 스타일 추가
+export const CommentButtonWrapper = styled.div`
+  .postdetail-page-wrapper & {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: 5px; /* 버튼 위쪽에 약간의 간격 추가 */
+  }
+`;
+
 export const CommentButton = styled.button`
 .postdetail-page-wrapper & {
-  background-color: #007bff; /* 기본 배경색 */
-  color: white; /* 글자 색상 */
-  border: none; /* 테두리 없애기 */
+  background-color: white; /* 배경색을 흰색으로 설정 */
+  color: black; /* 텍스트 색상을 검은색으로 설정 */
+  border: 0.5px solid #666; /* 진한 회색(#666) 테두리 추가 */
   border-radius: 5px; /* 모서리 둥글게 */
-  padding: 8px 12px; /* 여백 */
+  padding: 5px 10px; /* 버튼의 내부 여백 조정 */
+  font-size: 12px; /* 텍스트 크기 조정 */
   margin-left: 8px; /* 버튼 간격 */
   cursor: pointer; /* 마우스 커서 모양 */
   transition: background-color 0.3s; /* 배경색 변화 애니메이션 */
 
   &:hover {
-    background-color: #0056b3; /* 호버 시 배경색 */
+    background-color: #ffb2045c; /* 마우스 오버 시 약간의 배경색 변경 */
   }
 
   &:focus {
@@ -341,3 +351,23 @@ export const CommentButton = styled.button`
   }
 }
 `;
+
+
+export const CommentContainer = styled.div`
+.postdetail-page-wrapper & {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 10px; /* 댓글과 구분선 간의 간격을 추가 */
+  border-bottom: 1px solid #e0e0e0; /* 옅은 색의 구분선 추가 */
+`;
+
+export const CommentText = styled.div`
+.postdetail-page-wrapper & {
+  max-width: calc(100% - 120px); /* 댓글 텍스트의 최대 너비를 설정하고 버튼 영역을 고려한 계산 */
+  word-wrap: break-word; /* 단어가 길어지면 자동으로 줄바꿈 */
+  white-space: pre-wrap; /* 공백과 줄바꿈 유지 */
+  overflow-wrap: break-word; /* 긴 단어 강제 줄바꿈 */
+  `;
