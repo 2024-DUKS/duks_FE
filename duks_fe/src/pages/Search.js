@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as I from '../styles/SearchStyle'; // 스타일을 I로 가져옴
 import searchIconImage from '../img/searchIcon.png'; // 아이콘 이미지 가져오기
 import Footer from '../components/Footer'
 
+import backButton from '../img/backButton.png';//백버튼추가
+
 const Search = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchQuery = location.state ? location.state.searchQuery : ""; // 검색어 가져오기
   const [posts, setPosts] = useState(() => {
     // 이전 검색 결과가 sessionStorage에 있으면 불러오고, 없으면 빈 배열
@@ -107,6 +110,9 @@ const Search = () => {
         <I.InnerDiv>
           <I.TopBox>
             <I.SearchContainer>
+              <I.BackButton onClick={() => navigate(-1)}>
+                <img src={backButton} alt="BackButton" />
+              </I.BackButton>
               <I.SearchInput 
                 type="text"
                 placeholder="검색어를 입력하세요..."

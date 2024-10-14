@@ -52,6 +52,24 @@ export const BottomBox = styled.div`
   bottom: 0px;
 `;
 
+// BackButton 스타일
+export const BackButton = styled.button`
+  background: none; /* 배경 없음 */
+  border: none;     /* 테두리 없음 */
+  cursor: pointer;  /* 커서 포인터 */
+  padding: 0;       /* 기본 패딩 제거 */
+  margin-left: 5px;
+  margin-right: 5px;
+
+  /* 크기 설정 (필요에 따라 조정) */
+  width: 18px;  /* 너비 설정 */
+  height: 18px; /* 높이 설정 */
+
+  img {
+    width: 100%;  /* 버튼 너비에 맞춤 */
+    height: auto;  /* 비율 유지 */
+  }
+`;
 
 // 검색 컨테이너 스타일
 export const SearchContainer = styled.div`
@@ -64,7 +82,7 @@ export const SearchContainer = styled.div`
 
 // 검색 입력창 스타일
 export const SearchInput = styled.input`
-  width: 60%; /* 검색창 너비 조정 */
+  width: 50%; /* 검색창 너비 조정 */
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ddd;
@@ -74,14 +92,14 @@ export const SearchInput = styled.input`
 `;
 
 export const SearchIcon = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   position: absolute; /* TopBox 내에서 절대 위치 */
   right: 15px; /* 오른쪽 정렬 */
   top: 50%; /* 수직 중앙 정렬 */
   transform: translateY(-50%); /* 수직 위치를 정확히 중앙으로 */
-  margin-right: 10px;
+  margin-left: 20px;
 `;
 
 // 게시물 리스트 박스 스타일+스크롤 추가

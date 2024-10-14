@@ -91,8 +91,8 @@ export const SearchContainer = styled.div`
 
 // 검색 아이콘 스타일
 export const SearchIcon = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   position: absolute; /* TopBox 내에서 절대 위치 */
   right: 15px; /* 오른쪽 정렬 */
