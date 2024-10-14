@@ -102,10 +102,35 @@ export const SearchIcon = styled.img`
   margin-left: 20px;
 `;
 
+// 카테고리 버튼 컨테이너
+export const ButtonContainer = styled.div`
+  //width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  //margin: 10px 0;
+  margin: 8px 0 8px;
+`;
+
+// 카테고리 버튼 스타일
+export const TypeButton = styled.button`
+  background-color: ${props => props.selected ? '#FFB204' : '#ffffff'};
+  color: ${props => props.selected ? '#ffffff' : '#FFB204'};
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 5px 25px;
+  cursor: pointer;
+  font-size: 13px;
+
+  &:hover {
+    background-color: #FFB204;
+    color: #ffffff;
+  }
+`;
+
 // 게시물 리스트 박스 스타일+스크롤 추가
 export const PostListBox = styled.div`
   width: 95%;
-  height: 86%;
+  height: 79%;
   //max-height: 560px; /* 화면에 보이는 최대 높이를 설정 */
   display: flex;
   flex-direction: column;

@@ -23,12 +23,18 @@ const CategSearch = () => {
     //return savedSearchInput ? JSON.parse(savedSearchInput) : [];
   });
 
+  const [selectedType, setSelectedType] = useState(() => {
+    // sessionStorage에서 선택한 타입 불러오기 (없으면 기본값 'offer')
+    const savedSelectedType = sessionStorage.getItem('selectedType');
+    return savedSelectedType || 'offer';
+  });
+
   // 페이지가 로드될 때 검색어가 있으면 자동으로 검색 실행
   useEffect(() => {
     if (searchInput.length >= 2) {
       handleSearch();
     }
-  }, [searchQuery]); 
+  }, [searchQuery, selectedType]); 
 
    
   // 검색 아이콘 클릭 시 게시물 가져오기
@@ -39,7 +45,7 @@ const CategSearch = () => {
     }; // 검색어가 두 글자 이상일 때만 요청
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열/search?keyword=${searchInput}`, {
+      const response = await axios.get(`http://localhost:5000/api/posts/search/category/인문학 계열/${selectedType}?keyword=${searchInput}`, {
         headers: {
           'Content-Type': `application/json`,
         },
@@ -50,6 +56,7 @@ const CategSearch = () => {
       //추가
       sessionStorage.setItem('posts', JSON.stringify(response.data)); // 검색 결과를 sessionStorage에 저장
       sessionStorage.setItem('searchInput', searchInput); // 현재 검색어를 sessionStorage에 저장
+      sessionStorage.setItem('selectedType', selectedType); // 선택한 타입을 sessionStorage에 저장
     } catch (error) {
       console.error("게시물 데이터를 가져오는 중 오류 발생:", error);
     }
@@ -123,6 +130,21 @@ const CategSearch = () => {
               <I.SearchIcon src={searchIconImage} alt="Search Icon" onClick={handleSearch}/>
             </I.SearchContainer>
           </I.TopBox>
+
+          <I.ButtonContainer>
+            <I.TypeButton 
+              selected={selectedType === 'offer'}
+              onClick={() => setSelectedType('offer')}
+            >
+              해드립니다
+            </I.TypeButton>
+            <I.TypeButton
+              selected={selectedType === 'request'}
+              onClick={() => setSelectedType('request')}
+            >
+              해주세요
+            </I.TypeButton>
+          </I.ButtonContainer>
 
           <I.PostListBox>
             {posts.length>0 ? (

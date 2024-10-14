@@ -59,6 +59,7 @@ const HumanPage = () => {
   useEffect(() => {
     sessionStorage.removeItem('posts'); // 'posts' 항목 초기화
     sessionStorage.removeItem('searchInput'); // 'searchInput' 항목 초기화
+    sessionStorage.removeItem('selectedType');
   }, []);  // 빈 배열을 넣으면 컴포넌트가 처음 로드될 때 한 번만 실행
 
 
