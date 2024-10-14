@@ -26,23 +26,34 @@ const HumanPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
     // 데이터 fetch 함수
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      console.log("토큰:", token);
-
-      const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열?type=${selectedType}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      setPosts(response.data.posts);
-      setTopLikedPosts(response.data.topLikedPosts);
-    } catch (error) {
-      console.error('데이터를 가져오는 데 실패했습니다.', error);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        console.log("토큰:", token);
+    
+        const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열?type=${selectedType}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+    
+        console.log('서버 응답 데이터:', response.data); // 서버 응답 데이터 확인
+    
+        const fetchedPosts = response.data.posts.map(post => ({
+          ...post,
+          likeCount: post.likeCount || 0 // likeCount가 없는 경우 기본값 0 설정
+        }));
+    
+        setPosts(fetchedPosts);
+        setTopLikedPosts(response.data.topLikedPosts.map(post => ({
+          ...post,
+          likeCount: post.likeCount || 0 // likeCount가 없는 경우 기본값 0 설정
+        })));
+      } catch (error) {
+        console.error('데이터를 가져오는 데 실패했습니다.', error);
+      }
+    };
+    
 
   // 페이지가 로드될 때 세션 스토리지를 초기화(검색기록세션스토리지때문)
   useEffect(() => {
@@ -169,7 +180,7 @@ const HumanPage = () => {
                 <HotTitle>
                   <HotImage src={broccoli} alt="broccoli" />
                   <TitleText>{post.title}</TitleText>
-                  <HeartCount>♥ {post.likeCount}</HeartCount>
+                  <HeartCount>♥ {post.likeCount || 0}</HeartCount> {/* NaN 또는 undefined 방지 */}
                 </HotTitle>
               </Link>
             ))}
@@ -204,7 +215,7 @@ const HumanPage = () => {
             <PostDetails>{post.nickname} | {timeSince(post.created_at)}</PostDetails>
             <HeartContainer>
               <HeartIcon>♥</HeartIcon>
-              <HeartCount2>{post.likeCount}</HeartCount2>
+              <HeartCount2>{post.likeCount || 0}</HeartCount2>
             </HeartContainer>
           </PostInfo2>
         </PostContent>

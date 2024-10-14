@@ -23,6 +23,20 @@ export const MyPageContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 15px; /* 스크롤바의 너비 */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #92b455; /* 스크롤바의 색상 */
+    border-radius: 20px; /* 스크롤바의 둥근 모서리 */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: lightgray; /* 스크롤바 배경색 */
+    border-radius: 20px; /* 스크롤바 배경의 둥근 모서리 */
+  }
 `;
 
 // 내부 div
@@ -164,4 +178,69 @@ export const UserCharactor = styled.div`
   left: 39px;
   position: absolute;
   top: 460px;
+`;
+
+
+
+//여긴 nextPage 스타일들
+export const TopLink = styled.div`
+  color: #5a5a5a;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 12px;
+  font-weight: 600;
+  left: 250px;
+  position: absolute;
+  top: 150px;
+`;
+
+
+// 사진 및 내용 입력 스타일 추가
+export const StyledTextArea = styled.textarea`
+  width: 80%;  // 너비를 80%로 조정
+  height: 100px;  // 높이 설정
+  margin: 5px 0; 
+  background-color: #f0f0f0; // 배경색 조정
+  color: #333;  // 글자색 조정
+  border: 1px solid #ccc; // 테두리 색상
+  border-radius: 5px;  // 모서리 둥글게
+  padding: 10px;  // 패딩 추가
+`;
+
+export const PButton = styled.button`
+  background-color: lightgray; // 배경색 설정 (원하는 색으로 조정 가능)
+  color: white; // 글자색
+  border: none; // 테두리 없애기
+  cursor: pointer; // 커서 모양을 포인터로 변경
+  padding: 3px 8px 3px 8px; // 패딩 추가
+  font-size: 12px; // 글자 크기 조정
+  border-radius: 20px;
+`;
+
+export const NButton = styled.button`
+  background-color: lightgray; // 배경색 설정 (원하는 색으로 조정 가능)
+  color: white; // 글자색
+  border: none; // 테두리 없애기
+  cursor: pointer; // 커서 모양을 포인터로 변경
+  padding: 3px 8px 3px 8px; // 패딩 추가
+  font-size: 12px; // 글자 크기 조정
+  border-radius: 20px;
+`;
+
+export const CustomFileInput = styled.input`
+
+`;
+
+export const CustomFileButton = styled.label`
+
+`;
+
+export const StyledH2 = styled.h2`
+  font-size: 15px;
+  background-color: #92b455; // 배경색 설정 (원하는 색으로 조정 가능)
+  color: white; // 글자색
+  border: none; // 테두리 없애기
+  border-radius: 20px;
+  padding: 8px; // 패딩 추가
+  margin-right: 80px;
+  margin-left: 80px;
 `;
