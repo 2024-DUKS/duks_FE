@@ -13,7 +13,7 @@ const PostDetail = () => {
   const location = useLocation();
   const [post, setPost] = useState(null); // 게시물 정보 상태
   const navigate = useNavigate(); // useNavigate 함수 사용
-  const [userInfo, setUserInfo] = useState({ nickname: '', department: '', profileImage: '' });
+  const [userInfo, setUserInfo] = useState({ id: null, nickname: '', department: '', profileImage: '' }); // 사용자 정보 상태 추가
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스 상태 추가
   const [isLiked, setIsLiked] = useState(false); // 좋아요 여부를 상태로 관리
   const [likes, setLikeCount] = useState(0); // 좋아요 수 상태 관리
@@ -22,6 +22,9 @@ const PostDetail = () => {
   const [editingCommentId, setEditingCommentId] = useState(null); // 댓글 수정 상태 추가
   const [editedComment, setEditedComment] = useState(''); // 수정할 댓글 내용
   const { id } = useParams(); // URL에서 ID를 가져옴
+  const userId = userInfo.id;  // 현재 로그인한 사용자의 ID
+
+  const token = localStorage.getItem('authToken');  // 토큰 가져오기
 
 
   useEffect(() => {
@@ -30,44 +33,84 @@ const PostDetail = () => {
   
   
   useEffect(() => {
-    // 로컬스토리지에서 사용자 정보 가져오기
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
-      const parsedUserInfo = JSON.parse(storedUserInfo);
-      console.log("가져온 사용자 정보:", parsedUserInfo); // 추가된 로그
-      setUserInfo(parsedUserInfo);
+      try {
+        const parsedUserInfo = JSON.parse(storedUserInfo);
+        setUserInfo(parsedUserInfo);
+        console.log('로그인한 사용자 정보:', parsedUserInfo); // userInfo 확인
+      } catch (error) {
+        console.error("사용자 정보 파싱 중 오류 발생:", error);
+      }
+    } else {
+      console.log("로컬 스토리지에 사용자 정보가 없습니다.");
     }
   }, []);
-
-  useEffect(() => {
-    const fetchPostDetails = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/posts/${id}`); // ID에 따라 게시물 정보 가져옴
-        const data = await response.json();
-        setPost(data); // 가져온 게시물 정보를 상태에 저장
-      } catch (error) {
-        console.error('게시글 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
-
-    fetchPostDetails();
-  }, [id]); // ID가 변경될 때마다 호출
   
-  // 좋아요 상태와 수를 별도로 관리하는 useEffect
-useEffect(() => {
-  const fetchLikeStatus = async () => {
+  
+  
+
+  // 게시물 세부정보 가져오기
+  const fetchPostDetails = async () => {
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');  // 로그인 페이지로 이동
+      return;
+    }
+
     try {
       const response = await axios.get(`${baseURL}/api/posts/${id}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-        setIsLiked(response.data.isLiked || false); // 좋아요 여부 저장
-        setLikeCount(response.data.likes || 0); // 좋아요 수 저장
+      if (response.data) {
+        setPost(response.data);  // 게시물 데이터 상태 업데이트
+        console.log("받아온 게시물 데이터:", response.data);
+      } else {
+        console.log('게시물 데이터를 불러오지 못했습니다.');
+      }
     } catch (error) {
-      console.error('좋아요 정보를 불러오는 중 오류 발생:', error);
+      if (error.response && error.response.status === 401) {
+        alert('인증 정보가 유효하지 않습니다. 다시 로그인하세요.');
+        localStorage.removeItem('authToken');  // 잘못된 토큰 제거
+        navigate('/login');  // 로그인 페이지로 이동
+      } else {
+        console.error('게시글 정보를 불러오는 중 오류 발생:', error);
+      }
     }
   };
-  fetchLikeStatus(); // 좋아요 상태 및 수 불러오기
-}, [id]);
+  
+
+  // 페이지가 로드되었을 때 게시물 정보를 불러옴
+  useEffect(() => {
+    if (id) {
+      console.log("게시물 ID:", id);  // ID 확인
+      fetchPostDetails();  // 게시물 정보 가져오기
+    }
+  }, [id]);  // id가 변경될 때마다 호출
+
+  useEffect(() => {
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      return;  // 토큰이 없으면 리턴하여 요청을 하지 않음
+    }
+  
+    // 좋아요 상태와 수를 불러오는 비동기 함수
+    const fetchLikeStatus = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/posts/${id}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        setIsLiked(response.data.isLiked || false); // 좋아요 여부 저장
+        setLikeCount(response.data.likes || 0);     // 좋아요 수 저장
+      } catch (error) {
+        console.error('좋아요 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+  
+    fetchLikeStatus();  // 토큰이 있을 때만 호출
+  }, [id, token]);  // token과 id가 변경될 때마다 호출
+  
+
 
 
   // 댓글 추가 함수
@@ -78,6 +121,7 @@ useEffect(() => {
       content: newComment,
       postId: id,
       nickname: userInfo.nickname || "익명", // 사용자 닉네임 추가
+      userId: userInfo.id  // 댓글 작성자의 ID 추가
     };
   
     console.log("전송할 댓글:", commentObj);
@@ -104,20 +148,29 @@ useEffect(() => {
     .catch(error => console.error('댓글 추가 중 오류 발생:', error));
   };
 
-  // 댓글 목록을 다시 불러오는 함수
+  // 댓글을 불러오는 함수
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/comments/post/${id}/comments`);
-      const data = await response.json();
-      setComments(data);
+      const response = await axios.get(`${baseURL}/api/comments/post/${id}/comments`);
+      console.log("받아온 댓글 데이터:", response.data); // 콘솔에 댓글 데이터 출력
+      setComments(response.data);
     } catch (error) {
       console.error('댓글을 불러오는 중 오류 발생:', error);
     }
   };
+  
 
   useEffect(() => {
-    fetchComments(); // 페이지가 로드될 때 댓글 목록을 가져옴
-  }, [id]); // 게시물 ID가 변경될 때마다 호출
+    fetchComments();
+    console.log("받아온 댓글 데이터:", comments); // comments 로그 출력
+  }, [id]);
+
+  useEffect(() => {
+    console.log("받아온 댓글 데이터:", comments);
+  }, [comments]);
+  
+
+  
 
   // 댓글 수정 함수
   const handleEditComment = (comment) => {
@@ -126,52 +179,41 @@ useEffect(() => {
   };
 
   // 댓글 수정 제출 함수
-const handleEditCommentSubmit = (commentId) => {
-  const updatedComment = {
-    content: editedComment,
+  const handleEditCommentSubmit = async (commentId) => {
+    const updatedComment = { content: editedComment };
+    const token = localStorage.getItem('authToken');
+
+    try {
+      const response = await axios.put(`${baseURL}/api/comments/${commentId}`, updatedComment, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      if (response.status === 200) {
+        fetchComments(); 
+        setEditingCommentId(null);
+        setEditedComment('');
+      }
+    } catch (error) {
+      console.error('댓글 수정 중 오류 발생:', error);
+    }
   };
 
-  const token = localStorage.getItem('authToken'); // 통일된 토큰 사용
-  fetch(`http://localhost:5000/api/comments/${commentId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, // 수정된 토큰 사용
-    },
-    body: JSON.stringify(updatedComment),
-  })
-  .then((response) => {
-    if (response.ok) {
-      // 댓글 수정 후 상태 업데이트
-      fetchComments(); // 수정 후 댓글 목록 다시 불러오기
-      setEditingCommentId(null);
-      setEditedComment('');
-    } else {
-      console.error('댓글 수정 실패:', response.status, response.statusText); // 오류 로그 추가
-      return response.json().then(err => console.error(err));
-    }
-  })
-  .catch((error) => console.error('댓글 수정 중 오류 발생:', error));
-};
 
 // 댓글 삭제 함수
-const handleDeleteComment = (commentId) => {
-  const token = localStorage.getItem('authToken'); // 통일된 토큰 사용
-  fetch(`http://localhost:5000/api/comments/${commentId}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`, // 수정된 토큰 사용
-    },
-  })
-  .then((response) => {
-    if (response.ok) {
-      fetchComments(); // 삭제 후 댓글 목록 다시 불러오기
-    } else {
-      console.error('댓글 삭제 실패:', response.status, response.statusText); // 오류 로그 추가
+const handleDeleteComment = async (commentId) => {
+  const token = localStorage.getItem('authToken');
+  try {
+    const response = await axios.delete(`${baseURL}/api/comments/${commentId}`, {
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
+    if (response.status === 200) {
+      fetchComments(); 
     }
-  })
-  .catch((error) => console.error('댓글 삭제 중 오류 발생:', error));
+  } catch (error) {
+    console.error('댓글 삭제 중 오류 발생:', error);
+  }
 };
+
 
   // 데이터가 없을 경우 기본값 설정
   if (!post) {
@@ -338,42 +380,49 @@ const handleDeleteComment = (commentId) => {
               </CommentInputWrapper>
 
               {/* 댓글 목록 */}
-              <CommentSection>
-                {comments.length > 0 ? (
-                  comments.map(comment => (
-                    <CommentContainer key={comment.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-  <div style={{ width: '230px', flexGrow: 1 }}>
-    <div onClick={handleProfileClick} style={{ cursor: 'pointer', marginRight: '10px' }}>
-      <strong>{comment.nickname}:</strong>
-    </div>
-    {editingCommentId === comment.id ? (
-      <>
-        <input
-          value={editedComment}
-          onChange={(e) => setEditedComment(e.target.value)}
-          style={{ marginRight: '74px' }} /* 수정 중일 때도 간격 유지 */
-        />
-        <CommentButton onClick={() => handleEditCommentSubmit(comment.id)}>수정 완료</CommentButton>
-      </>
-    ) : (
-      <>
-        {comment.content}
-      </>
-    )}
-  </div>
-  {editingCommentId !== comment.id && (
-    <CommentButtonWrapper>
-      <CommentButton onClick={() => handleEditComment(comment)}>수정</CommentButton>
-      <CommentButton onClick={() => handleDeleteComment(comment.id)}>삭제</CommentButton>
-    </CommentButtonWrapper>
-  )}
-</CommentContainer>
+<CommentSection>
+  {comments.length > 0 ? (
+    comments.map(comment => (
+      <CommentContainer key={comment.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ width: '230px', flexGrow: 1 }}>
+          <div onClick={handleProfileClick} style={{ cursor: 'pointer', marginRight: '10px' }}>
+            <strong>{comment.nickname}:</strong>
+          </div>
+          {/* 수정 중일 때는 input 필드와 '수정 완료' 버튼, 수정 중이 아닐 때는 댓글 내용 표시 */}
+          {editingCommentId === comment.id ? (
+            <>
+              <input
+                value={editedComment}
+                onChange={(e) => setEditedComment(e.target.value)}
+                style={{ marginRight: '60px' }} // 수정 중일 때도 간격 유지
+              />
+              <CommentButton onClick={() => handleEditCommentSubmit(comment.id)}>수정 완료</CommentButton>
+            </>
+          ) : (
+            <p>{comment.content}</p>
+          )}
+        </div>
 
-                  ))
-                ) : (
-                  <div>댓글이 없습니다.</div>
-                )}
-              </CommentSection>
+        {/* comment.user_id와 userInfo.id가 일치할 때만 버튼 표시 */}
+        {comment.user_id === userInfo.id && (
+          <CommentButtonWrapper>
+            {/* 수정 중일 때는 수정/삭제 버튼 숨기고 '수정 완료' 버튼만 표시 */}
+            {editingCommentId === comment.id ? null : (
+              <>
+                <CommentButton onClick={() => handleEditComment(comment)}>수정</CommentButton>
+                <CommentButton onClick={() => handleDeleteComment(comment.id)}>삭제</CommentButton>
+              </>
+            )}
+          </CommentButtonWrapper>
+        )}
+      </CommentContainer>
+    ))
+  ) : (
+    <div>댓글이 없습니다.</div>
+  )}
+</CommentSection>
+
+
 
 
             </ScrollableContainer>

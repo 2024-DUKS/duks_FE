@@ -22,9 +22,11 @@ function Join() {
     });
   };
 
-  const handleSubmit = async(e) => {
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 여기에서 formData를 서버로 전송하거나 처리하는 로직을 추가합니다.
+    
     try {
       // 로그인 요청을 서버로 보냄
       const response = await axios.post("http://localhost:5000/api/auth/login", formData, {
@@ -32,24 +34,31 @@ function Join() {
           "Content-Type": "application/json",
         },
       });
-
-      // 서버로부터 토큰을 받아옴
-      const { message, token } = response.data;
-
-      // 토큰을 localStorage에 저장하여 세션 관리
+  
+      // 서버로부터 토큰과 사용자 정보를 받아옴
+      const { message, token, userId, nickname, department, profileImage } = response.data;
+  
+      // 토큰과 사용자 정보를 localStorage에 저장하여 세션 관리
       localStorage.setItem("authToken", token);
-
-      // 로그인 성공 메시지 출력 (필요 시 상태나 페이지 이동)
+      localStorage.setItem("userInfo", JSON.stringify({
+        id: userId,
+        nickname: nickname,
+        department: department,
+        profileImage: profileImage,
+      }));
+  
+      // 로그인 성공 후 페이지 이동
       console.log("로그인 성공:", response.data);
       setErrorMessage(""); // 에러 메시지 초기화
-
-      // 페이지 이동 
       navigate("/Main");
     } catch (error) {
       console.error("로그인 실패:", error);
       setErrorMessage("로그인 실패. 아이디 또는 비밀번호를 확인해 주세요.");
     }
   };
+  
+  
+  
 
   return (
     <J.BackgroundWrapper>
