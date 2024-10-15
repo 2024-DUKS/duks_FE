@@ -14,11 +14,11 @@ import {
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
-} from '../styles/HumanPageStyle'; 
+} from '../styles/SoSciPageStyle'; 
 
 import Footer from '../components/Footer'
 
-const HumanPage = () => {
+const SoSciPage = () => {
   const [posts, setPosts] = useState([]); // 서버에서 가져온 게시물 데이터
   const [topLikedPosts, setTopLikedPosts] = useState([]); // 인기 게시물 데이터
   const [selectedType, setSelectedType] = useState('해드립니다');
@@ -31,7 +31,7 @@ const HumanPage = () => {
         const token = localStorage.getItem('authToken');
         console.log("토큰:", token);
     
-        const response = await axios.get(`http://localhost:5000/api/posts/category/인문학 계열?type=${selectedType}`, {
+        const response = await axios.get(`http://localhost:5000/api/posts/category/사회과학 계열?type=${selectedType}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -85,7 +85,7 @@ const HumanPage = () => {
       {
         // 검색어가 두 글자 이상일 경우에만 navigate //계열페이지 복제시 수정할부분
         if (searchQuery.length >= 2) {
-          navigate("/categsearch", { state: { searchQuery, selectedCateg: "인문학 계열" } });
+          navigate("/categsearch", { state: { searchQuery, selectedCateg: "사회과학 계열" } });
         } else {
           alert("검색어는 두 글자 이상 입력해 주세요.");
         }
@@ -166,7 +166,7 @@ const HumanPage = () => {
               </SearchContainer>
             ) : (
               <SearchContainer>
-                <Title>인문학</Title>
+                <Title>사회과학</Title>
                 <SearchIcon src={searchIconImage} alt="Search Icon" onClick={handleSearchIconClick} />
               </SearchContainer>
             )}
@@ -235,4 +235,4 @@ const HumanPage = () => {
     </BackgroundWrapper>
   );
 }
-export default HumanPage;
+export default SoSciPage;
