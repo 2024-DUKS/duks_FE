@@ -15,6 +15,13 @@ import CategSearch from "./pages/CategSearch";
 import NextPage from "./pages/NextPage";
 import MyPost from "./pages/MyPost";
 import MyLikes from "./pages/MyLikes";
+import SoSciPage from "./pages/SoSciPage";
+import BusiEcoPage from "./pages/BusiEcoPage";
+import SciencePage from "./pages/SciencePage";
+import ComputerPage from "./pages/ComputerPage";
+import BioPage from "./pages/BioPage";
+import ArtPage from "./pages/ArtPage";
+import EduPage from "./pages/EduPage";
 
 function App() {
   return (
@@ -35,7 +42,14 @@ function App() {
           <Route exact path="/nextpage" element={<NextPage />} />
           <Route exact path="/mypost" element={<MyPost />} />
           <Route exact path="/mylikes" element={<MyLikes />} />
-
+          <Route exact path="/soscipage" element={<SoSciPage />} />
+          <Route exact path="/busiecopage" element={<BusiEcoPage />} />
+          <Route exact path="/sciencepage" element={<SciencePage />} />
+          <Route exact path="/computerpage" element={<ComputerPage />} />
+          <Route exact path="/biopage" element={<BioPage />} />
+          <Route exact path="/artpage" element={<ArtPage />} />
+          <Route exact path="/edupage" element={<EduPage />} />
+          
 
         </Routes>
       </Router>

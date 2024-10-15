@@ -11,6 +11,9 @@ const CategSearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchQuery = location.state ? location.state.searchQuery : ""; // 검색어 가져오기
+  //복제추가
+  const selectedCateg = location.state ? location.state.selectedCateg : "인문학 계열"; // 선택된 계열, 기본값은 인문학 계열
+
   const [posts, setPosts] = useState(() => {
     // 이전 검색 결과가 sessionStorage에 있으면 불러오고, 없으면 빈 배열
     const savedPosts = sessionStorage.getItem('posts');
@@ -45,7 +48,8 @@ const CategSearch = () => {
     }; // 검색어가 두 글자 이상일 때만 요청
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/posts/search/category/인문학 계열/${selectedType}?keyword=${searchInput}`, {
+      const encodedCateg = encodeURIComponent(selectedCateg);
+      const response = await axios.get(`http://localhost:5000/api/posts/search/category/${encodedCateg}/${selectedType}?keyword=${searchInput}`, {
         headers: {
           'Content-Type': `application/json`,
         },
