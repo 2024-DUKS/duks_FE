@@ -8,25 +8,30 @@ import backButton from '../img/backButton.png'; // 백버튼 이미지 가져오
 const MyPost = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [selectedType, setSelectedType] = useState('offer'); // 상태 추가
+  const [selectedType, setSelectedType] = useState(() => {
+    const savedSelectedType = sessionStorage.getItem('selectedType');
+    return savedSelectedType || 'offer';
+  });
 
-  // 페이지 로드 시 내 게시물 가져오기
+  // 페이지 로드 시 카테고리별로 내 게시물 가져오기
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/posts/myposts', {
+        const endpoint = selectedType === 'offer' ? 'offer' : 'request'; // 선택된 타입에 따라 엔드포인트 설정
+        const response = await axios.get(`http://localhost:5000/api/posts/myposts/${endpoint}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
         });
         setPosts(response.data);
+        sessionStorage.setItem('selectedType', selectedType); // 선택한 타입을 sessionStorage에 저장
       } catch (error) {
         console.error('내 게시물을 불러오는 중 오류 발생:', error);
       }
     };
 
     fetchMyPosts();
-  }, []);
+  }, [selectedType]); // selectedType이 변경될 때마다 호출
 
   // 가격 표시 함수
   const renderPrice = (price) => {
