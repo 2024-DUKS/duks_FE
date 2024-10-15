@@ -109,12 +109,14 @@ const BioPage = () => {
 
   // 가격 표시 함수
   const renderPrice = (price) => {
-    if (price === '0') {
+    if (parseInt(price) === 0) {
       return '재능 기부';
     } else {
       return `${price}원`;
     }
   };
+
+
 
   // 시간을 사람이 이해할 수 있는 방식으로 변환하는 함수
   const timeSince = (date) => {
