@@ -115,7 +115,6 @@ const HumanPage = () => {
       return `${price}원`;
     }
   };
-
   // 시간을 사람이 이해할 수 있는 방식으로 변환하는 함수
   const timeSince = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
