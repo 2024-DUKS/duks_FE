@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // axios import 추가
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv,  
   TextWrapper, TextWrapper2, TextWrapper4, TextWrapper5,  
@@ -8,6 +8,7 @@ import {
   StdNum, Pwd, Nick, Depart, Phone,
   StdNumText, PwdText, NickText, DepartText, PhoneText, 
   LogoutText, AccountDeletionText, 
+  BackButton, PageTitle, TextWrapper6
 } from '../styles/MyPageStyle'; 
 
 import ImageUploader from '../components/ImageUpLoader';
@@ -15,8 +16,10 @@ import Footer from '../components/Footer';
 import LogoutButton from '../components/LogoutButton';
 import goButton from '../img/goButton.png';
 import DeleteAcButton from '../components/DeleteAcButton';
+import backButton from '../img/backButton.png'; // 백버튼 이미지 가져오기
 
 const MyPage = () => {
+  const navigate = useNavigate();
   // 유저 정보를 저장할 상태
   const [userData, setUserData] = useState({
     studentId: '',
@@ -91,7 +94,12 @@ const MyPage = () => {
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
-          <TopBox></TopBox>
+          <TopBox>
+            <BackButton onClick={() => navigate(-1)}>
+              <img src={backButton} alt="BackButton" />
+            </BackButton>
+            <PageTitle>마이페이지</PageTitle>
+          </TopBox>
           <Person>  
             <OverlapGroup>
               <StdNum>학번</StdNum>
@@ -156,11 +164,18 @@ const MyPage = () => {
 
           <TextWrapper2>21학번</TextWrapper2>
           <TextWrapper5>개인정보</TextWrapper5>
-          <TextWrapper4>포트폴리오
-            <Link to="/Card">
-              <img src={goButton} alt="Card" className="GoImage"/>
-            </Link>
-          </TextWrapper4>
+          
+          <Link to="/MyLikes">
+            <TextWrapper4>
+              나의 관심 게시물 <img src={goButton} alt="MyLikes" className="GoImage"/>
+            </TextWrapper4>
+          </Link>
+          
+          <Link to="/MyPost">
+            <TextWrapper6>
+              내가 작성한 게시물 <img src={goButton} alt="MyPost" className="GoImage"/>
+            </TextWrapper6>
+          </Link>
 
           {/* 로그아웃 버튼 */}
           <LogoutText onClick={openLogoutModal}>로그아웃</LogoutText>
