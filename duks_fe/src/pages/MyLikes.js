@@ -8,34 +8,35 @@ import backButton from '../img/backButton.png'; // 백버튼 이미지 가져오
 const MyLikes = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [selectedType, setSelectedType] = useState('offer'); // 상태 추가
+  const [selectedType, setSelectedType] = useState('offer'); // 기본값으로 'offer' 설정
 
-  // 페이지 로드 시 내 게시물 가져오기
+  // 페이지 로드 시 내가 좋아요 누른 게시물 가져오기
   useEffect(() => {
-    const fetchMyPosts = async () => {
+    const fetchLikedPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/posts/myposts', {
+        const response = await axios.get(`http://localhost:5000/api/posts/liked/${selectedType}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
         });
         setPosts(response.data);
       } catch (error) {
-        console.error('내 게시물을 불러오는 중 오류 발생:', error);
+        console.error('내 관심 게시물을 불러오는 중 오류 발생:', error);
       }
     };
 
-    fetchMyPosts();
-  }, []);
+    fetchLikedPosts();
+  }, [selectedType]); // selectedType이 변경될 때마다 요청을 보냄
 
-  // 가격 표시 함수
+    // 가격 표시 함수
   const renderPrice = (price) => {
-    if (price === '0') {
+    if (parseInt(price) === 0) {
       return '재능 기부';
     } else {
       return `${price}원`;
     }
   };
+
 
   // 시간을 사람이 이해할 수 있는 방식으로 변환하는 함수
   const timeSince = (date) => {
