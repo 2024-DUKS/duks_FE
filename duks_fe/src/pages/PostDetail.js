@@ -214,13 +214,14 @@ const handleDeleteComment = async (commentId) => {
   };
 
   // 가격 표시 함수
-const renderPrice = () => {
-  if (parseInt(post.price) === 0) {
-    return '재능 기부';
-  } else {
-    return `가격: ${post.price}원`;
-  }
-};
+  const renderPrice = (price) => {
+    if (parseInt(price) === 0) {
+      return '재능 기부';
+    } else {
+      return `${price}원`;
+    }
+  };
+
 
 
   const handleLikeClick = async () => {
