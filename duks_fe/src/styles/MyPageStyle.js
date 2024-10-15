@@ -92,7 +92,6 @@ export const TextWrapper4 = styled(TextWrapper3)` //포트폴리오 글자
   left: 28px;
   width: 150px; // 원하는 너비
   height: auto;
-  z
 `;
 
 export const TextWrapper5 = styled(TextWrapper4)` //개인정보 글자
