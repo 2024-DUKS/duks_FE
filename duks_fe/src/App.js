@@ -13,6 +13,8 @@ import PostDetail from "./pages/PostDetail";
 import Search from "./pages/Search";
 import CategSearch from "./pages/CategSearch";
 import NextPage from "./pages/NextPage";
+import MyPost from "./pages/MyPost";
+import MyLikes from "./pages/MyLikes";
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/categsearch" element={<CategSearch />} />
           <Route exact path="/nextpage" element={<NextPage />} />
+          <Route exact path="/mypost" element={<MyPost />} />
+          <Route exact path="/mylikes" element={<MyLikes />} />
+
 
         </Routes>
       </Router>

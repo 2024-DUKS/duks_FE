@@ -23,14 +23,13 @@ const PostDetail = () => {
   const [editedComment, setEditedComment] = useState(''); // 수정할 댓글 내용
   const { id } = useParams(); // URL에서 ID를 가져옴
   const userId = userInfo.id;  // 현재 로그인한 사용자의 ID
+  const [menuVisible, setMenuVisible] = useState(false); // 메뉴 표시 여부
 
   const token = localStorage.getItem('authToken');  // 토큰 가져오기
-
 
   useEffect(() => {
     console.log("전달된 게시물 데이터:", post);
   }, [post]);
-  
   
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -47,54 +46,25 @@ const PostDetail = () => {
     }
   }, []);
   
-  
-  
-
-  // 게시물 세부정보 가져오기
+  // 게시물 및 사용자 정보 불러오기 함수 선언
   const fetchPostDetails = async () => {
-    if (!token) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');  // 로그인 페이지로 이동
-      return;
-    }
-
     try {
       const response = await axios.get(`${baseURL}/api/posts/${id}`, {
-        headers: { 'Authorization': `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (response.data) {
-        setPost(response.data);  // 게시물 데이터 상태 업데이트
-        console.log("받아온 게시물 데이터:", response.data);
-      } else {
-        console.log('게시물 데이터를 불러오지 못했습니다.');
-      }
+      setPost(response.data);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert('인증 정보가 유효하지 않습니다. 다시 로그인하세요.');
-        localStorage.removeItem('authToken');  // 잘못된 토큰 제거
-        navigate('/login');  // 로그인 페이지로 이동
-      } else {
-        console.error('게시글 정보를 불러오는 중 오류 발생:', error);
-      }
+      console.error('게시물 정보를 불러오는 중 오류 발생:', error);
     }
   };
-  
 
-  // 페이지가 로드되었을 때 게시물 정보를 불러옴
+  // 게시물 및 사용자 정보 불러오기
   useEffect(() => {
-    if (id) {
-      console.log("게시물 ID:", id);  // ID 확인
-      fetchPostDetails();  // 게시물 정보 가져오기
-    }
-  }, [id]);  // id가 변경될 때마다 호출
-
-  useEffect(() => {
-    if (!token) {
-      alert('로그인이 필요합니다.');
-      return;  // 토큰이 없으면 리턴하여 요청을 하지 않음
-    }
+    fetchPostDetails(); // 게시물 정보 가져오기
+  }, [id, token]);  // id와 token이 변경될 때마다 호출
   
-    // 좋아요 상태와 수를 불러오는 비동기 함수
+  // 좋아요 상태와 수를 불러오는 비동기 함수
+  useEffect(() => {
     const fetchLikeStatus = async () => {
       try {
         const response = await axios.get(`${baseURL}/api/posts/${id}`, {
@@ -110,9 +80,6 @@ const PostDetail = () => {
     fetchLikeStatus();  // 토큰이 있을 때만 호출
   }, [id, token]);  // token과 id가 변경될 때마다 호출
   
-
-
-
   // 댓글 추가 함수
   const handleCommentSubmit = () => {
     if (!newComment) return; // 빈 댓글 제출 방지
@@ -126,7 +93,6 @@ const PostDetail = () => {
   
     console.log("전송할 댓글:", commentObj);
   
-    const token = localStorage.getItem('authToken'); // authToken으로 변경
     fetch('http://localhost:5000/api/comments/create', {
       method: 'POST',
       headers: {
@@ -137,8 +103,7 @@ const PostDetail = () => {
     })
     .then(response => {
       if (response.ok) {
-        // 댓글 목록 갱신을 위해 댓글 새로 가져오기
-        fetchComments();
+        fetchComments(); // 댓글 목록 갱신
         setNewComment('');
       } else {
         console.error('댓글 추가 실패:', response.status, response.statusText); // 오류 로그 추가
@@ -159,47 +124,38 @@ const PostDetail = () => {
     }
   };
   
-
   useEffect(() => {
     fetchComments();
-    console.log("받아온 댓글 데이터:", comments); // comments 로그 출력
   }, [id]);
-
-  useEffect(() => {
-    console.log("받아온 댓글 데이터:", comments);
-  }, [comments]);
   
-
-  
-
   // 댓글 수정 함수
   const handleEditComment = (comment) => {
     setEditingCommentId(comment.id);
     setEditedComment(comment.content);
   };
 
-  // 댓글 수정 제출 함수
-  const handleEditCommentSubmit = async (commentId) => {
-    const updatedComment = { content: editedComment };
-    const token = localStorage.getItem('authToken');
+ // 댓글 수정 제출 함수
+ const handleEditCommentSubmit = async (commentId) => {
+  const updatedComment = { content: editedComment };
+  const token = localStorage.getItem('authToken');
 
-    try {
-      const response = await axios.put(`${baseURL}/api/comments/${commentId}`, updatedComment, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
+  try {
+    const response = await axios.put(`${baseURL}/api/comments/${commentId}`, updatedComment, {
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
 
-      if (response.status === 200) {
-        fetchComments(); 
-        setEditingCommentId(null);
-        setEditedComment('');
-      }
-    } catch (error) {
-      console.error('댓글 수정 중 오류 발생:', error);
+    if (response.status === 200) {
+      fetchComments(); 
+      setEditingCommentId(null);
+      setEditedComment('');
     }
-  };
+  } catch (error) {
+    console.error('댓글 수정 중 오류 발생:', error);
+  }
+};
 
 
-// 댓글 삭제 함수
+  // 댓글 삭제 함수
 const handleDeleteComment = async (commentId) => {
   const token = localStorage.getItem('authToken');
   try {
@@ -215,16 +171,19 @@ const handleDeleteComment = async (commentId) => {
 };
 
 
-  // 데이터가 없을 경우 기본값 설정
-  if (!post) {
-    return <div>게시물 데이터를 불러올 수 없습니다.</div>;
-  }
-
-  const imageUrls = post.image_url ? post.image_url.split(',') : [];
-
-  const handleBack = () => {
-    navigate(-1); // 뒤로 가기 기능
+  // 게시물 삭제 함수
+  const handleDeletePost = async () => {
+    try {
+      await axios.delete(`${baseURL}/api/posts/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert('게시물이 삭제되었습니다.');
+      navigate('/main'); // 메인 페이지로 이동
+    } catch (error) {
+      console.error('게시물 삭제 중 오류 발생:', error);
+    }
   };
+
 
   const handleProfileClick = () => {
     navigate('/card');  // 프로필 클릭 시 Card로 이동
@@ -247,14 +206,10 @@ const handleDeleteComment = async (commentId) => {
   // description에서 줄 바꿈 처리
   const renderDescription = () => {
     if (!post.content) {
-      return <div>상세 설명이 없습니다.</div>; // <p> 대신 <div>로 수정
+      return <div>상세 설명이 없습니다.</div>;
     }
-
     return post.content.split('\n').map((line, index) => (
-      <span key={index}>
-        {line}
-        <br /> {/* 각 줄 사이에 줄 바꿈 */}
-      </span>
+      <span key={index}>{line}<br /></span>
     ));
   };
 
@@ -268,35 +223,26 @@ const handleDeleteComment = async (commentId) => {
   };
 
   const handleLikeClick = async () => {
-    const token = localStorage.getItem('authToken');
     if (!token) {
       alert('로그인이 필요합니다.');
       return;
     }
   
     try {
-      // 이미 좋아요를 눌렀다면 좋아요 취소 요청
       if (isLiked) {
         const response = await axios.delete(`http://localhost:5000/api/posts/${id}/unlike`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
+          headers: { 'Authorization': `Bearer ${token}` },
         });
-  
         if (response.status === 200) {
-          setIsLiked(false); // 좋아요 취소 후 상태 업데이트
+          setIsLiked(false); 
           setLikeCount(prevCount => prevCount - 1);
         }
       } else {
-        // 좋아요가 되어 있지 않다면 좋아요 요청
         const response = await axios.post(`http://localhost:5000/api/posts/${id}/like`, {}, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
+          headers: { 'Authorization': `Bearer ${token}` },
         });
-  
         if (response.status === 200) {
-          setIsLiked(true); // 좋아요 후 상태 업데이트
+          setIsLiked(true); 
           setLikeCount(prevCount => prevCount + 1);
         }
       }
@@ -305,18 +251,73 @@ const handleDeleteComment = async (commentId) => {
     }
   };
   
-  
-  
-  
+  if (!post) {
+    return <div>게시물 데이터를 불러올 수 없습니다.</div>;
+  }
+
+  const imageUrls = post.image_url ? post.image_url.split(',') : [];
 
   return (
     <div className="postdetail-page-wrapper">
       <BackgroundWrapper>
         <MyPageContainer>
           <InnerDiv>
-            <TopBox>
-              <CloseButton onClick={handleBack}>X</CloseButton> {/* X 버튼 클릭 시 handleBack 함수 호출 */}
+          <TopBox>
+              <CloseButton onClick={() => navigate(-1)}>X</CloseButton>
+              {/* 게시물 작성자인 경우에만 세로로 된 점 3개 메뉴 표시 */}
+              {post.user_id === userInfo.id && (
+                <div style={{ position: 'absolute', top: '15px', right: '30px' }}>
+                  {/* 세로로 된 점 3개 버튼 */}
+                  <button
+                    onClick={() => setMenuVisible(!menuVisible)}
+                    style={{
+                      fontSize: '24px',
+                      background: 'none',
+                      border: 'none',
+                      color: 'black',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ⋮
+                  </button>
+
+                 {/* 메뉴 드롭다운 */}
+    {menuVisible && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '30px',
+          right: '0',
+          background: '#fff7f0',  // 밝은 배경색 추가
+          border: '1px solid #ffcc99',  // 테두리 색상 변경
+          borderRadius: '8px',  // 모서리를 둥글게
+          padding: '10px',
+          width: '150px',  // 버튼을 가로로 길게 만듦
+          textAlign: 'center',
+        }}
+      >
+        {/* 게시물 삭제 버튼 */}
+        <button
+          onClick={handleDeletePost}
+          style={{
+            backgroundColor: '#D2B48C', 
+            color: 'white',
+            border: 'none',
+            borderRadius: '20px',  // 버튼을 둥글게
+            padding: '10px 20px',
+            fontSize: '14px',
+            cursor: 'pointer',
+            width: '100%',  // 버튼을 가로로 길게 설정
+          }}
+        >
+          게시물 삭제하기
+        </button>
+      </div>
+    )}
+  </div>
+)}
             </TopBox>
+
 
             {/* 프로필 섹션 */}
             <ProfileInfo onClick={handleProfileClick}> {/* 클릭 시 Card로 이동 */}
@@ -327,20 +328,16 @@ const handleDeleteComment = async (commentId) => {
               </div>
             </ProfileInfo>
 
-            {/* 스크롤 가능한 컨테이너 */}
             <ScrollableContainer>
-              <PostTitle>{post.title || "제목이 없습니다"}</PostTitle> {/* 게시물 제목 */}
+              <PostTitle>{post.title || "제목이 없습니다"}</PostTitle>
 
-              {/* 카테고리와 날짜를 한 줄로 배치 */}
               <InfoContainer>
                 <BoardName>{post.category || "카테고리 없음"}</BoardName>
                 <PostDate>{new Date(post.created_at).toLocaleString() || "작성 날짜 없음"}</PostDate>
               </InfoContainer>
 
-              {/* 게시물 내용에 줄 바꿈 반영 */}
               <PostContent>{renderDescription()}</PostContent>
 
-              {/* 이미지가 1장 이상일 때만 화살표 버튼 표시 */}
               {imageUrls.length > 0 && (
                 <PostImageWrapper>
                   {imageUrls.length > 1 && (
@@ -353,14 +350,10 @@ const handleDeleteComment = async (commentId) => {
                 </PostImageWrapper>
               )}
 
-              {/* 가격 출력 */}
-              <PriceWrapper>
-                {renderPrice()}
-              </PriceWrapper>
+              <PriceWrapper>{renderPrice()}</PriceWrapper>
 
               <LikeButtonWrapper>
                 <button onClick={handleLikeClick}>
-                  {/* 좋아요 여부에 따라 빈 하트(🤍)와 채워진 하트(💛)를 교체 */}
                   <span style={{ color: isLiked ? 'orange' : 'gray' }}>
                     {isLiked ? '💛' : '🤍'}
                   </span>
@@ -368,7 +361,7 @@ const handleDeleteComment = async (commentId) => {
                 <span>{`관심 ${likes}`}</span>
               </LikeButtonWrapper>
 
-              {/* 댓글 섹션 */}
+               {/* 댓글 섹션 */}
               {/* 댓글 작성 영역 */}
               <CommentInputWrapper>
                 <CommentInput 
@@ -421,10 +414,6 @@ const handleDeleteComment = async (commentId) => {
     <div>댓글이 없습니다.</div>
   )}
 </CommentSection>
-
-
-
-
             </ScrollableContainer>
 
             <BottomBox>
