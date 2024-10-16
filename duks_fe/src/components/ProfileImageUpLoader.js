@@ -52,7 +52,7 @@ const ProfileImageUploader = () => {
           } else {
             console.error('이미지 불러오기 중 오류:', error.message);
           }
-          setUploadError('이미지를 불러오는 중 오류가 발생했습니다.');
+          setUploadError('');
         }
       }
     };
