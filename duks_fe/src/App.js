@@ -22,6 +22,8 @@ import ComputerPage from "./pages/ComputerPage";
 import BioPage from "./pages/BioPage";
 import ArtPage from "./pages/ArtPage";
 import EduPage from "./pages/EduPage";
+import OtherCard from "./pages/OtherCard";
+import OtherNextPage from "./pages/OtherNextPage";
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
           <Route exact path="/biopage" element={<BioPage />} />
           <Route exact path="/artpage" element={<ArtPage />} />
           <Route exact path="/edupage" element={<EduPage />} />
+          <Route exact path="/othercard" element={<OtherCard />} />
+          <Route exact path="/othernextpage" element={<OtherNextPage />} />
           
 
         </Routes>
