@@ -51,7 +51,7 @@ function App() {
           <Route exact path="/biopage" element={<BioPage />} />
           <Route exact path="/artpage" element={<ArtPage />} />
           <Route exact path="/edupage" element={<EduPage />} />
-          <Route exact path="/othercard" element={<OtherCard />} />
+          <Route exact path="/othercard/:user_id" element={<OtherCard />} />
           <Route exact path="/othernextpage" element={<OtherNextPage />} />
           
 
