@@ -2,53 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ProfileImageUploader = () => {
-<<<<<<< HEAD
   // 상태 변수 선언
   const [image, setImage] = useState(null); // 업로드된 이미지 URL
   const [uploadError, setUploadError] = useState(''); // 업로드 오류 메시지
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [authToken, setAuthToken] = useState(''); // 인증 토큰
-=======
-  const [image, setImage] = useState(null);
-  const [uploadError, setUploadError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [authToken, setAuthToken] = useState('');
-
-  const token = localStorage.getItem('authToken');
-
-  useEffect(() => {
-   
-    if (token) {
-      setAuthToken(token);
-    } else {
-      setUploadError('인증 토큰이 없습니다.');
-    }
-  }, []);
-  
-  useEffect(() => {
-    const fetchUserImage = async () => {
-      if (authToken) {
-        console.log('Fetching user image...');
-        try {
-          const response = await axios.get('http://localhost:5000/api/portfolios/folioImg', {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-          const imagePath = response.data.imagePath.replace(/\\/g, '/');
-          const absoluteImagePath = `http://localhost:5000/${imagePath}`;
-          setImage(absoluteImagePath);
-        } catch (error) {
-          console.error(error);
-          setUploadError('이미지를 불러오는 중 오류가 발생했습니다.');
-        }
-      }
-    };
-    fetchUserImage();
-  }, [authToken]);
-  
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
 
   // 로컬 스토리지에서 토큰을 가져오는 useEffect
   useEffect(() => {
@@ -118,12 +76,8 @@ const ProfileImageUploader = () => {
       // 파일 미리보기 설정
       const reader = new FileReader();
       reader.onloadend = () => {
-<<<<<<< HEAD
         setImage(reader.result); // 미리보기 이미지 상태 업데이트
         console.log('미리보기 이미지:', reader.result);
-=======
-        setImage(reader.result);
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
       };
       reader.readAsDataURL(file); // 파일 읽기
 
@@ -146,7 +100,6 @@ const ProfileImageUploader = () => {
         // 응답에서 이미지 경로 추출
         const imagePath = response.data.imagePath.replace(/\\/g, '/');
         const absoluteImagePath = `http://localhost:5000/${imagePath}`;
-<<<<<<< HEAD
         setImage(absoluteImagePath); // 상태 업데이트
         setUploadError(''); // 오류 메시지 초기화
         console.log('업로드 완료된 이미지 경로:', absoluteImagePath);
@@ -154,28 +107,18 @@ const ProfileImageUploader = () => {
         const errorMessage = error.response?.data?.message || '이미지 업로드 중 오류가 발생했습니다.';
         setUploadError(errorMessage); // 오류 메시지 설정
         console.error('이미지 업로드 중 오류:', errorMessage);
-=======
-        setImage(absoluteImagePath);
-        setUploadError('');
-      } catch (error) {
-        const errorMessage = error.response?.data?.message || '이미지 업로드 중 오류가 발생했습니다.';
-        setUploadError(errorMessage);
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
       } finally {
         setLoading(false); // 로딩 종료
       }
     }
   };
 
-<<<<<<< HEAD
   // 이미지 제거 핸들러
   const handleImageRemove = () => {
     setImage(null); // 이미지 상태 초기화
     console.log('이미지가 제거되었습니다.');
   };
 
-=======
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   return (
     <div style={styles.container}>
       <label htmlFor="fileInput">

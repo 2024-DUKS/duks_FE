@@ -8,11 +8,7 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
-<<<<<<< HEAD
   NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
-=======
-  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -177,15 +173,10 @@ const ComputerPage = () => {
             )}
           </TopBox>
           <NoticeBox>
-<<<<<<< HEAD
             <NoticeImage src={ducky} alt="Ducky" />
             <NoticeTextWrapper>
               <NoticeText>이 게시판은 소프트웨어전공, 컴퓨터공학전공, IT미디어공학전공, 사이버보안전공, 디지털소프트웨어공학부, 가상현실융합학과, 데이터사이언스학과의 게시판입니다. </NoticeText>
             </NoticeTextWrapper>
-=======
-              <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (

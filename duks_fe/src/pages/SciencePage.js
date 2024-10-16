@@ -10,11 +10,7 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
-<<<<<<< HEAD
   NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
-=======
-  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -179,15 +175,10 @@ const SciencePage = () => {
             )}
           </TopBox>
           <NoticeBox>
-<<<<<<< HEAD
             <NoticeImage src={ducky} alt="Ducky" />
             <NoticeTextWrapper>
               <NoticeText>이 게시판은 수학전공, 정보통계학전공, 화학전공, 식품영양학전공, 생활체육학전공의 페이지입니다.</NoticeText>
             </NoticeTextWrapper>
-=======
-              <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (

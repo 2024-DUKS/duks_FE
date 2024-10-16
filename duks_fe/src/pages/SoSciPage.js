@@ -10,11 +10,7 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
-<<<<<<< HEAD
   NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
-=======
-  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -177,15 +173,10 @@ const SoSciPage = () => {
             )}
           </TopBox>
           <NoticeBox>
-<<<<<<< HEAD
             <NoticeImage src={ducky} alt="Ducky" />
             <NoticeTextWrapper>
               <NoticeText>이 게시판은 법학전공, 사회학전공, 문헌정보학전공, 심리학전공, 아동가족학전공, 사회복지학전공, 정치외교학전공의 게시판입니다.</NoticeText>
             </NoticeTextWrapper>
-=======
-              <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
->>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (
