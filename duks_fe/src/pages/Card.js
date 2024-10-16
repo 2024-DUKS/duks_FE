@@ -21,6 +21,7 @@ const Card = () => {
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
+    profileImage: ''  // 프로필 이미지 상태 추가
   });
 
   // 유저 정보를 불러오는 함수
@@ -38,7 +39,10 @@ const Card = () => {
       setUserData({
         name: response.data.nickname, // 이름
         phone: response.data.phone,    // 전화번호
+        profileImage: response.data.profileImage || '/default-profile.png',  // 프로필 이미지 저장
       });
+
+      localStorage.setItem('userProfileImage', response.data.profileImage || '/default-profile.png');
     } catch (error) {
       console.error("유저 정보 불러오기 실패:", error);
     }
