@@ -33,10 +33,11 @@ const PostDetail = () => {
   
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
+    const storedProfileImage = localStorage.getItem('userProfileImage'); // 프로필 이미지 로드
     if (storedUserInfo) {
       try {
         const parsedUserInfo = JSON.parse(storedUserInfo);
-        setUserInfo(parsedUserInfo);
+        setUserInfo({ ...parsedUserInfo, profileImage: storedProfileImage }); // 프로필 이미지 추가
         console.log('로그인한 사용자 정보:', parsedUserInfo); // userInfo 확인
       } catch (error) {
         console.error("사용자 정보 파싱 중 오류 발생:", error);
@@ -186,7 +187,7 @@ const handleDeleteComment = async (commentId) => {
 
 
   const handleProfileClick = () => {
-    navigate('/card');  // 프로필 클릭 시 Card로 이동
+    navigate('/Othercard');  // 프로필 클릭 시 Card로 이동
   };
 
   // 이미지 이전 버튼 클릭 시
@@ -321,7 +322,7 @@ const handleDeleteComment = async (commentId) => {
 
             {/* 프로필 섹션 */}
             <ProfileInfo onClick={handleProfileClick}> {/* 클릭 시 Card로 이동 */}
-              <img src={userInfo.profileImage || '/default-profile.png'} alt="Profile" />
+            <img src={`${baseURL}/${post.imagePath || '/default-profile.png'}`} alt="Profile" />
               <div>
                 <span>{post.nickname || '익명'}</span>
                 <span>{post.department || '학과 정보 없음'}</span>
