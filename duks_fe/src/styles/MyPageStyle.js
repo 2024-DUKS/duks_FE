@@ -7,6 +7,39 @@ export const BackgroundWrapper = styled.div`
   align-items: center;
 `;
 
+<<<<<<< HEAD
+=======
+export const BackButton = styled.button`
+  background: none; 
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+  width: 18px; 
+  height: 18px;
+  img {
+    width: 100%; 
+    height: auto;
+  }
+`;
+
+export const PageTitle = styled.div`
+  text-align: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  margin-right: 167px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+//CSS 모음
+// 마이 페이지 컨테이너
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
 export const MyPageContainer = styled.div`
   width: 430px;
   height: 932px;
@@ -93,6 +126,7 @@ export const TextWrapper2 = styled.div`
   left: 200px;
 `;
 
+<<<<<<< HEAD
 //개인정보 텍스트
 export const TextWrapper5 = styled.div`
   top: 215px;
@@ -100,6 +134,25 @@ export const TextWrapper5 = styled.div`
   font-weight: bold;
   color: #000;
   position: absolute;
+=======
+export const TextWrapper3 = styled(TextWrapper)`
+  color: #28272a;
+  font-size: var(--16pt-bold-font-size);
+  top: 474px;
+  left: 350px;
+  white-space: nowrap;
+`;
+
+export const TextWrapper4 = styled(TextWrapper3)` //포트폴리오 글자
+  top: 620px;
+  left: 28px;
+  width: 150px; // 원하는 너비
+  height: auto;
+`;
+
+export const TextWrapper6 = styled(TextWrapper3)` //포트폴리오 글자
+  top: 680px;
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   left: 28px;
   width: 150px; // 원하는 너비
   height: auto;
