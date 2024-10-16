@@ -2,12 +2,45 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ProfileImageUploader = () => {
-  const [image, setImage] = useState(() => {
-    // 로컬 스토리지에서 이미지 URL을 가져옴
-    return localStorage.getItem('profileImage') || null;
-  });
+  const [image, setImage] = useState(null);
   const [uploadError, setUploadError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [authToken, setAuthToken] = useState('');
+
+  const token = localStorage.getItem('authToken');
+
+  useEffect(() => {
+   
+    if (token) {
+      setAuthToken(token);
+    } else {
+      setUploadError('인증 토큰이 없습니다.');
+    }
+  }, []);
+  
+  useEffect(() => {
+    const fetchUserImage = async () => {
+      if (authToken) {
+        console.log('Fetching user image...');
+        try {
+          const response = await axios.get('http://localhost:5000/api/portfolios/folioImg', {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          const imagePath = response.data.imagePath.replace(/\\/g, '/');
+          const absoluteImagePath = `http://localhost:5000/${imagePath}`;
+          setImage(absoluteImagePath);
+        } catch (error) {
+          console.error(error);
+          setUploadError('이미지를 불러오는 중 오류가 발생했습니다.');
+        }
+      }
+    };
+    fetchUserImage();
+  }, [authToken]);
+  
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -20,15 +53,11 @@ const ProfileImageUploader = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
-        // 이미지 URL을 로컬 스토리지에 저장
-        localStorage.setItem('profileImage', reader.result);
       };
       reader.readAsDataURL(file);
 
       const formData = new FormData();
       formData.append('image', file);
-
-      const authToken = localStorage.getItem('authToken');
 
       try {
         setLoading(true);
@@ -42,28 +71,15 @@ const ProfileImageUploader = () => {
         const imagePath = response.data.imagePath.replace(/\\/g, '/');
         const absoluteImagePath = `http://localhost:5000/${imagePath}`;
         setImage(absoluteImagePath);
-        // 절대 경로를 로컬 스토리지에 저장
-        localStorage.setItem('profileImage', absoluteImagePath);
         setUploadError('');
       } catch (error) {
-        if (error.response) {
-          const errorMessage = error.response.data.message || '이미지 업로드 중 오류가 발생했습니다.';
-          setUploadError(errorMessage);
-        } else {
-          setUploadError('서버와의 연결에 문제가 발생했습니다.');
-        }
+        const errorMessage = error.response?.data?.message || '이미지 업로드 중 오류가 발생했습니다.';
+        setUploadError(errorMessage);
       } finally {
         setLoading(false);
       }
     }
   };
-
-  // 컴포넌트 언마운트 시 로컬 스토리지에서 이미지 제거 (선택 사항)
-  useEffect(() => {
-    return () => {
-      // localStorage.removeItem('profileImage');
-    };
-  }, []);
 
   return (
     <div style={styles.container}>
