@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from "styled-components"; // keyframes 추가
+=======
+import styled from "styled-components";
+import { Link } from 'react-router-dom';
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
 
 // 화면 바깥 배경색을 위한 글로벌 스타일
 export const BackgroundWrapper = styled.div`
@@ -55,6 +60,7 @@ export const BottomBox = styled.div`
 
 // 공지사항 박스
 export const NoticeBox = styled.div`
+<<<<<<< HEAD
 width: 90%;
 height: 40px; /* 높이를 조금 늘려서 여유를 줌 */
 background-color: rgba(255, 178, 4, 0.28);
@@ -65,6 +71,22 @@ margin-top: 10px;
 display: flex;
 align-items: center;
 position: relative; /* 상대적인 위치 설정 */
+=======
+  width: 90%; /* 박스 크기 조절 */
+  height: 10px;
+  background-color: rgba(255, 178, 4, 0.28); /*#ffffff*/
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px; /* TopBox 아래로 70px 간격 */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  /* Flexbox 사용하여 중앙 정렬 */
+  display: flex;
+  /*justify-content: center;*/ /* 수평 중앙 정렬 */
+  align-items: center;     /* 수직 중앙 정렬 */
+  text-align: left;      /* 텍스트 왼쪽 정렬 */
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
 `;
 
 // 제목
@@ -108,6 +130,7 @@ export const SearchInput = styled.input`
   box-sizing: border-box;
 `;
 
+<<<<<<< HEAD
 // 스크롤 애니메이션 정의
 const scrollText = keyframes`
   0% {
@@ -146,6 +169,21 @@ export const NoticeImage = styled.img`
   margin-right: 10px;
   position: absolute;
   left: 10px; /* 이미지 위치를 고정 */
+=======
+// 공지사항 내용
+export const Notice = styled.p`
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+`;
+
+export const NoticeImage = styled.img`
+  width: 24px;  /* 이미지 너비 조정 */
+  height: 24px; /* 이미지 높이 조정 */
+  margin-right: 10px; /* 이미지와 텍스트 사이의 간격 */
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
 `;
 
 // 인기글 박스 스타일
