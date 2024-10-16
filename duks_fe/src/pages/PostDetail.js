@@ -187,8 +187,9 @@ const handleDeleteComment = async (commentId) => {
 
 
   const handleProfileClick = () => {
-    navigate('/Othercard');  // 프로필 클릭 시 Card로 이동
+    navigate(`/Othercard/${post.user_id}`);  // 백틱을 사용하여 변수 삽입
   };
+  
 
   // 이미지 이전 버튼 클릭 시
   const previousImage = () => {
@@ -379,7 +380,7 @@ const handleDeleteComment = async (commentId) => {
     comments.map(comment => (
       <CommentContainer key={comment.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ width: '230px', flexGrow: 1 }}>
-          <div onClick={handleProfileClick} style={{ cursor: 'pointer', marginRight: '10px' }}>
+        <div onClick={() => navigate(`/othercard/${comment.user_id}`)} style={{ cursor: 'pointer', marginRight: '10px' }}>
             <strong>{comment.nickname}:</strong>
           </div>
           {/* 수정 중일 때는 input 필드와 '수정 완료' 버튼, 수정 중이 아닐 때는 댓글 내용 표시 */}
