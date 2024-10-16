@@ -56,7 +56,7 @@ export const InnerDiv = styled.div`
 
 
 export const TopBox = styled.div`
-  background-color: #92b455;
+  background-color: #FFB204;
   position: absolute;
   height: 62px;
   width: 430px;
@@ -65,11 +65,39 @@ export const TopBox = styled.div`
 `;
 
 export const BottomBox = styled.div`
-  background-color: #92b455;
+  background-color: #FFB204;
   position: absolute;
   height: 62px;
   width: 430px;
   bottom: 0px;
+`;
+
+export const BackButton = styled.button`
+  background: none; 
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+  width: 18px; 
+  height: 18px;
+  img {
+    width: 100%; 
+    height: auto;
+  }
+`;
+
+export const PageTitle = styled.div`
+  text-align: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  margin-right: 167px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 

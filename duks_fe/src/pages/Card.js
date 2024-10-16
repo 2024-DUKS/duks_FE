@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; // axios import 추가
+import { useNavigate } from 'react-router-dom';
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox,
   BusinessCard, OverlapWrapper, Overlap, InputPhoto, OverlapGroup,
-  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,TopLink
+  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,TopLink, BackButton, PageTitle
 } from '../styles/CardStyle'; 
 
 import Footer from '../components/Footer';
 import MakeAbilityButton from '../components/MakeAbilityButton';
 import MakeChaButton from '../components/MakeChaButton';
 import ProfileImageUploader from '../components/ProfileImageUpLoader';
+import backButton from '../img/backButton.png';
 
 const Card = () => {
   // 유저 정보를 저장할 상태
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
@@ -50,7 +53,12 @@ const Card = () => {
     <BackgroundWrapper>
       <MyPageContainer>
         <InnerDiv>
-          <TopBox></TopBox>
+          <TopBox>
+            <BackButton onClick={() => navigate(-1)}>
+            <img src={backButton} alt="BackButton" />
+            </BackButton>
+            <PageTitle>포트폴리오</PageTitle>
+          </TopBox>
           <TopLink><a href="../NextPage">포트폴리오 자세히 보기</a></TopLink>
           <OverlapWrapper>
 
