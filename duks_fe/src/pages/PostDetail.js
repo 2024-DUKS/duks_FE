@@ -187,7 +187,7 @@ const handleDeleteComment = async (commentId) => {
 
 
   const handleProfileClick = () => {
-    navigate(`/Othercard/${post.user_id}`);  // 백틱을 사용하여 변수 삽입
+    navigate(`/othercard/${post.user_id}`);  // 백틱을 사용하여 변수 삽입
   };
   
 
