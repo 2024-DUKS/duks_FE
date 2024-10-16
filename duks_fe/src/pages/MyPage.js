@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // axios import 추가
+import axios from 'axios'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv,  
@@ -8,7 +8,7 @@ import {
   StdNum, Pwd, Nick, Depart, Phone,
   StdNumText, PwdText, NickText, DepartText, PhoneText, 
   LogoutText, AccountDeletionText, 
-  BackButton, PageTitle, TextWrapper6
+  BackButton, PageTitle, TextWrapper6, TextWrapper7
 } from '../styles/MyPageStyle'; 
 
 import ImageUploader from '../components/ImageUpLoader';
@@ -16,11 +16,10 @@ import Footer from '../components/Footer';
 import LogoutButton from '../components/LogoutButton';
 import goButton from '../img/goButton.png';
 import DeleteAcButton from '../components/DeleteAcButton';
-import backButton from '../img/backButton.png'; // 백버튼 이미지 가져오기
+import backButton from '../img/backButton.png';
 
 const MyPage = () => {
   const navigate = useNavigate();
-  // 유저 정보를 저장할 상태
   const [userData, setUserData] = useState({
     studentId: '',
     password: '',
@@ -32,15 +31,23 @@ const MyPage = () => {
   const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  // 로그아웃 모달 열기/닫기 함수 추가
   const openLogoutModal = () => setLogoutModalOpen(true);
   const closeLogoutModal = () => setLogoutModalOpen(false);
-
-  // 계정 탈퇴 모달 열기/닫기 함수 추가 (실제 동작은 로그아웃)
   const openDeleteModal = () => setDeleteModalOpen(true);
   const closeDeleteModal = () => setDeleteModalOpen(false);
 
-  // 유저 정보를 불러오는 함수
+  const [isPwdEditable, setPwdEditable] = useState(false);
+  const [isPhoneEditable, setPhoneEditable] = useState(false);
+  const [isNickEditable, setNickEditable] = useState(false);
+
+  const handleDoubleClickPwd = () => setPwdEditable(true);
+  const handleDoubleClickPhone = () => setPhoneEditable(true);
+  const handleDoubleClickNick = () => setNickEditable(true);
+
+  const handleBlurPwd = () => setPwdEditable(false);
+  const handleBlurPhone = () => setPhoneEditable(false);
+  const handleBlurNick = () => setNickEditable(false);
+
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem('authToken');
@@ -59,18 +66,8 @@ const MyPage = () => {
     fetchUserData();
   }, []);
 
-  // 비밀번호를 별표(*)로 표시하는 함수
   const maskPassword = (password) => {
-    return '*'.repeat(Math.min(password.length, 10)); 
-  };
-
-  // 로그아웃 처리 (모달에서 실행)
-  const handleLogout = () => {
-    // 쿠키 삭제
-    document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
-    closeLogoutModal(); // 모달 닫기
-    navigate('/join'); // join 페이지로 이동
+    return '*'.repeat(Math.min(password.length, 10));
   };
 
   return (
@@ -83,6 +80,14 @@ const MyPage = () => {
             </BackButton>
             <PageTitle>마이페이지</PageTitle>
           </TopBox>
+          <TextWrapper>{userData.nickname} 님
+            <ImageUploader 
+              defaultImage={require('../img/duk_img.png')} 
+              className="myPageProfileImage" 
+            />
+          </TextWrapper>
+          <TextWrapper2>{String(userData.studentId).slice(2, 4)}학번</TextWrapper2>
+          <TextWrapper5>개인정보</TextWrapper5>
           <Person>  
             <OverlapGroup>
               <StdNum>학번</StdNum>
@@ -92,22 +97,48 @@ const MyPage = () => {
               <Phone>휴대전화</Phone>
 
               <StdNumText>{userData.studentId}</StdNumText>
-              <PwdText>{maskPassword(userData.password)}</PwdText>
-              <NickText>{userData.nickname}</NickText>
+
+              {isPwdEditable ? (
+                <input 
+                  type="password" 
+                  value={userData.password} 
+                  onChange={(e) => setUserData({ ...userData, password: e.target.value })} 
+                  onBlur={handleBlurPwd}
+                  autoFocus
+                />
+              ) : (
+                <PwdText onDoubleClick={handleDoubleClickPwd}>
+                  {maskPassword(userData.password)}
+                </PwdText>
+              )}
+
+              {isNickEditable ? (
+                <input 
+                  type="text" 
+                  value={userData.nickname} 
+                  onChange={(e) => setUserData({ ...userData, nickname: e.target.value })} 
+                  onBlur={handleBlurNick}
+                  autoFocus
+                />
+              ) : (
+                <NickText onDoubleClick={handleDoubleClickNick}>{userData.nickname}</NickText>
+              )}
+
               <DepartText>{userData.department}</DepartText>
-              <PhoneText>{userData.phone}</PhoneText>
+
+              {isPhoneEditable ? (
+                <input 
+                  type="text" 
+                  value={userData.phone} 
+                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })} 
+                  onBlur={handleBlurPhone}
+                  autoFocus
+                />
+              ) : (
+                <PhoneText onDoubleClick={handleDoubleClickPhone}>{userData.phone}</PhoneText>
+              )}
             </OverlapGroup>
           </Person>
-
-          <TextWrapper>{userData.nickname} 님
-            <ImageUploader 
-              defaultImage={require('../img/duk_img.png')} // 기본 이미지 경로
-              className="myPageProfileImage" // 추가 클래스 이름 (스타일 지정 시 활용)
-            />
-          </TextWrapper>
-
-          <TextWrapper2>21학번</TextWrapper2>
-          <TextWrapper5>개인정보</TextWrapper5>
           
           <Link to="/MyLikes">
             <TextWrapper4>
@@ -121,26 +152,21 @@ const MyPage = () => {
             </TextWrapper6>
           </Link>
 
-          {/* 로그아웃 모달을 여는 버튼 */}
-          <LogoutText onClick={openLogoutModal}>로그아웃</LogoutText>
-          <LogoutButton 
-            isOpen={isLogoutModalOpen} 
-            onClose={closeLogoutModal} 
-            onLogout={handleLogout}  // 로그아웃 함수 전달
-          />
+          <a href="https://www.duksung.ac.kr" target="_blank" rel="noopener noreferrer">
+            <TextWrapper7>
+              덕성여자대학교 바로가기 <img src={goButton} alt="MyPost" className="GoImage"/>
+            </TextWrapper7>
+          </a>
 
-          {/* 계정 탈퇴 모달을 여는 버튼 */}
+          <LogoutText onClick={openLogoutModal}>로그아웃</LogoutText>
+          <LogoutButton isOpen={isLogoutModalOpen} onClose={closeLogoutModal} />
+
           <AccountDeletionText onClick={openDeleteModal}>계정 탈퇴하기</AccountDeletionText>
-          <DeleteAcButton 
-            isOpen={isDeleteModalOpen} 
-            onClose={closeDeleteModal} 
-            onLogout={handleLogout}  // 탈퇴 모달의 "탈퇴" 버튼도 실제로는 로그아웃 처리
-          />
+          <DeleteAcButton isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
 
           <BottomBox>
             <Footer />
           </BottomBox>
-          
         </InnerDiv>
       </MyPageContainer>
     </BackgroundWrapper>
