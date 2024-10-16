@@ -8,7 +8,11 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
+<<<<<<< HEAD
   NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
+=======
+  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -173,10 +177,15 @@ const EduPage = () => {
             )}
           </TopBox>
           <NoticeBox>
+<<<<<<< HEAD
             <NoticeImage src={ducky} alt="Ducky" />
             <NoticeTextWrapper>
               <NoticeText>이 게시판은 유아교육과, 한국어전공, 교직이수의 게시판입니다.</NoticeText>
             </NoticeTextWrapper>
+=======
+              <NoticeImage src={ducky} alt="Ducky" />
+              <Notice>notice</Notice>
+>>>>>>> fa563010bc3fa78434520ff81ef187a763ea0231
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (
