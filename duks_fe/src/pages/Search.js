@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as I from '../styles/SearchStyle'; // 스타일을 I로 가져옴
 import searchIconImage from '../img/searchIcon.png'; // 아이콘 이미지 가져오기
 import Footer from '../components/Footer'
 
+import backButton from '../img/backButton.png'; //백버튼추가
+
 const Search = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchQuery = location.state ? location.state.searchQuery : ""; // 검색어 가져오기
   const [posts, setPosts] = useState(() => {
     // 이전 검색 결과가 sessionStorage에 있으면 불러오고, 없으면 빈 배열
@@ -20,12 +23,18 @@ const Search = () => {
     //return savedSearchInput ? JSON.parse(savedSearchInput) : [];
   });
 
+  const [selectedType, setSelectedType] = useState(() => {
+    // sessionStorage에서 선택한 타입 불러오기 (없으면 기본값 'offer')
+    const savedSelectedType = sessionStorage.getItem('selectedType');
+    return savedSelectedType || 'offer';
+  });
+
   // 페이지가 로드될 때 검색어가 있으면 자동으로 검색 실행
   useEffect(() => {
     if (searchInput.length >= 2) {
       handleSearch();
     }
-  }, [searchQuery]);
+  }, [searchQuery, selectedType]);
 
    
   // 검색 아이콘 클릭 시 게시물 가져오기
@@ -34,9 +43,8 @@ const Search = () => {
       alert("검색어는 두 글자 이상 입력해 주세요.");
       return;
     }; // 검색어가 두 글자 이상일 때만 요청
-
     try {
-      const response = await axios.get(`http://localhost:5000/api/posts/search?keyword=${searchInput}`, {
+      const response = await axios.get(`http://localhost:5000/api/posts/search/${selectedType}?keyword=${searchInput}`, {
         headers: {
           'Content-Type': `application/json`,
         },
@@ -47,6 +55,7 @@ const Search = () => {
       //추가
       sessionStorage.setItem('posts', JSON.stringify(response.data)); // 검색 결과를 sessionStorage에 저장
       sessionStorage.setItem('searchInput', searchInput); // 현재 검색어를 sessionStorage에 저장
+      sessionStorage.setItem('selectedType', selectedType); // 선택한 타입을 sessionStorage에 저장
     } catch (error) {
       console.error("게시물 데이터를 가져오는 중 오류 발생:", error);
     }
@@ -107,6 +116,9 @@ const Search = () => {
         <I.InnerDiv>
           <I.TopBox>
             <I.SearchContainer>
+              <I.BackButton onClick={() => navigate(-1)}>
+                <img src={backButton} alt="BackButton" />
+              </I.BackButton>
               <I.SearchInput 
                 type="text"
                 placeholder="검색어를 입력하세요..."
@@ -117,6 +129,22 @@ const Search = () => {
               <I.SearchIcon src={searchIconImage} alt="Search Icon" onClick={handleSearch}/>
             </I.SearchContainer>
           </I.TopBox>
+
+          <I.ButtonContainer>
+            <I.TypeButton 
+              selected={selectedType === 'offer'}
+              onClick={() => setSelectedType('offer')}
+            >
+              해드립니다
+            </I.TypeButton>
+            <I.TypeButton
+              selected={selectedType === 'request'}
+              onClick={() => setSelectedType('request')}
+            >
+              해주세요
+            </I.TypeButton>
+          </I.ButtonContainer>
+
 
           <I.PostListBox>
             {posts.length>0 ? (
