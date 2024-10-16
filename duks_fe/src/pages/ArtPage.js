@@ -8,7 +8,7 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
-  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
+  NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -174,8 +174,10 @@ const ArtPage = () => {
             )}
           </TopBox>
           <NoticeBox>
-              <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
+            <NoticeImage src={ducky} alt="Ducky" />
+            <NoticeTextWrapper>
+              <NoticeText>이 게시판은 동양화전공, 서양화전공, 실내디자인전공, 시각디자인전공, 텍스타일디자인전공의 게시판입니다.</NoticeText>
+            </NoticeTextWrapper>
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (

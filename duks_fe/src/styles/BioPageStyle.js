@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import styled, { keyframes } from "styled-components"; // keyframes 추가
 
 // 화면 바깥 배경색을 위한 글로벌 스타일
 export const BackgroundWrapper = styled.div`
@@ -55,20 +55,16 @@ export const BottomBox = styled.div`
 
 // 공지사항 박스
 export const NoticeBox = styled.div`
-  width: 90%; /* 박스 크기 조절 */
-  height: 10px;
-  background-color: rgba(255, 178, 4, 0.28); /*#ffffff*/
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-top: 10px; /* TopBox 아래로 70px 간격 */
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-
-  /* Flexbox 사용하여 중앙 정렬 */
-  display: flex;
-  /*justify-content: center;*/ /* 수평 중앙 정렬 */
-  align-items: center;     /* 수직 중앙 정렬 */
-  text-align: left;      /* 텍스트 왼쪽 정렬 */
+width: 90%;
+height: 40px; /* 높이를 조금 늘려서 여유를 줌 */
+background-color: rgba(255, 178, 4, 0.28);
+border: 1px solid #ddd;
+border-radius: 8px;
+padding: 5px 15px; /* 내부 패딩 조정 */
+margin-top: 10px;
+display: flex;
+align-items: center;
+position: relative; /* 상대적인 위치 설정 */
 `;
 
 // 제목
@@ -112,19 +108,44 @@ export const SearchInput = styled.input`
   box-sizing: border-box;
 `;
 
-// 공지사항 내용
-export const Notice = styled.p`
-  font-size: 16px;
-  color: #555;
-  line-height: 1.5;
-  text-align: center;
-  margin: 0;
+// 스크롤 애니메이션 정의
+const scrollText = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-90%);
+  }
 `;
 
+// 공지사항 텍스트를 위한 래퍼
+export const NoticeTextWrapper = styled.div`
+  position: relative;
+  width: calc(100% - 40px); /* 이미지 공간을 제외한 너비 설정 */
+  overflow: hidden; /* 텍스트가 영역 밖으로 나가지 않도록 숨김 */
+  white-space: nowrap;
+  left:25px;
+`;
+
+// 텍스트가 움직일 수 있는 영역
+export const NoticeText = styled.div`
+  display: inline-block;
+  animation: ${scrollText} 10s linear infinite;
+  white-space: nowrap;
+  will-change: transform;  /* 성능 최적화 */
+  
+  &::after {
+    content: attr(data-text); /* 텍스트를 두 번 표시 */
+    padding-left: 120px; /* 두 텍스트 사이의 간격 */
+`;
+
+// 공지사항 이미지
 export const NoticeImage = styled.img`
-  width: 24px;  /* 이미지 너비 조정 */
-  height: 24px; /* 이미지 높이 조정 */
-  margin-right: 10px; /* 이미지와 텍스트 사이의 간격 */
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  position: absolute;
+  left: 10px; /* 이미지 위치를 고정 */
 `;
 
 // 인기글 박스 스타일

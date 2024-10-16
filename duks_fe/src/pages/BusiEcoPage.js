@@ -10,7 +10,7 @@ import axios from 'axios'; // axios 추가
 
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox, Title, 
-  NoticeBox, Notice, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
+  NoticeBox, NoticeText, NoticeTextWrapper, NoticeImage, HotBox, HotTitle, HeartCount, HotImage,
   PostListBox, PostItem, ButtonContainer, TypeButton, PostContent, 
   PostInfo, PostDetails, HeartIcon, HeartCount2, PostTitle, PostImage, PostPrice,
   HeartContainer, SearchInput, SearchIcon, SearchContainer, TitleText, PostInfo2
@@ -175,8 +175,10 @@ const BusiEcoPage = () => {
             )}
           </TopBox>
           <NoticeBox>
-              <NoticeImage src={ducky} alt="Ducky" />
-              <Notice>notice</Notice>
+            <NoticeImage src={ducky} alt="Ducky" />
+            <NoticeTextWrapper>
+              <NoticeText>이 게시판은 경영학전공, 회계학전공, 국제통상학전공의 게시판입니다. </NoticeText>
+            </NoticeTextWrapper>
           </NoticeBox>
           <HotBox> 
             {topLikedPosts.map((post) => (
