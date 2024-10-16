@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox,
   BusinessCard, OverlapWrapper, Overlap, InputPhoto, OverlapGroup,
-  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,TopLink, BackButton, PageTitle
+  TextDiv, Image, UserName, UserEmail, UserAbility, UserCharactor,TopLink, BackButton, PageTitle,ParentContainer
 } from '../styles/CardStyle'; 
 
 import Footer from '../components/Footer';
@@ -69,8 +69,11 @@ const Card = () => {
             <Overlap>
               {/*명함 프로필 업로드 컴포넌트*/}
               <ProfileImageUploader />
-              <UserName>{userData.name || '이름'}</UserName> {/* 이름을 받아옴 */}
-              <UserEmail>{userData.phone || '전화번호'}</UserEmail> {/* 전화번호를 받아옴 */}
+              <ParentContainer>
+                <UserName>{userData.name || '이름'}</UserName>
+                <UserEmail>{userData.phone || '전화번호'}</UserEmail>
+              </ParentContainer>
+              
               <div>
                 <UserAbility>
                   <div className="button-container">

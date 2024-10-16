@@ -165,13 +165,22 @@ export const Image = styled.img`
   width: 180px;
 `;
 
+export const ParentContainer = styled.div`
+  display: flex;
+  justify-content: center; /* 가로 방향으로 중앙 정렬 */
+  align-items: center; /* 세로 방향으로 중앙 정렬 */
+  width: 100%; /* 부모 컨테이너의 너비를 100%로 설정 */
+  height: auto; /* 필요 시 높이를 조정 */
+`;
+
 export const UserName = styled.div`
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
   font-size: 24px;
   font-weight: 600;
-  left: 111px;
-  letter-spacing: 36px;
+  //left: 135px;
+  letter-spacing: 5px;
+  text-align: center;
   position: absolute;
   top: 244px;
 `;
@@ -182,7 +191,7 @@ export const UserEmail = styled.div`
   font-size: 14px;
   font-weight: 600;
   height: 17px;
-  left: 135px;
+  //left: 135px;
   text-align: center;
   position: absolute;
   top: 293px;

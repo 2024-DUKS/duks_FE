@@ -4,7 +4,7 @@ import axios from 'axios'; // axios로 API 호출
 import { useNavigate } from 'react-router-dom';
 import {
   BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, BottomBox,
-  OverlapWrapper, Overlap, UserName, UserEmail, UserAbility, UserCharactor, BackButton, PageTitle
+  OverlapWrapper, Overlap, UserName, UserEmail, UserAbility, UserCharactor, BackButton, PageTitle,ParentContainer
 } from '../styles/OtherCardStyle';
 import Footer from '../components/Footer';
 import backButton from '../img/backButton.png';
@@ -19,7 +19,7 @@ const OtherCard = () => {
     nickname: '',
     skills: [],
     charactor: '',
-    profileImage: '',
+    profileImage: '', // 이미지 경로 상태
   });
 
   // 유저 정보를 불러오는 함수
@@ -44,8 +44,7 @@ const OtherCard = () => {
         nickname: data.user.nickname,
         skills: data.skills,
         charactor: data.charactor.charactor,
-        profileImage: data.profileImage,
-        user_id: data.user.userId,  // 여기서 userId를 user_id로 매핑
+        profileImage: `http://localhost:5000/${data.profileImage.replace(/\\/g, '/')}`, // 이미지 경로 처리
       });
     } catch (error) {
       console.error("유저 정보 불러오기 실패:", error);
@@ -70,20 +69,59 @@ const OtherCard = () => {
           </TopBox>
           <OverlapWrapper>
             <Overlap>
-              <UserName>{userData.nickname || '이름'}</UserName>
-              <UserEmail>{userData.phone || '전화번호'}</UserEmail>
-              {/* 유저 스킬 출력 */}
-              <UserAbility>
-                {userData.skills.map((skill) => (
-                  <div key={skill.id}>
-                    {skill.skill} - {skill.level}
+              {/* 프로필 이미지 렌더링 */}
+                {userData.profileImage && (
+                  <div 
+                    style={{ 
+                      display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      width: '100%', 
+                      height: '100%', 
+                      marginTop: '20px' // 필요 시 간격 조정
+                    }}
+                  >
+                    <img 
+                      src={userData.profileImage} 
+                      alt="User Profile" 
+                      style={{ 
+                        width: '200px', 
+                        height: '200px', 
+                        borderRadius: '50%', 
+                        objectFit: 'cover',
+                        marginBottom: '360px' 
+                      }} 
+                    />
                   </div>
-                ))}
-              </UserAbility>
-              {/* 유저 캐릭터 출력 */}
-              <UserCharactor>
-                {userData.charactor}
-              </UserCharactor>
+                )}
+
+              <ParentContainer>
+                <UserName>{userData.nickname || '이름'}</UserName>
+                <UserEmail>{userData.phone || '전화번호'}</UserEmail>
+              </ParentContainer>
+              
+
+              <div>
+                <UserAbility>
+                  {/* SKILLS의 폰트 크기를 크게 설정 */}
+                  <box style={{ fontSize: '20px', fontWeight: 'bold' }}>SKILL</box>
+                  {/* 각 스킬 항목의 폰트 크기를 다르게 설정 */}
+                  {userData.skills.map((skill) => (
+                    <div key={skill.id} style={{ fontSize: '16px', marginTop: '6px',marginLeft: '5px' }}>
+                      {skill.skill} - {skill.level}
+                    </div>
+                  ))}
+                </UserAbility>
+              </div>
+
+              <div>
+                <UserCharactor>
+                <box style={{ fontSize: '20px', fontWeight: 'bold' }}>CHARACTOR</box>
+                <div style={{ fontSize: '16px', marginTop: '6px',marginLeft: '5px' }}>
+                      {userData.charactor}
+                    </div>
+                </UserCharactor>
+              </div>
             </Overlap>
           </OverlapWrapper>
 

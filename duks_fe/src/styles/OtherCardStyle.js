@@ -121,10 +121,10 @@ export const Overlap = styled.div`
   background-color: #f2f2f2;
   border-radius: 10px;
   box-shadow: 0px 4px 4px #00000040;
-  height: 582px;
+  height: 640px;
   left: 34px;
   position: relative;
-  top: 171px;
+  top: 140px;
   width: 360px;
 `;
 
@@ -165,47 +165,56 @@ export const Image = styled.img`
   width: 180px;
 `;
 
+export const ParentContainer = styled.div`
+  display: flex;
+  justify-content: center; /* 가로 방향으로 중앙 정렬 */
+  align-items: center; /* 세로 방향으로 중앙 정렬 */
+  width: 100%; /* 부모 컨테이너의 너비를 100%로 설정 */
+  height: auto; /* 필요 시 높이를 조정 */
+`;
+
 export const UserName = styled.div`
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
-  left: 111px;
-  letter-spacing: 36px;
+  //left: 135px;
+  letter-spacing: 5px;
+  text-align: center;
   position: absolute;
-  top: 244px;
+  top: 265px;
 `;
 
 export const UserEmail = styled.div`
   color: #666666;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   height: 17px;
-  left: 135px;
+  //left: 135px;
   text-align: center;
   position: absolute;
-  top: 293px;
+  top: 315px;
 `;
 
 export const UserAbility = styled.div`
   color: #5a5a5a;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   left: 39px;
   position: absolute;
-  top: 343px;
+  top: 370px;
 `;
 
 export const UserCharactor = styled.div`
   color: #5a5a5a;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   left: 39px;
   position: absolute;
-  top: 460px;
+  top: 520px;
 `;
 
 
@@ -271,4 +280,19 @@ export const StyledH2 = styled.h2`
   padding: 8px; // 패딩 추가
   margin-right: 80px;
   margin-left: 80px;
+`;
+
+// 프로필 이미지 추가 스타일
+export const ProfileImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+export const ProfileImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd;
 `;
