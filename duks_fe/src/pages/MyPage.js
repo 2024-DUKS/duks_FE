@@ -28,14 +28,40 @@ const MyPage = () => {
     phone: ''
   });
 
+  /*
+
+
+  // 로그아웃 처리 (모달에서 실행)
+  const handleLogout = () => {
+    // 쿠키 삭제
+    document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
+    closeLogoutModal(); // 모달 닫기
+    navigate('/join'); // join 페이지로 이동
+  };
+
+  */
+
   const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
+  // 로그아웃 모달 열기/닫기 함수 추가
   const openLogoutModal = () => setLogoutModalOpen(true);
   const closeLogoutModal = () => setLogoutModalOpen(false);
+
+  // 계정 탈퇴 모달 열기/닫기 함수 추가 (실제 동작은 로그아웃)
   const openDeleteModal = () => setDeleteModalOpen(true);
   const closeDeleteModal = () => setDeleteModalOpen(false);
 
+  // 로그아웃 처리 (모달에서 실행)
+  const handleLogout = () => {
+    // 쿠키 삭제
+    document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
+    closeLogoutModal(); // 모달 닫기
+    navigate('/join'); // join 페이지로 이동
+  };
+  
   const [isPwdEditable, setPwdEditable] = useState(false);
   const [isPhoneEditable, setPhoneEditable] = useState(false);
   const [isNickEditable, setNickEditable] = useState(false);
