@@ -230,7 +230,7 @@ const NextPage = () => {
 
             {/* 포트폴리오 이미지 랜더링 추가 */}
             <Overlap>
-              <StyledH2>PHOTO</StyledH2>
+              <StyledH2>포트폴리오 이미지</StyledH2>
               <div style={{ display: 'flex', overflowX: 'auto', justifyContent: 'center' }}>
                 {portfolioImages.length > 0 ? (
                   portfolioImages.map((image, index) => (
@@ -245,11 +245,7 @@ const NextPage = () => {
                   <span>포트폴리오 이미지가 없습니다.</span>
                 )}
               </div>
-              
-              <StyledH2>SKILL</StyledH2>
-              <div>{}</div>
             </Overlap>
-
 
           </OverlapWrapper>
         </InnerDiv>
