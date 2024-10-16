@@ -1,130 +1,154 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-// 화면 바깥 배경색을 위한 글로벌 스타일
 export const BackgroundWrapper = styled.div`
-  background-color:black; /* 화면 바깥 배경색 설정 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-//CSS 모음
-// 마이 페이지 컨테이너
 export const MyPageContainer = styled.div`
   width: 430px;
   height: 932px;
   background-color: black;
-
-    /* Flexbox 설정 */
   display: flex;
-  flex-direction: column; /* 세로 방향으로 배치 */
-  justify-content: center; /* 수직 중앙 정렬 */
-  align-items: center;     /* 수평 중앙 정렬 */
-
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  width: 100%;
+  align-items: center;
 `;
 
-// 내부 div
 export const InnerDiv = styled.div`
   width: 430px;
   height: 932px;
   background-color: #ffffff;
-
-  /* Flexbox 설정 */
   display: flex;
-  flex-direction: column; /* 세로 방향으로 배치 */
-  justify-content: center; /* 수직 중앙 정렬 */
-  align-items: center;     /* 수평 중앙 정렬 */
+  flex-direction: column;
+  align-items: center;
   position: relative;
-
 `;
 
-// 메뉴 아이콘
-export const MenuIcon = styled.img`
-  height: 44px;
-  left: 330px;
+export const TopBox = styled.div`
+  background-color: #FFB204;
+  position: relative; 
+  height: 62px;
+  width: 100%; 
+  left: 0;
+  top: 0;
+`;
+
+export const BottomBox = styled.div`
+  background-color: #FFB204;
   position: absolute;
-  top: 18px;
-  width: 41px;
+  height: 62px;
+  width: 430px;
+  bottom: 0px;
 `;
 
-// 오버랩
-export const Overlap = styled.div`
-  height: 43px;
-  left: 82px;
-  position: relative;
-  top: 95px;
-  width: 167px;
+export const BackButton = styled.button`
+  background: none; 
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+  width: 18px; 
+  height: 18px;
+  img {
+    width: 100%; 
+    height: auto;
+  }
 `;
 
-//내 프로필 조그맣게 뜨는 곳
-//이건 ImageUpLoader.css에 있음!!
+export const PageTitle = styled.div`
+  text-align: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  margin-right: 167px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+`;
 
-// 텍스트 스타일
-export const TextWrapper = styled.div` //내 별명 크게 뜨는 곳
+//프로필사진+닉네임 님
+export const TextWrapper = styled.div`
+  margin-top: 30px;
+
   font-family: "Pretendard-SemiBold", Helvetica;
   font-weight: 600;
-  position: absolute;
   font-size: 18px;
-  top: 200px;
+  position: absolute;
+  top: 100px;
   left: 100px;
   text-align: left;
 `;
 
-export const TextWrapper2 = styled(TextWrapper)` //21학번
-  font-size: 10px;
+//21학번
+export const TextWrapper2 = styled.div`
+  font-size: 13px;
   position: absolute;
-  top: 205px;
-  left: 205px;
+  top: 133px;
+  left: 200px;
 `;
 
-export const TextWrapper3 = styled(TextWrapper)`
-  color: #28272a;
-  font-size: var(--16pt-bold-font-size);
-  top: 474px;
-  left: 350px;
-  white-space: nowrap;
-`;
-
-export const TextWrapper4 = styled(TextWrapper3)` //포트폴리오 글자
-  top: 630px;
+//개인정보 텍스트
+export const TextWrapper5 = styled.div`
+  top: 215px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  position: absolute;
   left: 28px;
   width: 150px; // 원하는 너비
   height: auto;
-  z
 `;
 
-export const TextWrapper5 = styled(TextWrapper4)` //개인정보 글자
-  top: 300px;
-  `;
-
-// 아이콘
-export const IconsaxLinear = styled.img`
-  height: 24px;
-  left: 19px;
-  position: absolute;
-  top: 29px;
-  width: 24px;
+//개인정보 박스 전체 이동
+export const Person = styled.div`
+  margin-top: 210px;
 `;
 
-// 개인 정보 섹션
-export const PersonSection = styled.div`
-  height: 210px;
-  left: 38px;
-  position: absolute;
-  top: 216px;
-  width: 332px;
-`;
-
-// 오버랩 그룹
 export const OverlapGroup = styled.div`
   background-color: #ffb20408;
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
-  height: 210px;
+  //height: 210px;
+  //width: 312px;
+  height: 220px;
+  width: 325px;
   position: relative;
-  width: 312px;
+`;
+
+// 개인 정보 제목 칸
+export const StdNum = styled.div`
+  color: black;
+  font-family: "Pretendard-SemiBold", Helvetica;
+  font-size: 15px;
+  font-weight: 600;
+  height: 23px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: left;
+  top: 24px;
+  left: 20px;
+  width: 113px;
+`;
+
+export const Pwd = styled(StdNum)`
+  top: 58px;
+  width: 95px;
+`;
+export const Nick = styled(StdNum)`
+  top: 96px;
+`;
+export const Depart = styled(StdNum)`
+  top: 135px;
+`;
+export const Phone = styled(StdNum)`
+  top: 173px;
 `;
 
 // 개인 정보 입력 텍스트
@@ -149,115 +173,82 @@ export const PwdText = styled(StdNumText)`
   width: 95px;
 `;
 
-export const NickText = styled(PwdText)`
+export const NickText = styled(StdNumText)`
   top: 96px;
 `;
-
-export const DepartText = styled(PwdText)`
+export const DepartText = styled(StdNumText)`
   color: #ffb204;
   top: 135px;
 `;
-
 export const PhoneText = styled(StdNumText)`
   top: 173px;
   left: 181px;
 `;
 
-// 개인 정보 제목 칸
-export const StdNum = styled.div`
-  color: black;
-  font-family: "Pretendard-SemiBold", Helvetica;
-  font-size: 15px;
-  font-weight: 600;
-  height: 23px;
-  letter-spacing: 0;
-  line-height: normal;
+//나의 관심 게시물
+export const TextWrapper4 = styled.div`
+
+  img {
+    margin-left: 0px;
+    width: 10px;
+    height: auto;
+  }
+
+  top: 550px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
   position: absolute;
-  text-align: left;
-  top: 24px;
-  left: 20px;
-  width: 113px;
+  left: 28px;
+  width: 150px; // 원하는 너비
+  height: auto;
 `;
 
-export const Pwd = styled(StdNum)`
-  top: 58px;
+//내가 작성한 게시물
+export const TextWrapper6 = styled.div`
+  img {
+    margin-left: 0px;
+    width: 10px;
+    height: auto;
+  }
 
-  width: 95px;
-`;
-
-export const Nick = styled(Pwd)`
-  top: 96px;
-`;
-
-export const Depart = styled(Pwd)`
-  top: 135px;
-`;
-
-export const Phone = styled(StdNum)`
-  top: 173px;
-`;
-
-
-
-// 바닥글 텍스트
-export const FooterText1 = styled.div`
-  color: #000000;
-  font-family: "Pretendard-SemiBold", Helvetica;
-  font-size: 12px;
-  font-weight: 600;
-  height: 24px;
-  text-align: center;
-  left: 140px;
-  width: 108px;
+  top: 610px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
   position: absolute;
-  top: 559px;
+  left: 28px;
+  width: 200px; // 원하는 너비
+  height: auto;
 `;
 
-export const FooterText2 = styled(FooterText1)`
-  top: 595px;
-`;
+//우리학교 바로가기
+export const TextWrapper7 = styled.div`
+  img {
+    margin-left: 0px;
+    width: 10px;
+    height: auto;
+  }
 
-// MyPageStyle.js
-
-export const Person = styled.div`
-  // 스타일 정의
+  top: 670px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  position: absolute;
+  left: 28px;
+  width: 200px; // 원하는 너비
+  height: auto;
 `;
 
 export const LogoutText = styled.div`
-  position: absolute;
-  text-align: center;
-  top: 750px;
+  margin-top: 253px;
+  cursor: pointer;
 `;
 
 export const AccountDeletionText = styled.div`
-  position: absolute;
-  text-align: center;
-  top: 800px;
+  margin-top: 20px;
+  cursor: pointer;
 `;
 
-export const TopBox = styled.div`
-  background-color: #92b455;
-  position: absolute;
-  height: 62px;
-  width: 430px;
-  left: 0;
-  top: 0;
-`;
-export const IcMenuImage = styled.div`
-  position: relative;  // position 속성 추가
-  z-index: 1;  
-  display: ${props => (props.isLoaded ? 'block' : 'none')};
-  `;
-export const ArrowleftImage = styled.div`
-
-`;
-
-export const BottomBox = styled.div`
-  background-color: #92b455;
-  position: absolute;
-  height: 62px;
-  width: 430px;
-  bottom: 0px;
-`;
 
 
