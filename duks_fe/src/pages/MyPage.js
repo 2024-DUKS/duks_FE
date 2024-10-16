@@ -158,11 +158,21 @@ const MyPage = () => {
             </TextWrapper7>
           </a>
 
+          {/* 로그아웃 모달을 여는 버튼 */}
           <LogoutText onClick={openLogoutModal}>로그아웃</LogoutText>
-          <LogoutButton isOpen={isLogoutModalOpen} onClose={closeLogoutModal} />
+          <LogoutButton 
+            isOpen={isLogoutModalOpen} 
+            onClose={closeLogoutModal} 
+            onLogout={handleLogout}  // 로그아웃 함수 전달
+          />
 
+          {/* 계정 탈퇴 모달을 여는 버튼 */}
           <AccountDeletionText onClick={openDeleteModal}>계정 탈퇴하기</AccountDeletionText>
-          <DeleteAcButton isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
+          <DeleteAcButton 
+            isOpen={isDeleteModalOpen} 
+            onClose={closeDeleteModal} 
+            onLogout={handleLogout}  // 탈퇴 모달의 "탈퇴" 버튼도 실제로는 로그아웃 처리
+          />
 
           <BottomBox>
             <Footer />
