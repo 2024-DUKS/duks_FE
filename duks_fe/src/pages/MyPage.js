@@ -120,7 +120,7 @@ const MyPage = () => {
               <Pwd>비밀번호</Pwd>
               <Nick>닉네임</Nick>
               <Depart>학과</Depart>
-              <Phone>휴대전화</Phone>
+              <Phone>이메일</Phone>
 
               <StdNumText>{userData.studentId}</StdNumText>
 

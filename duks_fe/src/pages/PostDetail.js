@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom'; // useParams 추가
 import { useNavigate } from 'react-router-dom'; // useNavigate 함수 불러오기
 import { 
-  BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, CloseButton, BottomBox, BoardName, ProfileInfo, ScrollableContainer, PostTitle, PostDate, PostContent, PostImageWrapper, PostImage, CommentSection, CommentInputWrapper, CommentInput, SubmitButton, InfoContainer, ArrowButton, PriceWrapper, LikeButtonWrapper, CommentButton, CommentButtonWrapper, CommentContainer
+  BackgroundWrapper, MyPageContainer, InnerDiv, TopBox, CloseButton, BottomBox, BoardName, ProfileInfo, ScrollableContainer, PostTitle, PostDate, PostContent, PostImageWrapper, PostImage, CommentSection, CommentInputWrapper, CommentInput, SubmitButton, InfoContainer, ArrowButton, PriceWrapper, LikeButtonWrapper, CommentButton, CommentButtonWrapper, CommentContainer,ModalContent,ModalOverlay
 } from '../styles/PostDetailStyle';    
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -24,6 +24,7 @@ const PostDetail = () => {
   const { id } = useParams(); // URL에서 ID를 가져옴
   const userId = userInfo.id;  // 현재 로그인한 사용자의 ID
   const [menuVisible, setMenuVisible] = useState(false); // 메뉴 표시 여부
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
   const token = localStorage.getItem('authToken');  // 토큰 가져오기
 
@@ -91,7 +92,7 @@ const PostDetail = () => {
       nickname: userInfo.nickname || "익명", // 사용자 닉네임 추가
       userId: userInfo.id  // 댓글 작성자의 ID 추가
     };
-  
+    setIsModalOpen(true);
     console.log("전송할 댓글:", commentObj);
   
     fetch('http://localhost:5000/api/comments/create', {
@@ -264,6 +265,19 @@ const handleDeleteComment = async (commentId) => {
       <BackgroundWrapper>
         <MyPageContainer>
           <InnerDiv>
+            {/* 모달 창 렌더링 */}
+            {isModalOpen && (
+              <ModalOverlay onClick={() => setIsModalOpen(false)}>
+                <ModalContent onClick={(e) => e.stopPropagation()}>
+                  <p>거래 안내</p>
+                  <p>이메일을 통해 연락하여 거래를 진행해 주세요.</p>
+                  <p>작성자의 프로필에서 이메일을 확인할 수 있습니다.</p>
+                  <p>거래에 대한 문의나 세부 사항은</p>
+                  <p> 이메일로 조율해 주시기 바랍니다.</p>
+                  <button onClick={() => setIsModalOpen(false)}>X</button>
+                </ModalContent>
+              </ModalOverlay>
+            )}
           <TopBox>
               <CloseButton onClick={() => navigate(-1)}>X</CloseButton>
               {/* 게시물 작성자인 경우에만 세로로 된 점 3개 메뉴 표시 */}

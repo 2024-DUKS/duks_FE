@@ -371,3 +371,37 @@ export const CommentText = styled.div`
   white-space: pre-wrap; /* 공백과 줄바꿈 유지 */
   overflow-wrap: break-word; /* 긴 단어 강제 줄바꿈 */
   `;
+
+  // 모달 오버레이 스타일
+export const ModalOverlay = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background-color: rgb(0 0 0 / 20%);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
+`;
+
+// 모달 컨텐츠 스타일
+export const ModalContent = styled.div`
+background-color: white;
+padding: 10px;
+border-radius: 10px;
+text-align: center;
+position: relative;
+font-size: 14px;
+
+button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+`;
