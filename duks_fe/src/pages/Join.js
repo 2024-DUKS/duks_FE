@@ -70,7 +70,7 @@ function Join() {
           </J.LogoContainer>
           {/* 설명 문구 추가 */}
           <p style={{ textAlign: 'center', marginTop: '0px', fontSize: '16px', color: '#777' }}>
-              덕성 거래 플랫폼
+              덕성에서 스킬을 나누다
             </p>
           <J.Form onSubmit={handleSubmit}>
             <J.InputField>
