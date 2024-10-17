@@ -215,8 +215,8 @@ export const PostTitle = styled.h3`
 .main-page-wrapper & {
   font-size: 14px;
 font-weight: bold;
-margin-top: 3px;
-margin-bottom: 8px;
+margin-top: 0px;
+margin-bottom: 0px;
 color: #333;
 position: relative;
 z-index: 1; /* 텍스트가 말린 부분보다 위에 있도록 설정 */
