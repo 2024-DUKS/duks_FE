@@ -70,7 +70,7 @@ const Search = () => {
 
   // 가격 표시 함수
   const renderPrice = (price) => {
-    if (price === '0') {
+    if (parseInt(price) === 0) {
       return '재능 기부';
     } else {
       return `${price}원`;
