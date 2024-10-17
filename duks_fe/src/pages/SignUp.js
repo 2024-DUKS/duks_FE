@@ -133,13 +133,13 @@ function SignUp() {
               </select>
             </S.InputField>
             <S.InputField>
-              <label htmlFor="phone">전화번호<S.Required>*</S.Required></label>
+              <label htmlFor="phone">이메일<S.Required>*</S.Required></label>
               <input
-                type="tel"
+                type="text"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="000-0000-0000"
+                placeholder="이메일을 입력하세요"
                 required
               />
             </S.InputField>
